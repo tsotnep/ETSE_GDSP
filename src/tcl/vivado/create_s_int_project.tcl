@@ -1,6 +1,4 @@
-set PROJECTNAME S_INT
-set ORIGIN /home/tsotne/git/ETSE_GDSP
-set PROJECTLOCATION $ORIGIN/project/vivado/$PROJECTNAME
+source ../generics.tcl
 
 create_project $PROJECTNAME $PROJECTLOCATION -part xc7z020clg484-1 -f
 set_property board_part em.avnet.com:zed:part0:1.3 [current_project]

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<BillOfMaterials Version="1" Minor="2">
+	<IPInstance name="DSP_INPUT_C">
+		<FileSets>
+			<FileSet generator="xmdf_to_bom">
+				<File name="DSP_INPUT_C/doc/dsp48_macro_ds754.pdf" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C/doc/xbip_dsp48_macro_v2_1_readme.txt" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.asy" type="asy" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.ngc" type="ngc" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.sym" type="asy" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.vhd" type="vhdl" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.vho" type="vho" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C.xco" type="xco" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="DSP_INPUT_C_xmdf.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+			</FileSet>
+		</FileSets>
+	</IPInstance>
+</BillOfMaterials>
+

@@ -1,0 +1,21 @@
+# compile vhdl design source files
+vhdl xbip_dsp48_wrapper_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_dsp48_wrapper_v3_0/hdl/xbip_dsp48_wrapper_v3_0_vh_rfs.vhd"
+vhdl xbip_utils_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_utils_v3_0/hdl/xbip_utils_v3_0_vh_rfs.vhd"
+vhdl xbip_pipe_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0_vh_rfs.vhd"
+vhdl xbip_pipe_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0.vhd"
+vhdl xbip_dsp48_macro_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0_vh_rfs.vhd"
+vhdl xbip_dsp48_macro_v3_0  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0.vhd"
+vhdl xil_defaultlib  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/xbip_dsp48_macro_0/sim/xbip_dsp48_macro_0.vhd"
+vhdl blk_mem_gen_v8_2  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_v8_2/simulation/blk_mem_gen_v8_2.vhd"
+vhdl xil_defaultlib  "../../../ETSE_GDSP_TCL.srcs/sources_1/ip/blk_mem_gen_0/sim/blk_mem_gen_0.vhd"
+vhdl xil_defaultlib  "../../../../../../SharedLibraries/txt_util.vhd"
+vhdl xil_defaultlib  "../../../../../../SharedLibraries/BRAM_WRAPPER_V2.vhd"
+vhdl xil_defaultlib  "../../../../CONTROL_UNIT_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../MATRIX_MUL_IP_CORE_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../SharedLibraries/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd"
+vhdl xil_defaultlib  "../../../../../../SharedLibraries/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd"
+vhdl xil_defaultlib  "../../../../TB_MATRIX_MUL_IP_CORE_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../SharedLibraries/STANDARD_RAM.vhd"
+
+# Do not sort compile order
+nosort

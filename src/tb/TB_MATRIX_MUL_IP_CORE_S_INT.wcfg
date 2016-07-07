@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/tsotne/git/ETSE_GDSP/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="bip_dsp48_macro_pkg_v2_1" />
+            <top_module name="bip_usecase_utils_pkg_v2_0" />
+            <top_module name="bip_utils_pkg_v2_0" />
+            <top_module name="matrix_mul_ip_core_library" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_signed" />
+            <top_module name="std_logic_textio" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="tb_matrix_mul_ip_core_s_int" />
+            <top_module name="textio" />
+            <top_module name="txt_util" />
+            <top_module name="xbip_pipe_v2_0_comp" />
+            <top_module name="xbip_pipe_v2_0_xst_comp" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="26" />
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/din" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">din[17:0]</obj_property>
+      <obj_property name="ObjectShortName">din[17:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/gread_done" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">gread_done</obj_property>
+      <obj_property name="ObjectShortName">gread_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/loading_done" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">loading_done</obj_property>
+      <obj_property name="ObjectShortName">loading_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/un_loading_done" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">un_loading_done</obj_property>
+      <obj_property name="ObjectShortName">un_loading_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/cmd" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">cmd</obj_property>
+      <obj_property name="ObjectShortName">cmd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/op_done" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">op_done</obj_property>
+      <obj_property name="ObjectShortName">op_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/delay_latency" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">delay_latency</obj_property>
+      <obj_property name="ObjectShortName">delay_latency</obj_property>
+   </wvobject>
+   <wvobject fp_name="/matrix_mul_ip_core_library/g_cnt_delay_ready" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">g_cnt_delay_ready</obj_property>
+      <obj_property name="ObjectShortName">g_cnt_delay_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/load" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">load</obj_property>
+      <obj_property name="ObjectShortName">load</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/un_load" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">un_load</obj_property>
+      <obj_property name="ObjectShortName">un_load</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="group365" type="group">
+      <obj_property name="label">MEM_OUTPUTS</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/bank_sel_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">bank_sel_in</obj_property>
+         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/dout" type="array" db_ref_id="1">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">dout[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="label">dout[17:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/ready" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">ready</obj_property>
+         <obj_property name="ObjectShortName">ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/op_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">op_done</obj_property>
+         <obj_property name="ObjectShortName">op_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">loading_done</obj_property>
+         <obj_property name="ObjectShortName">loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/un_loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_loading_done</obj_property>
+         <obj_property name="ObjectShortName">un_loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/un_load" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_load</obj_property>
+         <obj_property name="ObjectShortName">un_load</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group251" type="group">
+      <obj_property name="label">FSM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/ready" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">ready</obj_property>
+         <obj_property name="ObjectShortName">ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">loading_done</obj_property>
+         <obj_property name="ObjectShortName">loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/un_loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_loading_done</obj_property>
+         <obj_property name="ObjectShortName">un_loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/op_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">op_done</obj_property>
+         <obj_property name="ObjectShortName">op_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="group200" type="group">
+         <obj_property name="label">Input Control</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/load" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">load</obj_property>
+            <obj_property name="ObjectShortName">load</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/un_load" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">un_load</obj_property>
+            <obj_property name="ObjectShortName">un_load</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus252" type="vbus" db_ref_id="1">
+         <obj_property name="label">PG</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/g" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">g</obj_property>
+            <obj_property name="ObjectShortName">g</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/p" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">p</obj_property>
+            <obj_property name="ObjectShortName">p</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/cnt_delay_ready" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">cnt_delay_ready</obj_property>
+         <obj_property name="ObjectShortName">cnt_delay_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="group201" type="group">
+         <obj_property name="label">Output_signals</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/un_loading_done" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">un_loading_done</obj_property>
+            <obj_property name="ObjectShortName">un_loading_done</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/loading_done" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">loading_done</obj_property>
+            <obj_property name="ObjectShortName">loading_done</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/op_done" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">op_done</obj_property>
+            <obj_property name="ObjectShortName">op_done</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/ready" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">ready</obj_property>
+            <obj_property name="ObjectShortName">ready</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/g_en" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">g_en</obj_property>
+            <obj_property name="ObjectShortName">g_en</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/csel" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">csel[3:0]</obj_property>
+         <obj_property name="ObjectShortName">csel[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/s_a" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">s_a</obj_property>
+         <obj_property name="ObjectShortName">s_a</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/s_b" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">s_b</obj_property>
+         <obj_property name="ObjectShortName">s_b</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/we" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">we</obj_property>
+         <obj_property name="ObjectShortName">we</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/opcode" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">opcode[2:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/g_row" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">g_row[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_row[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/g_column" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">g_column[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_column[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group274" type="group">
+      <obj_property name="label">MEM0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/column_number" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">column_number</obj_property>
+         <obj_property name="ObjectShortName">column_number</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_dina" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_read_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_write_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/read_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">read_shft</obj_property>
+         <obj_property name="ObjectShortName">read_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/write_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">write_shft</obj_property>
+         <obj_property name="ObjectShortName">write_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/bank_sel_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">bank_sel_in</obj_property>
+         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_wea[0]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">i_wea[0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/op_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">op_done</obj_property>
+         <obj_property name="ObjectShortName">op_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/un_loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_loading_done</obj_property>
+         <obj_property name="ObjectShortName">un_loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/loading_done" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">loading_done</obj_property>
+         <obj_property name="ObjectShortName">loading_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FSM_UNIT/cnt_delay_ready" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">cnt_delay_ready</obj_property>
+         <obj_property name="ObjectShortName">cnt_delay_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/oeb" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">oeb</obj_property>
+         <obj_property name="ObjectShortName">oeb</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_rst</obj_property>
+         <obj_property name="ObjectShortName">i_rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(0)\/MEMA/i_oe" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_oe</obj_property>
+         <obj_property name="ObjectShortName">i_oe</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group295" type="group">
+      <obj_property name="label">MEM1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/column_number" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">column_number</obj_property>
+         <obj_property name="ObjectShortName">column_number</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_dina" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_write_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_read_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_wea[0]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">i_wea[0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/read_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">read_shft</obj_property>
+         <obj_property name="ObjectShortName">read_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/write_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">write_shft</obj_property>
+         <obj_property name="ObjectShortName">write_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/oeb" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">oeb</obj_property>
+         <obj_property name="ObjectShortName">oeb</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_rst</obj_property>
+         <obj_property name="ObjectShortName">i_rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(1)\/MEMA/i_oe" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_oe</obj_property>
+         <obj_property name="ObjectShortName">i_oe</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group316" type="group">
+      <obj_property name="label">MEM2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/column_number" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">column_number</obj_property>
+         <obj_property name="ObjectShortName">column_number</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_dina" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_write_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_write_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_read_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">i_read_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/doutb" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">doutb[17:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/read_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">read_shft</obj_property>
+         <obj_property name="ObjectShortName">read_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/write_shft" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">write_shft</obj_property>
+         <obj_property name="ObjectShortName">write_shft</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_wea[0]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">i_wea[0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/oeb" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">oeb</obj_property>
+         <obj_property name="ObjectShortName">oeb</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_rst</obj_property>
+         <obj_property name="ObjectShortName">i_rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_mem_gen(2)\/MEMA/i_oe" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_oe</obj_property>
+         <obj_property name="ObjectShortName">i_oe</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group285" type="group">
+      <obj_property name="label">MEM3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="group240" type="group">
+      <obj_property name="label">MEM4</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="group323" type="group">
+      <obj_property name="label">DSP0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/sel" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">sel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">sel[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/a" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">a[17:0]</obj_property>
+         <obj_property name="ObjectShortName">a[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/b" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">b[17:0]</obj_property>
+         <obj_property name="ObjectShortName">b[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/c" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">c[47:0]</obj_property>
+         <obj_property name="ObjectShortName">c[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/FIRST_DSP/p" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">p[47:0]</obj_property>
+         <obj_property name="ObjectShortName">p[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group330" type="group">
+      <obj_property name="label">DSP1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/sel" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">sel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">sel[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/a" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">a[17:0]</obj_property>
+         <obj_property name="ObjectShortName">a[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/b" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">b[17:0]</obj_property>
+         <obj_property name="ObjectShortName">b[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/c" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">c[47:0]</obj_property>
+         <obj_property name="ObjectShortName">c[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(1)\/DSP/p" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">p[47:0]</obj_property>
+         <obj_property name="ObjectShortName">p[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group337" type="group">
+      <obj_property name="label">DSP2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/sel" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">sel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">sel[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/a" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">a[17:0]</obj_property>
+         <obj_property name="ObjectShortName">a[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/b" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">b[17:0]</obj_property>
+         <obj_property name="ObjectShortName">b[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/c" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">c[47:0]</obj_property>
+         <obj_property name="ObjectShortName">c[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/uut/\block_a_dsp_gen(2)\/DSP/p" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">p[47:0]</obj_property>
+         <obj_property name="ObjectShortName">p[47:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group191" type="group">
+      <obj_property name="label">DSP3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="group198" type="group">
+      <obj_property name="label">DSP4</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="group178" type="group">
+      <obj_property name="label">GRAM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/row" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">row[9:0]</obj_property>
+         <obj_property name="ObjectShortName">row[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/col" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">col[9:0]</obj_property>
+         <obj_property name="ObjectShortName">col[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/din" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">din[17:0]</obj_property>
+         <obj_property name="ObjectShortName">din[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/dout" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dout[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/datamem" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">datamem[0:3]</obj_property>
+         <obj_property name="ObjectShortName">datamem[0:3]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/datamem[0]" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">[0]</obj_property>
+            <obj_property name="ObjectShortName">datamem[0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/datamem[1]" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">[1]</obj_property>
+            <obj_property name="ObjectShortName">datamem[1]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/datamem[2]" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">[2]</obj_property>
+            <obj_property name="ObjectShortName">datamem[2]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/datamem[3]" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">[3]</obj_property>
+            <obj_property name="ObjectShortName">datamem[3]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/we" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">we</obj_property>
+         <obj_property name="ObjectShortName">we</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int/GRAM/oe" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">oe</obj_property>
+         <obj_property name="ObjectShortName">oe</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

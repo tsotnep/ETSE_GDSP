@@ -1,0 +1,6 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/lib/txt_util.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/blk_mem_gen_0/sim/blk_mem_gen_0.vhd" into library xil_defaultlib
+ERROR: [VRFC 10-149] 'blk_mem_gen_v8_2' is not compiled in library blk_mem_gen_v8_2 [/home/tsotne/git/ETSE_GDSP/src/ip/vivado/blk_mem_gen_0/sim/blk_mem_gen_0.vhd:57]
+INFO: [VRFC 10-307] analyzing entity blk_mem_gen_0
+ERROR: [VRFC 10-1504] unit blk_mem_gen_0 ignored due to previous errors [/home/tsotne/git/ETSE_GDSP/src/ip/vivado/blk_mem_gen_0/sim/blk_mem_gen_0.vhd:59]
+INFO: [VRFC 10-240] VHDL file /home/tsotne/git/ETSE_GDSP/src/ip/vivado/blk_mem_gen_0/sim/blk_mem_gen_0.vhd ignored due to errors

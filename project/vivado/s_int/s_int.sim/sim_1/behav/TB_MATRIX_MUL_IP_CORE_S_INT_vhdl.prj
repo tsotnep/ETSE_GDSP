@@ -1,0 +1,13 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../../../../src/lib/txt_util.vhd"
+vhdl xil_defaultlib  "../../../../../../src/ip/vivado/blk_mem_gen_0/sim/blk_mem_gen_0.vhd"
+vhdl xil_defaultlib  "../../../../../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/BRAM_WRAPPER_V2.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/CONTROL_UNIT_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/STANDARD_RAM.vhd"
+vhdl xil_defaultlib  "../../../../../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/MATRIX_MUL_IP_CORE_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.vhd"
+
+# Do not sort compile order
+nosort

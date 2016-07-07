@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<BillOfMaterials Version="1" Minor="2">
+	<IPInstance name="BRAM18x1k">
+		<FileSets>
+			<FileSet generator="xmdf_to_bom">
+				<File name="BRAM18x1k/blk_mem_gen_v7_2_readme.txt" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/doc/pg058-blk-mem-gen.pdf" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/example_design/BRAM18x1k_exdes.ucf" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/example_design/BRAM18x1k_exdes.vhd" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/example_design/BRAM18x1k_exdes.xdc" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/example_design/BRAM18x1k_prod.vhd" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/implement.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/implement.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/planAhead_ise.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/planAhead_ise.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/planAhead_ise.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/xst.prj" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/implement/xst.scr" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/BRAM18x1k_synth.vhd" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/BRAM18x1k_tb.vhd" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simcmds.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_isim.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_mti.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_mti.do" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_mti.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_ncsim.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/simulate_vcs.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/ucli_commands.key" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/vcs_session.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/wave_mti.do" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/functional/wave_ncsim.sv" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simcmds.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_isim.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_mti.bat" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_mti.do" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_mti.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_ncsim.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/simulate_vcs.sh" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/ucli_commands.key" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/vcs_session.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/wave_mti.do" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k/simulation/timing/wave_ncsim.sv" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.asy" type="asy" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.ngc" type="ngc" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.sym" type="asy" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.vhd" type="vhdl" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.vho" type="vho" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k.xco" type="xco" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="BRAM18x1k_xmdf.tcl" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+				<File name="summary.log" type="ignore" timestamp="Wed Jul 06 08:42:14 2016" checksum="0">
+				</File>
+			</FileSet>
+		</FileSets>
+	</IPInstance>
+</BillOfMaterials>
+

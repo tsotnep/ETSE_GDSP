@@ -1,8 +1,7 @@
-
-
-
 #src of gitignore - https://github.com/github/gitignore/blob/master/Global/XilinxISE.gitignore
 # intermediate build files
+*.jou
+*.log
 *.bgn
 *.bit
 *.bld

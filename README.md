@@ -1,6 +1,6 @@
 readme for dir: ETSE_GDSP/
 
-This Repo contains following folders:
+## List of Content
 
     -Documentation  -technical documentation of the ETSE_GDSP IP
     -ip_cores       -ip cores that can be used/imported in any Xilinx ISE or Xilinx Vivado project.

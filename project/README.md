@@ -1,4 +1,12 @@
-readme for dir: ETSE_GDSP/project/
+# readme for dir: ETSE_GDSP/project/
+
+## List of Content
+
+* ise - Xilinx ISE projects
+* vivado - Xilinx Vivado projects
+
+
+## Running A simulation
 
 Open any of the project:
 
@@ -21,6 +29,9 @@ If you run the simulation and it does not print out the result on the console wi
 1. stop the simulation
 2. Change the simulation time from 1000 ns to at least 11000 ns.
 3. run the simulation again.
+
+
+## In case of Failure
 
 If it still does not run properly then probably a file is missing in the **ETSE_GDSP/src/lib/** (1) or in **ETSE_GDSP/src/io/** (2) directories, this directories hold following important files that the Test benches of the project use for simulation
 

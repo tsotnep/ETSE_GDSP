@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use std.textio.all;
 use work.txt_util.all;
 USE ieee.numeric_std.ALL;
+use work.MATRIX_MUL_IP_CORE_LIBRARY_Syn.all;
 
 package MATRIX_MUL_IP_CORE_LIBRARY_Sim is
 
@@ -10,6 +11,11 @@ constant msg1 : string(positive range<>):="############# These are the values sa
 constant msg2 : string(positive range<>):="#################################################";
 constant msg3 : string(positive range<>):="---------------BEGINNING OF SECTION (See end of Section for details)---------------";
 constant msg4 : string(positive range<>):=" ";
+
+constant fileMATRIX_MUL_IP_CORE_S_INT : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/MATRIX_MUL_IP_CORE_S_INT.txt";
+constant fileGdata : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/Gdata.txt";
+constant filePdata : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/Pdata.txt";
+
 --------------------------------END OF GLOBAL SIGNALS--------------------------------------
 
 

@@ -1,0 +1,75 @@
+Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib secureip -o /home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_isim_beh.exe -prj /home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_beh.prj work.TB_MATRIX_MUL_IP_CORE_S_INT 
+ISim P.20131013 (signature 0xfbc00daa)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
+Determining compilation order of HDL files
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../IPCores/BRAM_and_DSP/ipcore_dir/BRAM18x1k.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../IPCores/BRAM_and_DSP/ipcore_dir/DSP_INPUT_C.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/lib/txt_util.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/hdl/CONTROL_UNIT_S_INT.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/hdl/BRAM_WRAPPER_V2.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/hdl/MATRIX_MUL_IP_CORE_S_INT.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../SharedLibraries/STANDARD_RAM.vhd" into library work
+Parsing VHDL file "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/../../src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 105800 KB
+Fuse CPU Usage: 1530 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package numeric_std
+Compiling package textio
+Compiling package txt_util
+Compiling package matrix_mul_ip_core_library_syn
+Compiling package matrix_mul_ip_core_library_sim
+Compiling architecture behavioral of entity CONTROL_UNIT_S_INT [\CONTROL_UNIT_S_INT(10,18,3,3)\]
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling package std_logic_textio
+Compiling architecture output_stage_behavioral of entity BLK_MEM_GEN_V7_2_output_stage [\BLK_MEM_GEN_V7_2_output_stage("...]
+Compiling architecture output_stage_behavioral of entity BLK_MEM_GEN_V7_2_output_stage [\BLK_MEM_GEN_V7_2_output_stage("...]
+Compiling architecture softecc_output_reg_stage_behavioral of entity BLK_MEM_GEN_V7_2_softecc_output_reg_stage [\BLK_MEM_GEN_V7_2_softecc_output...]
+Compiling architecture mem_module_behavioral of entity BLK_MEM_GEN_V7_2_mem_module [\BLK_MEM_GEN_V7_2_mem_module("bl...]
+Compiling architecture behavioral of entity BLK_MEM_GEN_V7_2 [\BLK_MEM_GEN_V7_2("blk_mem_gen_v...]
+Compiling architecture bram18x1k_a of entity BRAM18x1k [bram18x1k_default]
+Compiling architecture behavioral of entity BRAM_WRAPPER_V2 [\BRAM_WRAPPER_V2(0,3,10,18)\]
+Compiling architecture behavioral of entity BRAM_WRAPPER_V2 [\BRAM_WRAPPER_V2(1,3,10,18)\]
+Compiling architecture behavioral of entity BRAM_WRAPPER_V2 [\BRAM_WRAPPER_V2(2,3,10,18)\]
+Compiling package std_logic_signed
+Compiling package bip_utils_pkg_v2_0
+Compiling package bip_usecase_utils_pkg_v2_0
+Compiling package xbip_pipe_v2_0_xst_comp
+Compiling package bip_dsp48_macro_pkg_v2_1
+Compiling package xbip_pipe_v2_0_comp
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(0,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(0,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(0,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(0,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(0,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(0,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0 [\xbip_pipe_v2_0(1,0,0,0,0,0,0,"0...]
+Compiling architecture behavioral of entity xbip_pipe_v2_0_xst [\xbip_pipe_v2_0_xst(1,0,0,0,0,0,...]
+Compiling architecture behavioral of entity xbip_dsp48_macro_v2_1 [\xbip_dsp48_macro_v2_1(0,0,"virt...]
+Compiling architecture dsp_input_c_a of entity DSP_INPUT_C [dsp_input_c_default]
+Compiling architecture behavioral of entity MATRIX_MUL_IP_CORE_S_INT [\MATRIX_MUL_IP_CORE_S_INT(3,3,10...]
+Compiling architecture behavioral of entity STANDARD_RAM [\STANDARD_RAM(3,10,18)\]
+Compiling architecture behavior of entity tb_matrix_mul_ip_core_s_int
+Time Resolution for simulation is 1ps.
+Waiting for 14 sub-compilation(s) to finish...
+Compiled 81 VHDL Units
+Built simulation executable /home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_isim_beh.exe
+Fuse Memory Usage: 706956 KB
+Fuse CPU Usage: 2280 ms
+GCC CPU Usage: 8290 ms

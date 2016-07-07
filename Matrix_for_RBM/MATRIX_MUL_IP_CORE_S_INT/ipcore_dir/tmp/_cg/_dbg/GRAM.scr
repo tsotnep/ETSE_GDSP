@@ -1,0 +1,15 @@
+set -xsthdpdir "./_cg/_dbg/GRAM_xsd"
+run
+-ifn "./_cg/_dbg/GRAM.prj"
+-ifmt VHDL
+-ofmt NGC
+-ofn "./_cg/_dbg/GRAM.ngc"
+-p xc7vx485t-2ffg1157
+-iobuf NO
+-work_lib work
+-ent GRAM
+-arch virtex7
+-top GRAM
+-bus_delimiter <>
+-lso "./_cg/_dbg/_default.lso"
+-use_new_parser yes

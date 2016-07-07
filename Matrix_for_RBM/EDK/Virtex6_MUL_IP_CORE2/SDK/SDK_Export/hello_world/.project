@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>hello_world</name>
+	<comment>hello_world_bsp - microblaze_0</comment>
+	<projects>
+		<project>hello_world_bsp</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src/matrix_mul_ip_core_s_int_g.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/drivers/matrix_mul_ip_core_s_int_g_v1_00_a/src/matrix_mul_ip_core_s_int_g.h</locationURI>
+		</link>
+		<link>
+			<name>src/matrix_mul_ip_core_s_int_g_selftest.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/drivers/matrix_mul_ip_core_s_int_g_v1_00_a/src/matrix_mul_ip_core_s_int_g_selftest.c</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

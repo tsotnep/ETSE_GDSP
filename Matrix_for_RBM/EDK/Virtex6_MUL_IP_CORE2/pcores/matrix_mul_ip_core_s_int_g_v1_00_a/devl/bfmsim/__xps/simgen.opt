@@ -1,0 +1,1 @@
+ -p virtex6 -lang verilog$(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT) -msg __xps/ise/xmsgprops.lst -s isim -tb -X C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/pcores/matrix_mul_ip_core_s_int_g_v1_00_a/devl/bfmsim/

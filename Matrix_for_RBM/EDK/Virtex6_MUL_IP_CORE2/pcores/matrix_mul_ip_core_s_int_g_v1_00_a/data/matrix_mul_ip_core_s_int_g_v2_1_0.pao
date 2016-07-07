@@ -1,0 +1,21 @@
+##############################################################################
+## Filename:          C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/pcores/matrix_mul_ip_core_s_int_g_v1_00_a/data/matrix_mul_ip_core_s_int_g_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Thu Aug 13 21:51:24 2015 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a  all 
+lib axi_lite_ipif_v1_01_a  all 
+lib axi_master_lite_v1_00_a  all 
+lib matrix_mul_ip_core_s_int_g_v1_00_a user_logic vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a matrix_mul_ip_core_s_int_g vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a MATRIX_MUL_IP_CORE_S_INT_G_TOP vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a bram_wrapper_v2 vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a BRAM18x1k vhdl
+#lib matrix_mul_ip_core_s_int_g_v1_00_a BRAM18x1k ngc
+lib matrix_mul_ip_core_s_int_g_v1_00_a CONTROL_UNIT_S_INT_G vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a DSP_INPUT_C vhdl
+#lib matrix_mul_ip_core_s_int_g_v1_00_a DSP_INPUT_C ngc
+lib matrix_mul_ip_core_s_int_g_v1_00_a MATRIX_MUL_IP_CORE_LIBRARY vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a STANDARD_RAM vhdl
+lib matrix_mul_ip_core_s_int_g_v1_00_a txt_util vhdl

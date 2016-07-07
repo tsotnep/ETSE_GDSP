@@ -1,0 +1,3 @@
+PROCESSOR=microblaze_0
+REPOSITORIES=
+HWSPEC=../Virtex6_MUL_IP_CORE2_hw_platform/system.xml

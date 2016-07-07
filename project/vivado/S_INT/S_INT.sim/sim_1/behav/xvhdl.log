@@ -1,0 +1,50 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/lib/txt_util.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/BRAM18x1k/blk_mem_gen_v8_2/simulation/blk_mem_gen_v8_2.vhd" into library blk_mem_gen_v8_2
+INFO: [VRFC 10-307] analyzing entity blk_mem_axi_regs_fwd_v8_2
+INFO: [VRFC 10-307] analyzing entity blk_mem_axi_write_wrapper_beh
+INFO: [VRFC 10-307] analyzing entity write_netlist
+INFO: [VRFC 10-307] analyzing entity blk_mem_axi_read_wrapper_beh
+INFO: [VRFC 10-307] analyzing entity read_netlist
+INFO: [VRFC 10-307] analyzing entity BLK_MEM_GEN_v8_2_output_stage
+INFO: [VRFC 10-307] analyzing entity BLK_MEM_GEN_v8_2_softecc_output_reg_stage
+INFO: [VRFC 10-307] analyzing entity BLK_MEM_GEN_v8_2_mem_module
+INFO: [VRFC 10-307] analyzing entity blk_mem_gen_v8_2
+INFO: [VRFC 10-307] analyzing entity beh_ff_clr
+INFO: [VRFC 10-307] analyzing entity beh_ff_ce
+INFO: [VRFC 10-307] analyzing entity beh_ff_pre
+INFO: [VRFC 10-307] analyzing entity beh_muxf7
+INFO: [VRFC 10-307] analyzing entity STATE_LOGIC
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/BRAM18x1k/sim/BRAM18x1k.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity BRAM18x1k
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/hdl/CONTROL_UNIT_S_INT.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity CONTROL_UNIT_S_INT
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/hdl/BRAM_WRAPPER_V2.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity BRAM_WRAPPER_V2
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_dsp48_wrapper_v3_0/hdl/xbip_dsp48_wrapper_v3_0_vh_rfs.vhd" into library xbip_dsp48_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48a_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48a1_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48e_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48e1_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48e2_wrapper_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48_wrapper_v3_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_utils_v3_0/hdl/xbip_utils_v3_0_vh_rfs.vhd" into library xbip_utils_v3_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0_vh_rfs.vhd" into library xbip_pipe_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_pipe_v3_0_viv
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0.vhd" into library xbip_pipe_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_pipe_v3_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0_vh_rfs.vhd" into library xbip_dsp48_macro_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48_macro_rtl
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48_macro_synth
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48_macro_v3_0_viv
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0.vhd" into library xbip_dsp48_macro_v3_0
+INFO: [VRFC 10-307] analyzing entity xbip_dsp48_macro_v3_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/sim/DSP_INPUT_C.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity DSP_INPUT_C
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/hdl/STANDARD_RAM.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity STANDARD_RAM
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/hdl/MATRIX_MUL_IP_CORE_S_INT.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity MATRIX_MUL_IP_CORE_S_INT
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tsotne/git/ETSE_GDSP/src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity TB_MATRIX_MUL_IP_CORE_S_INT

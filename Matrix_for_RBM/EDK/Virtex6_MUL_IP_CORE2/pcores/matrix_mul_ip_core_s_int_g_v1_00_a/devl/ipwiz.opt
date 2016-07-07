@@ -1,0 +1,11 @@
+-batch 
+-create matrix_mul_ip_core_s_int_g 
+-ver 1.00.a 
+-dir "C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2" 
+-lang vhdl 
+-bus axi4lite ms 
+-reg 4 
+-xps 
+-ise 
+-bfmsim all
+-driver 

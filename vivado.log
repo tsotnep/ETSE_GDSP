@@ -1,0 +1,256 @@
+#-----------------------------------------------------------
+# Vivado v2015.2 (64-bit)
+# SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+# IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+# Start of session at: Thu Jul  7 16:00:47 2016
+# Process ID: 4260
+# Log file: /home/tsotne/git/ETSE_GDSP/vivado.log
+# Journal file: /home/tsotne/git/ETSE_GDSP/vivado.jou
+#-----------------------------------------------------------
+source src/tcl/vivado_create_s_int_project.tcl 
+# set PROJECTNAME S_INT
+# set ORIGIN /home/tsotne/git/ETSE_GDSP
+# set PROJECTLOCATION $ORIGIN/project/vivado/$PROJECTNAME
+# create_project $PROJECTNAME $PROJECTLOCATION -part xc7z020clg484-1 -f
+# set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
+# set_property target_language VHDL [current_project]
+# add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/CONTROL_UNIT_S_INT.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/BRAM_WRAPPER_V2.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/STANDARD_RAM.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/MATRIX_MUL_IP_CORE_S_INT.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/lib/txt_util.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd
+# add_files -norecurse -scan_for_includes $ORIGIN/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd
+# add_files -fileset sim_1 -norecurse -scan_for_includes /home/tsotne/git/ETSE_GDSP/src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.vhd
+# add_files -norecurse $ORIGIN/src/ip/vivado/DSP_INPUT_C/DSP_INPUT_C.xci
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2015.2/data/ip'.
+# add_files -norecurse $ORIGIN/src/ip/vivado/BRAM18x1k/BRAM18x1k.xci
+# update_compile_order -fileset sources_1
+# launch_simulation
+ERROR: [Common 17-70] Application Exception: Top module not set for fileset 'sim_1'. Please ensure that a valid value is provided for 'top'. The value for 'top' can be set/changed using the 'Top Module Name' field under 'Project Settings', or using the 'set_property top' Tcl command (e.g. set_property top <name> [current_fileset]).
+launch_simulation
+ERROR: [Common 17-70] Application Exception: Top module not set for fileset 'sim_1'. Please ensure that a valid value is provided for 'top'. The value for 'top' can be set/changed using the 'Top Module Name' field under 'Project Settings', or using the 'set_property top' Tcl command (e.g. set_property top <name> [current_fileset]).
+set_property top MATRIX_MUL_IP_CORE_S_INT
+ERROR: [Common 17-163] Missing value for option 'objects', please type 'set_property -help' for usage info.
+set_property top MATRIX_MUL_IP_CORE_S_INT [current_fileset]
+launch_simulation 
+ERROR: [Common 17-70] Application Exception: Top module not set for fileset 'sim_1'. Please ensure that a valid value is provided for 'top'. The value for 'top' can be set/changed using the 'Top Module Name' field under 'Project Settings', or using the 'set_property top' Tcl command (e.g. set_property top <name> [current_fileset]).
+set_property top MATRIX_MUL_IP_CORE_S_INT sim_1
+ERROR: [Common 17-161] Invalid option value 'sim_1' specified for 'objects'.
+set_property top MATRIX_MUL_IP_CORE_S_INT [current_fileset]
+launch_simulation sim_1
+ERROR: [Common 17-165] Too many positional options when parsing 'sim_1', please type 'launch_simulation -help' for usage info.
+launch_simulation -help
+launch_simulation
+
+Description: 
+Launch simulation
+
+Syntax: 
+launch_simulation  [-step <arg>] [-simset <arg>] [-mode <arg>] [-type <arg>]
+                   [-scripts_only] [-of_objects <args>] [-absolute_path]
+                   [-install_path <arg>] [-noclean_dir] [-quiet] [-verbose]
+
+Usage: 
+  Name              Description
+  -----------------------------
+  [-step]           Launch a simulation step. Values: all, compile, 
+                    elaborate, simulate. Default:all (launch all steps).
+                    Default: all
+  [-simset]         Name of the simulation fileset
+  [-mode]           Simulation mode. Values: behavioral, post-synthesis, 
+                    post-implementation
+                    Default: behavioral
+  [-type]           Netlist type. Values: functional, timing. This is only 
+                    applicable when mode is set to post-synthesis or 
+                    post-implementation
+  [-scripts_only]   Only generate scripts
+  [-of_objects]     Generate compile order file for this object (applicable 
+                    with -scripts_only option only)
+  [-absolute_path]  Make design source file paths in 'absolute' format
+  [-install_path]   Custom installation directory path
+  [-noclean_dir]    Do not remove simulation run directory files
+  [-quiet]          Ignore command errors
+  [-verbose]        Suspend message limits during command execution
+
+Categories: 
+ToolLaunch, Simulation
+
+Description:
+
+  Launch a simulator to perform analysis and verification of a design.
+
+  The launch_simulation command creates a script file for the target
+  simulator and then executes this file in the simulation run directory. The
+  simulation results are saved in the log files created in the run directory.
+
+  To run simulation for a specific simulator, you must first define the
+  target simulator by setting the TARGET_SIMULATOR property on the design
+  project:
+
+    set_property TARGET_SIMULATOR <name> [current_project]
+
+  The TARGET_SIMULATOR property can have a value of XSim, ModelSim, IES, or
+  VCS. The default value is XSIM, the Vivado simulator.
+
+  The target simulator can also be defined from the Vivado IDE. Create or
+  open a project, select Tools > Project Settings > Simulation menu item, and
+  select the Target simulator from the drop-down menu. The available choices
+  are: Vivado simulator, QuestaSim/ModelSim simulator, Incisive Enterprise
+  Simulator (IES), and Verilog Compiler Simulator (VCS).
+
+  The launch_simulation command uses a three-step process comprised of
+  compile, elaborate, and simulate steps. A script file for the target
+  simulator is created for each step in the process, (compile.bat,
+  elaborate.bat, simulate.bat), and written to the simulation run directory.
+
+  Note: On Linux the script files are named with the .sh suffix instead of .bat
+
+  By default, launch_simulation will run these script files in sequence to
+  run the simulation. You can create the scripts without running them by
+  using the -scripts_only option.
+
+  This command returns a transcript of its process, or returns an error if it
+  fails.
+
+Arguments:
+
+  -simset <arg> - (Optional) The name of the simulation fileset containing
+  the simulation test benches and sources to be used during simulation. If
+  not specified, the current simulation fileset is used.
+
+  -mode [ behavioral | post-synthesis | post-implementation ] - (Optional)
+  Specifies either a behavioral simulation of the HDL design sources to
+  verify syntax and confirm that the design performs as intended, a
+  functional or timing simulation of the post-synthesis netlist, or a
+  functional or timing simulation of the post implementation design to verify
+  circuit operation after place and route. The default mode is behavioral.
+
+  -type [ functional | timing ] - (Optional) Specifies functional simulation
+  of just the netlist, or timing simulation of the netlist and SDF file. This
+  option must be specified with -mode for post-synthesis or
+  post-implementation, but cannot be used with -mode behavioral.
+  Post-synthesis timing simulation uses SDF component delays from the
+  synth_design command. Post-implementation timing simulation uses SDF delays
+  from the place_design and route_design commands.
+
+  Note: Do not use -type with -mode behavioral, or the tool will return an
+  error.
+
+  -scripts_only - (Optional) Only generate the simulation scripts for the
+  target simulator, rather than actually launching these scripts to start the
+  "compile", "elaborate" and "simulate" steps. You can use the scripts to
+  launch the simulation flow at a later time.
+
+  -of_objects <arg> - (Optional) Run simulation for a single specified
+  sub-design, or composite file. The sub-design must be specified as a design
+  object as returned by the get_files command, rather than simply specified
+  by name.
+
+  -absolute_path - (Optional) Specify this option to define the source and
+  include paths used in the simulation scripts as absolute paths. By default,
+  all paths are written as relative to the simulation run directory. Relative
+  paths include an "origin_dir" variable that is set in the simulation script
+  to the current run directory, but you can edit the $origin_dir variable to
+  point to a path of your choice when relocating the design and simulation
+  scripts.
+
+  -install_path <arg> - (Optional) Specifies the directory containing
+  simulator executables ( e.g. vlog.exe, ncvlog, vlogan). If this option is
+  not specified, the target simulator will be looked for in the current
+  <$PATH>.
+
+  -noclean_dir - (Optional) Do not remove files from the simulation run
+  directory prior to launching the simulator. The default behavior is to
+  remove files from the simulation run directory to create a clean start.
+  With the -noclean_dir option, existing files in the run directory are left
+  in place. However, some of the files generated for use by the simulator
+  will be overwritten or updated by re-launching the simulator.
+
+  -step - (Optional) Specifies the simulation step to be launched. The valid
+  steps are: Compile, Elaborate, Simulate.
+
+  Note: By default, all the steps will be executed.
+
+  -quiet - (Optional) Execute the command quietly, returning no messages from
+  the command. The command also returns TCL_OK regardless of any errors
+  encountered during execution.
+
+  Note: Any errors encountered on the command-line, while launching the
+  command, will be returned. Only errors occurring inside the command will be
+  trapped.
+
+  -verbose - (Optional) Temporarily override any message limits and return
+  all messages from this command.
+
+  Note: Message limits can be defined with the set_msg_config command.
+
+Examples:
+
+  The following commands run behavioral simulation of the design using the
+  Vivado simulator:
+
+    set_property target_simulator "XSim" [current_project]
+    launch_simulation
+
+  The following commands run post-synthesis functional simulation of the
+  design using the ModelSim/QuestaSim Simulator:
+
+    set_property target_simulator "ModelSim" [current_project]
+    launch_simulation -mode "post-synthesis" -type "functional"
+
+  The following commands run post-implementation functional simulation of the
+  design using the Cadence IES Simulator:
+
+    set_property target_simulator "IES" [current_project]
+    launch_simulation -mode "post-implementation" -type "functional"
+
+  The following commands run post-implementation timing simulation of the
+  design using the Synopsys VCS Simulator:
+
+    set_property target_simulator "VCS" [current_project]
+    launch_simulation -mode "post-implementation" -type "timing"
+
+  The following command generates behavioral simulation scripts for the
+  target simulator in the simulation run directory:
+
+    launch_simulation -scripts_only
+
+  The following commands run behavioral simulation flow of the design for the
+  "my_simset" simulation fileset for the target simulator in the simulation
+  run directory:
+
+    launch_simulation -simset [get_filesets my_simset]
+
+  The following command runs behavioral simulation flow for the
+  "char_fifo.xci" IP for the target simulator in the simulation run
+  directory, and does not clean up prior simulation files:
+
+    launch_simulation -noclean_dir -of_objects [get_files char_fifo.xci]
+
+  The following command generates absolute paths for the source files in the
+  generated script files:
+
+    launch_simulation -absolute_path
+
+  The following command will pick the simulator tools from the specified
+  installation path instead of from the PATH variable:
+
+    launch_simulation -install_path /tools/ius/13.20.005/tools/bin
+
+See Also:
+
+   *  close_sim
+   *  current_sim
+   *  xsim
+launch_simulation -simset
+ERROR: [Common 17-157] Error parsing command line options, please type 'launch_simulation -help' for usage info.
+launch_simulation -simset  [get_filesets my_simset]
+WARNING: [Vivado 12-1022] No filesets matching 'my_simset'
+ERROR: [Common 17-162] Invalid option value specified for '-simset'.
+launch_simulation -scripts_only 
+ERROR: [Common 17-70] Application Exception: Top module not set for fileset 'sim_1'. Please ensure that a valid value is provided for 'top'. The value for 'top' can be set/changed using the 'Top Module Name' field under 'Project Settings', or using the 'set_property top' Tcl command (e.g. set_property top <name> [current_fileset]).
+launch_simulation -scripts_only -simset top
+ERROR: [Common 17-162] Invalid option value specified for '-simset'.

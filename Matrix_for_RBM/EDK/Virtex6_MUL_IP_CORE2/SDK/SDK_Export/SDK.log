@@ -1,0 +1,53 @@
+22:38:32.340 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+11:29:16.790 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+11:29:21.832 INFO  - Updating .bit and .bmm files from XPS's export folder. 
+11:30:49.370 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.bit into \Virtex6_MUL_IP_CORE2_hw_platform\system.bit. 
+11:30:49.380 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system_bd.bmm into \Virtex6_MUL_IP_CORE2_hw_platform\system_bd.bmm. 
+11:56:34.545 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+11:59:22.691 INFO  - FPGA configured successfully with bitstream "C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/SDK/SDK_Export/Virtex6_MUL_IP_CORE2_hw_platform/download.bit" 
+12:01:54.553 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+12:01:56.554 INFO  - System reset is completed. 
+12:03:20.181 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+12:05:52.026 INFO  - System reset is completed. 
+12:09:25.191 INFO  - System reset is completed. 
+12:43:10.556 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+13:00:38.294 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+13:03:55.124 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+13:03:56.515 INFO  - System reset is completed. 
+13:21:43.522 ERROR - Unexpected error while parsing XMD response ?: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near  
+13:22:19.053 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+13:22:24.136 INFO  - Updating .bit and .bmm files from XPS's export folder. 
+13:24:15.319 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.bit into \Virtex6_MUL_IP_CORE2_hw_platform\system.bit. 
+13:24:15.323 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system_bd.bmm into \Virtex6_MUL_IP_CORE2_hw_platform\system_bd.bmm. 
+13:25:09.034 INFO  - FPGA configured successfully with bitstream "C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/SDK/SDK_Export/Virtex6_MUL_IP_CORE2_hw_platform/download.bit" 
+13:27:28.736 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+13:27:30.322 INFO  - System reset is completed. 
+13:31:30.618 INFO  - System reset is completed. 
+14:16:56.643 ERROR - Unexpected error while parsing XMD response ?: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near  
+14:18:36.469 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+14:18:41.554 INFO  - Updating .bit and .bmm files from XPS's export folder. 
+14:34:45.593 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.bit into \Virtex6_MUL_IP_CORE2_hw_platform\system.bit. 
+14:34:45.603 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system_bd.bmm into \Virtex6_MUL_IP_CORE2_hw_platform\system_bd.bmm. 
+14:38:49.769 INFO  - FPGA configured successfully with bitstream "C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/SDK/SDK_Export/Virtex6_MUL_IP_CORE2_hw_platform/download.bit" 
+14:41:32.159 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+14:43:44.031 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+14:44:19.624 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+14:53:10.629 INFO  - FPGA Cable Disconnected. All active launches will be terminated. 
+14:53:10.639 WARN  - Terminating existing sessions on processor microblaze_0 
+14:54:10.699 INFO  - Time out for XMD transaction is 60000
+If you want to increase the timeout value, goto Windows-> Preferences -> Xilinx SDK -> XMD Startup 
+14:54:10.699 ERROR - Timeout occured while waiting to get reply for command "xdisconnect 0" 
+14:54:10.729 ERROR - Disconnect target failed. 
+16:28:59.441 ERROR - Unexpected error while parsing XMD response ?: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near  
+20:05:26.105 INFO  - Processing command line option -hwspec C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.xml. 
+20:05:31.706 INFO  - Updating .bit and .bmm files from XPS's export folder. 
+20:05:39.770 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system.bit into \Virtex6_MUL_IP_CORE2_hw_platform\system.bit. 
+20:05:39.770 INFO  - Copied contents of C:\FPGA\Internship_Jobs\Codes\Virtex6_MUL_IP_CORE2\SDK\SDK_Export\hw\system_bd.bmm into \Virtex6_MUL_IP_CORE2_hw_platform\system_bd.bmm. 
+20:06:33.061 INFO  - FPGA configured successfully with bitstream "C:/FPGA/Internship_Jobs/Codes/Virtex6_MUL_IP_CORE2/SDK/SDK_Export/Virtex6_MUL_IP_CORE2_hw_platform/download.bit" 
+20:08:53.183 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+20:09:07.763 INFO  - microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching. 
+20:10:20.930 ERROR - Unable to disconnect from existing targets java.lang.NullPointerException
+	at com.xilinx.sdk.targetmanager.internal.json.XMDJSONProcess.issueCommand(Unknown Source)
+	at com.xilinx.sdk.targetmanager.internal.TM.disconnectTarget(Unknown Source)
+
+20:10:20.930 ERROR - Unexpected error while parsing XMD response ?: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near  

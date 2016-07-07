@@ -1,0 +1,547 @@
+Archive member included because of file (symbol)
+
+c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+                              obj/default/hello_world_small.o (__divsi3)
+c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+                              obj/default/hello_world_small.o (__mulsi3)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o (alt_load)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o (alt_main)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+                              obj/default/hello_world_small.o (alt_printf)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o) (alt_putchar)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o) (alt_sys_init)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o) (altera_avalon_jtag_uart_write)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o) (alt_dcache_flush_all)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o) (alt_icache_flush_all)
+../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+                              ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o) (altera_nios2_qsys_irq_init)
+
+Allocating common symbols
+Common symbol       size              file
+
+DOUT                0x40              obj/default/hello_world_small.o
+DIN                 0x40              obj/default/hello_world_small.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+reset            0x00002000         0x00000020
+onchip_memory2_0 0x00002020         0x00000fe0
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+                0x0000200c                exit = _exit
+LOAD obj/default/hello_world_small.o
+LOAD obj/default/matrix_mul_ip_core_s_int_g.o
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/../../../../nios2-elf/lib/mno-hw-mul\libstdc++.a
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/../../../../nios2-elf/lib/mno-hw-mul\libm.a
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a
+START GROUP
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/../../../../nios2-elf/lib/mno-hw-mul\libsmallc.a
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a
+LOAD ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a
+END GROUP
+LOAD c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a
+                0x00002000                __alt_mem_onchip_memory2_0 = 0x2000
+
+.entry          0x00002000       0x20
+ *(.entry)
+ .entry         0x00002000       0x20 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+                0x00002000                __reset
+                0x0000200c                _exit
+
+.exceptions     0x00002020        0x0
+                0x00002020                PROVIDE (__ram_exceptions_start, ABSOLUTE (.))
+                0x00002020                . = ALIGN (0x20)
+ *(.irq)
+ *(.exceptions.entry.label)
+ *(.exceptions.entry.user)
+ *(.exceptions.entry)
+ *(.exceptions.irqtest.user)
+ *(.exceptions.irqtest)
+ *(.exceptions.irqhandler.user)
+ *(.exceptions.irqhandler)
+ *(.exceptions.irqreturn.user)
+ *(.exceptions.irqreturn)
+ *(.exceptions.notirq.label)
+ *(.exceptions.notirq.user)
+ *(.exceptions.notirq)
+ *(.exceptions.soft.user)
+ *(.exceptions.soft)
+ *(.exceptions.unknown.user)
+ *(.exceptions.unknown)
+ *(.exceptions.exit.label)
+ *(.exceptions.exit.user)
+ *(.exceptions.exit)
+ *(.exceptions)
+                0x00002020                PROVIDE (__ram_exceptions_end, ABSOLUTE (.))
+                0x00002020                PROVIDE (__flash_exceptions_start, LOADADDR (.exceptions))
+
+.text           0x00002020      0x72c
+                0x00002020                PROVIDE (stext, ABSOLUTE (.))
+ *(.interp)
+ *(.hash)
+ *(.dynsym)
+ *(.dynstr)
+ *(.gnu.version)
+ *(.gnu.version_d)
+ *(.gnu.version_r)
+ *(.rel.init)
+ *(.rela.init)
+ *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+ *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+ *(.rel.fini)
+ *(.rela.fini)
+ *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+ *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+ *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+ *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+ *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
+ *(.rela.tdata .rela.tdata.* .rela.gnu.linkonce.td.*)
+ *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
+ *(.rela.tbss .rela.tbss.* .rela.gnu.linkonce.tb.*)
+ *(.rel.ctors)
+ *(.rela.ctors)
+ *(.rel.dtors)
+ *(.rela.dtors)
+ *(.rel.got)
+ *(.rela.got)
+ *(.rel.sdata .rel.sdata.* .rel.gnu.linkonce.s.*)
+ *(.rela.sdata .rela.sdata.* .rela.gnu.linkonce.s.*)
+ *(.rel.sbss .rel.sbss.* .rel.gnu.linkonce.sb.*)
+ *(.rela.sbss .rela.sbss.* .rela.gnu.linkonce.sb.*)
+ *(.rel.sdata2 .rel.sdata2.* .rel.gnu.linkonce.s2.*)
+ *(.rela.sdata2 .rela.sdata2.* .rela.gnu.linkonce.s2.*)
+ *(.rel.sbss2 .rel.sbss2.* .rel.gnu.linkonce.sb2.*)
+ *(.rela.sbss2 .rela.sbss2.* .rela.gnu.linkonce.sb2.*)
+ *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+ *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+ *(.rel.plt)
+ *(.rela.plt)
+ *(.rel.dyn)
+ *(.init)
+ *(.plt)
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x00002020       0x3c ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+                0x00002020                _start
+ .text          0x0000205c      0x2ac obj/default/hello_world_small.o
+                0x0000205c                delay
+                0x00002060                numToChar
+                0x0000210c                main
+ .text          0x00002308        0xc obj/default/matrix_mul_ip_core_s_int_g.o
+                0x00002308                selfTest
+ .text          0x00002314      0x14c c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+                0x00002390                __divsi3
+                0x000023f0                __modsi3
+                0x00002450                __udivsi3
+                0x00002458                __umodsi3
+ .text          0x00002460       0x38 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+                0x00002460                __mulsi3
+ .text          0x00002498       0x8c ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+                0x000024b8                alt_load
+ .text          0x00002524       0x2c ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+                0x00002524                alt_main
+ .text          0x00002550      0x144 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+                0x00002550                alt_printf
+ .text          0x00002694       0x50 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+                0x00002694                alt_putchar
+ .text          0x000026e4       0x24 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+                0x000026e4                alt_sys_init
+                0x000026e8                alt_irq_init
+ .text          0x00002708       0x34 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+                0x00002708                altera_avalon_jtag_uart_write
+ .text          0x0000273c        0x4 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+                0x0000273c                alt_dcache_flush_all
+ .text          0x00002740        0x4 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+                0x00002740                alt_icache_flush_all
+ .text          0x00002744        0x8 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+                0x00002744                altera_nios2_qsys_irq_init
+ *(.gnu.warning.*)
+ *(.fini)
+                0x0000274c                PROVIDE (__etext, ABSOLUTE (.))
+                0x0000274c                PROVIDE (_etext, ABSOLUTE (.))
+                0x0000274c                PROVIDE (etext, ABSOLUTE (.))
+ *(.eh_frame_hdr)
+                0x0000274c                . = ALIGN (0x4)
+                0x0000274c                PROVIDE (__preinit_array_start, ABSOLUTE (.))
+ *(.preinit_array)
+                0x0000274c                PROVIDE (__preinit_array_end, ABSOLUTE (.))
+                0x0000274c                PROVIDE (__init_array_start, ABSOLUTE (.))
+ *(.init_array)
+                0x0000274c                PROVIDE (__init_array_end, ABSOLUTE (.))
+                0x0000274c                PROVIDE (__fini_array_start, ABSOLUTE (.))
+ *(.fini_array)
+                0x0000274c                PROVIDE (__fini_array_end, ABSOLUTE (.))
+ *(.eh_frame)
+ *(.gcc_except_table)
+ *(.dynamic)
+                0x0000274c                PROVIDE (__CTOR_LIST__, ABSOLUTE (.))
+ *(.ctors)
+ *(SORT(.ctors.*))
+                0x0000274c                PROVIDE (__CTOR_END__, ABSOLUTE (.))
+                0x0000274c                PROVIDE (__DTOR_LIST__, ABSOLUTE (.))
+ *(.dtors)
+ *(SORT(.dtors.*))
+                0x0000274c                PROVIDE (__DTOR_END__, ABSOLUTE (.))
+ *(.jcr)
+                0x0000274c                . = ALIGN (0x4)
+
+.rodata         0x0000274c       0x1c
+                0x0000274c                PROVIDE (__ram_rodata_start, ABSOLUTE (.))
+                0x0000274c                . = ALIGN (0x4)
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.4
+                0x0000274c       0x1c obj/default/hello_world_small.o
+ *(.rodata1)
+                0x00002768                . = ALIGN (0x4)
+                0x00002768                PROVIDE (__ram_rodata_end, ABSOLUTE (.))
+                0x0000274c                PROVIDE (__flash_rodata_start, LOADADDR (.rodata))
+
+.rwdata         0x00002768       0x1c load address 0x00002784
+                0x00002768                PROVIDE (__ram_rwdata_start, ABSOLUTE (.))
+                0x00002768                . = ALIGN (0x4)
+ *(.got.plt)
+ *(.got)
+ *(.data1)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .data          0x00002768        0x0 obj/default/hello_world_small.o
+ .data          0x00002768        0x0 obj/default/matrix_mul_ip_core_s_int_g.o
+ .data          0x00002768        0x0 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .data          0x00002768        0x0 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .data          0x00002768        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+                0x0000a768                _gp = ABSOLUTE ((. + 0x8000))
+                0x0000a768                PROVIDE (gp, _gp)
+ *(.rwdata .rwdata.*)
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+ .sdata         0x00002768        0x4 obj/default/hello_world_small.o
+                0x00002768                temp
+ .sdata         0x0000276c       0x14 obj/default/matrix_mul_ip_core_s_int_g.o
+                0x0000276c                IP_CORE
+                0x00002770                r_CONFIG
+                0x00002774                r_STATUS
+                0x00002778                r_DIN
+                0x0000277c                r_DOUT
+ .sdata         0x00002780        0x4 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+                0x00002780                jtag_uart_0
+ *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
+                0x00002784                . = ALIGN (0x4)
+                0x00002784                _edata = ABSOLUTE (.)
+                0x00002784                PROVIDE (edata, ABSOLUTE (.))
+                0x00002784                PROVIDE (__ram_rwdata_end, ABSOLUTE (.))
+                0x00002784                PROVIDE (__flash_rwdata_start, LOADADDR (.rwdata))
+
+.bss            0x000027a0       0xa0
+                0x000027a0                __bss_start = ABSOLUTE (.)
+                0x000027a0                PROVIDE (__sbss_start, ABSOLUTE (.))
+                0x000027a0                PROVIDE (___sbss_start, ABSOLUTE (.))
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ .sbss          0x000027a0        0x8 obj/default/hello_world_small.o
+                0x000027a0                status
+                0x000027a4                config
+ .sbss          0x000027a8        0xc ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+                0x000027a8                alt_argc
+                0x000027ac                alt_argv
+                0x000027b0                alt_envp
+ *(.sbss2 .sbss2.* .gnu.linkonce.sb2.*)
+ *(.scommon)
+                0x000027b4                PROVIDE (__sbss_end, ABSOLUTE (.))
+                0x000027b4                PROVIDE (___sbss_end, ABSOLUTE (.))
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x000027b4        0x0 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .bss           0x000027b4        0xa obj/default/hello_world_small.o
+ .bss           0x000027be        0x0 obj/default/matrix_mul_ip_core_s_int_g.o
+ .bss           0x000027be        0x0 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .bss           0x000027be        0x0 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .bss           0x000027be        0x0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+ *(COMMON)
+ *fill*         0x000027be        0x2 00
+ COMMON         0x000027c0       0x80 obj/default/hello_world_small.o
+                0x000027c0                DOUT
+                0x00002800                DIN
+                0x00002840                . = ALIGN (0x4)
+                0x00002840                __bss_end = ABSOLUTE (.)
+
+.onchip_memory2_0
+                0x00002840        0x0
+                0x00002840                PROVIDE (_alt_partition_onchip_memory2_0_start, ABSOLUTE (.))
+ *(.onchip_memory2_0. onchip_memory2_0.*)
+                0x00002840                . = ALIGN (0x4)
+                0x00002840                PROVIDE (_alt_partition_onchip_memory2_0_end, ABSOLUTE (.))
+                0x00002840                _end = ABSOLUTE (.)
+                0x00002840                end = ABSOLUTE (.)
+                0x00002840                __alt_stack_base = ABSOLUTE (.)
+                0x00002840                PROVIDE (_alt_partition_onchip_memory2_0_load_addr, LOADADDR (.onchip_memory2_0))
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x26
+ *(.comment)
+ .comment       0x00000000       0x26 obj/default/hello_world_small.o
+                                 0x27 (size before relaxing)
+ .comment       0x00000000       0x27 obj/default/matrix_mul_ip_core_s_int_g.o
+ .comment       0x00000000       0x27 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .comment       0x00000000       0x27 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .comment       0x00000000       0x27 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x1c8
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x28 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .debug_aranges
+                0x00000028       0x20 obj/default/hello_world_small.o
+ .debug_aranges
+                0x00000048       0x20 obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_aranges
+                0x00000068       0x20 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_aranges
+                0x00000088       0x20 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_aranges
+                0x000000a8       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_aranges
+                0x000000c8       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_aranges
+                0x000000e8       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_aranges
+                0x00000108       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_aranges
+                0x00000128       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_aranges
+                0x00000148       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_aranges
+                0x00000168       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_aranges
+                0x00000188       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_aranges
+                0x000001a8       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_pubnames
+                0x00000000      0x2cb
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x63 obj/default/hello_world_small.o
+ .debug_pubnames
+                0x00000063       0x5a obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_pubnames
+                0x000000bd       0x48 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_pubnames
+                0x00000105       0x1f c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_pubnames
+                0x00000124       0x1f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_pubnames
+                0x00000143       0x46 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_pubnames
+                0x00000189       0x21 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_pubnames
+                0x000001aa       0x22 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_pubnames
+                0x000001cc       0x44 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_pubnames
+                0x00000210       0x34 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_pubnames
+                0x00000244       0x2b ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_pubnames
+                0x0000026f       0x2b ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_pubnames
+                0x0000029a       0x31 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_info     0x00000000     0x1114
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000       0xb2 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .debug_info    0x000000b2      0x1cc obj/default/hello_world_small.o
+ .debug_info    0x0000027e      0x217 obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_info    0x00000495      0x21c c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_info    0x000006b1       0xf3 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_info    0x000007a4      0x12e ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_info    0x000008d2      0x14f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_info    0x00000a21      0x11d ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_info    0x00000b3e       0xc5 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_info    0x00000c03      0x197 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_info    0x00000d9a      0x1a9 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_info    0x00000f43       0x8d ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_info    0x00000fd0       0x8d ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_info    0x0000105d       0xb7 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_abbrev   0x00000000      0x888
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0x12 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .debug_abbrev  0x00000012      0x106 obj/default/hello_world_small.o
+ .debug_abbrev  0x00000118       0xda obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_abbrev  0x000001f2       0xe0 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_abbrev  0x000002d2       0x7b c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_abbrev  0x0000034d       0x97 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_abbrev  0x000003e4       0xad ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_abbrev  0x00000491       0xc7 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_abbrev  0x00000558       0x7b ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_abbrev  0x000005d3       0xe3 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_abbrev  0x000006b6       0xf0 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_abbrev  0x000007a6       0x3f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_abbrev  0x000007e5       0x3f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_abbrev  0x00000824       0x64 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_line     0x00000000     0x1b24
+ *(.debug_line)
+ .debug_line    0x00000000       0x66 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+ .debug_line    0x00000066      0x2be obj/default/hello_world_small.o
+ .debug_line    0x00000324       0xcd obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_line    0x000003f1      0x24f c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_line    0x00000640      0x11a c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_line    0x0000075a      0x217 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_line    0x00000971      0x2d6 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_line    0x00000c47      0x1f2 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_line    0x00000e39      0x1f2 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_line    0x0000102b      0x29d ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_line    0x000012c8      0x30b ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_line    0x000015d3      0x1b5 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_line    0x00001788      0x1b5 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_line    0x0000193d      0x1e7 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_frame    0x00000000      0x27c
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x5c obj/default/hello_world_small.o
+ .debug_frame   0x0000005c       0x20 obj/default/matrix_mul_ip_core_s_int_g.o
+ .debug_frame   0x0000007c       0x70 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_frame   0x000000ec       0x20 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_frame   0x0000010c       0x38 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_frame   0x00000144       0x28 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_frame   0x0000016c       0x2c ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_frame   0x00000198       0x2c ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_frame   0x000001c4       0x38 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_frame   0x000001fc       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_frame   0x0000021c       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_frame   0x0000023c       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_frame   0x0000025c       0x20 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+
+.debug_str      0x00000000      0x736
+ *(.debug_str)
+ .debug_str     0x00000000      0x12d obj/default/hello_world_small.o
+                                0x163 (size before relaxing)
+ .debug_str     0x0000012d       0xad obj/default/matrix_mul_ip_core_s_int_g.o
+                                0x1cc (size before relaxing)
+ .debug_str     0x000001da      0x10b c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+                                0x1b4 (size before relaxing)
+ .debug_str     0x000002e5       0x37 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+                                0x175 (size before relaxing)
+ .debug_str     0x0000031c      0x172 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+                                0x207 (size before relaxing)
+ .debug_str     0x0000048e       0x96 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+                                0x1b4 (size before relaxing)
+ .debug_str     0x00000524       0x46 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+                                 0xf2 (size before relaxing)
+ .debug_str     0x0000056a       0x4e ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+                                0x164 (size before relaxing)
+ .debug_str     0x000005b8       0x85 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+                                0x221 (size before relaxing)
+ .debug_str     0x0000063d       0x56 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+                                0x224 (size before relaxing)
+ .debug_str     0x00000693       0x34 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_dcache_flush_all.o)
+                                0x14a (size before relaxing)
+ .debug_str     0x000006c7       0x34 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_icache_flush_all.o)
+                                0x14a (size before relaxing)
+ .debug_str     0x000006fb       0x3b ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_nios2_qsys_irq.o)
+                                0x17a (size before relaxing)
+
+.debug_loc      0x00000000      0x592
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x129 obj/default/hello_world_small.o
+ .debug_loc     0x00000129      0x1d2 c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-divmod.o)
+ .debug_loc     0x000002fb       0x4f c:/altera/13.0sp1/nios2eds/bin/gnu/h-i686-mingw32/bin/../lib/gcc/nios2-elf/4.1.2/mno-hw-mul\libgcc.a(lib2-mul.o)
+ .debug_loc     0x0000034a       0x1f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_load.o)
+ .debug_loc     0x00000369       0x1f ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_main.o)
+ .debug_loc     0x00000388      0x175 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_printf.o)
+ .debug_loc     0x000004fd       0x3d ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_putchar.o)
+ .debug_loc     0x0000053a       0x32 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(alt_sys_init.o)
+ .debug_loc     0x0000056c       0x26 ../matrix_mul_ip_core_s_int_g_bsp/\libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_alt_sim_info
+                0x00000000       0x10
+ *(.debug_alt_sim_info)
+ .debug_alt_sim_info
+                0x00000000       0x10 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o
+                0x00003000                __alt_data_end = 0x3000
+                0x00003000                PROVIDE (__alt_stack_pointer, __alt_data_end)
+                0x00002840                PROVIDE (__alt_stack_limit, __alt_stack_base)
+                0x00002840                PROVIDE (__alt_heap_start, end)
+                0x00003000                PROVIDE (__alt_heap_limit, 0x3000)
+OUTPUT(matrix_mul_ip_core_s_int_g.elf elf32-littlenios2)
+
+.debug_ranges   0x00000000       0x20
+ .debug_ranges  0x00000000       0x20 ../matrix_mul_ip_core_s_int_g_bsp//obj/HAL/src/crt0.o

@@ -1,0 +1,6 @@
+20:07:23 **** Build of project hello_world_bsp ****
+make -k all 
+'Finished building libraries'
+
+20:07:23 Build Finished (took 188ms)
+

@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<Runs Version="1" Minor="0">
-	<Run Id="BRAM18x1k_synth_1" LaunchDir="/home/tsotne/git/ETSE_GDSP/project/vivado/s_int/s_int.runs/BRAM18x1k_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
-</Runs>
-

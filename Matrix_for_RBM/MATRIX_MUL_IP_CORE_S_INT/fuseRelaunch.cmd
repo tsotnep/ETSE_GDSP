@@ -1,1 +1,0 @@
--intstyle "ise" -incremental -lib "secureip" -o "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_isim_beh.exe" -prj "/home/tsotne/git/ETSE_GDSP/Matrix_for_RBM/MATRIX_MUL_IP_CORE_S_INT/TB_MATRIX_MUL_IP_CORE_S_INT_beh.prj" "work.TB_MATRIX_MUL_IP_CORE_S_INT" 

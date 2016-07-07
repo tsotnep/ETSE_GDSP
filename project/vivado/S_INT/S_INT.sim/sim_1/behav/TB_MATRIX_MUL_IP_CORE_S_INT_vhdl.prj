@@ -1,0 +1,21 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../../../../src/lib/txt_util.vhd"
+vhdl xil_defaultlib  "../../../../../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd"
+vhdl blk_mem_gen_v8_2  "../../../../../../src/ip/vivado/BRAM18x1k/blk_mem_gen_v8_2/simulation/blk_mem_gen_v8_2.vhd"
+vhdl xil_defaultlib  "../../../../../../src/ip/vivado/BRAM18x1k/sim/BRAM18x1k.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/CONTROL_UNIT_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/BRAM_WRAPPER_V2.vhd"
+vhdl xbip_dsp48_wrapper_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_dsp48_wrapper_v3_0/hdl/xbip_dsp48_wrapper_v3_0_vh_rfs.vhd"
+vhdl xbip_utils_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_utils_v3_0/hdl/xbip_utils_v3_0_vh_rfs.vhd"
+vhdl xbip_pipe_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0_vh_rfs.vhd"
+vhdl xbip_pipe_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_pipe_v3_0/hdl/xbip_pipe_v3_0.vhd"
+vhdl xbip_dsp48_macro_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0_vh_rfs.vhd"
+vhdl xbip_dsp48_macro_v3_0  "../../../../../../src/ip/vivado/DSP_INPUT_C/xbip_dsp48_macro_v3_0/hdl/xbip_dsp48_macro_v3_0.vhd"
+vhdl xil_defaultlib  "../../../../../../src/ip/vivado/DSP_INPUT_C/sim/DSP_INPUT_C.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/STANDARD_RAM.vhd"
+vhdl xil_defaultlib  "../../../../../../src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd"
+vhdl xil_defaultlib  "../../../../../../src/hdl/MATRIX_MUL_IP_CORE_S_INT.vhd"
+vhdl xil_defaultlib  "../../../../../../src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.vhd"
+
+# Do not sort compile order
+nosort

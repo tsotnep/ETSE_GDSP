@@ -7,9 +7,9 @@ USE ieee.numeric_std.ALL;
 package MATRIX_MUL_IP_CORE_LIBRARY_Syn is
 
 --------------------------------CONSTANTS GENERICS--------------------------------------------------
-CONSTANT COLUMN_TOTAL	: integer:=3;
+CONSTANT COLUMN_TOTAL	: integer:=4;
 CONSTANT ADDR_WIDTH		: integer:=10;
-CONSTANT DATA_WIDTH		:integer:=18;
+CONSTANT DATA_WIDTH		: integer:=18;
 CONSTANT DATA_WIDE_WIDTH: integer:=48;
 CONSTANT OPCODE_WIDTH	: integer:=3;
 -----------------------------END OF GENERIC CONSTANTS-------------------------------------------------

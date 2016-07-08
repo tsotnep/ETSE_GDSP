@@ -22,14 +22,15 @@ set_property target_language VHDL [current_project]
 #update sources
     update_compile_order -fileset sources_1
 
-#launch vivado GUI
-    start_gui
-
 #set MATRIX_MUL_IP_CORE_S_INT as top module
     set_property top MATRIX_MUL_IP_CORE_S_INT [current_fileset]
 
+    #launch vivado GUI
+    #start_gui
+
 #launch simulatino
-    launch_simulation
+    #launch_simulation
+    #run 7000 ns
 
 #open waveform
-    open_wave_config {/home/tsotne/git/ETSE_GDSP/src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.wcfg}
+    #open_wave_config {/home/tsotne/git/ETSE_GDSP/src/tb/TB_MATRIX_MUL_IP_CORE_S_INT.wcfg}

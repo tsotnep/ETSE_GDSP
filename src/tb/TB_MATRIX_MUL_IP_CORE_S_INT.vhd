@@ -9,14 +9,14 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY_Sim.all;
 use work.MATRIX_MUL_IP_CORE_LIBRARY_Syn.all;
 
 ENTITY TB_MATRIX_MUL_IP_CORE_S_INT IS
-generic(
-		COLUMN_TOTAL: integer:=4;
-      ADDR_WIDTH: integer:=10;
-      DATA_WIDTH:integer:=18;
-		DATA_WIDE_WIDTH: integer:=48;
-		OPCODE_WIDTH: integer:=3
-   );
-
+--they are declared in MATRIX_MUL_IP_CORE_LIBRARY_Syn
+-- generic(
+--     COLUMN_TOTAL : integer:=4;
+--     DATA_WIDTH : integer:=18;
+--     ADDR_WIDTH : integer:=10;
+--     DATA_WIDE_WIDTH : integer:=48;
+--     OPCODE_WIDTH : integer:=3
+--    );
 END TB_MATRIX_MUL_IP_CORE_S_INT;
 
 ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS

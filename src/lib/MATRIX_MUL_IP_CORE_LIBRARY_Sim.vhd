@@ -7,14 +7,22 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY_Syn.all;
 
 package MATRIX_MUL_IP_CORE_LIBRARY_Sim is
 
+--------------GENERICS START
+--Input Files
+constant fileGdata                          : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
+constant filePdata                          : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/matlab/p/" & str(COLUMN_TOTAL) & ".txt";
+
+--Output Files
+constant fileMATRIX_MUL_IP_CORE_S_INT       : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/results/r/" & str(COLUMN_TOTAL) & ".txt";
+constant fileMATRIX_MUL_IP_CORE_S_INT_CSV   : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & str(COLUMN_TOTAL) & ".txt";
+--------------GENERICS END
+
+
 constant msg1 : string(positive range<>):="############# These are the values saved in BRAM ##############";
 constant msg2 : string(positive range<>):="#################################################";
 constant msg3 : string(positive range<>):="---------------BEGINNING OF SECTION (See end of Section for details)---------------";
 constant msg4 : string(positive range<>):=" ";
 
-constant fileMATRIX_MUL_IP_CORE_S_INT : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/MATRIX_MUL_IP_CORE_S_INT.txt";
-constant fileGdata : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/Gdata.txt";
-constant filePdata : string(positive range<>):="/home/tsotne/git/ETSE_GDSP/src/io/Pdata.txt";
 
 --------------------------------END OF GLOBAL SIGNALS--------------------------------------
 
@@ -33,7 +41,7 @@ procedure PrintResultToConsole is
 file  Result_file_pointer: Text;
 variable line_num: line;
 begin
-				file_open(Result_file_pointer,"../../TestingFiles/MATRIX_MUL_IP_CORE_S_INT.txt",READ_MODE);
+				file_open(Result_file_pointer,fileMATRIX_MUL_IP_CORE_S_INT,READ_MODE);
 			while not endfile(Result_file_pointer) loop
 				Readline(Result_file_pointer,line_num);
 				--wait for clk_period;
@@ -50,8 +58,8 @@ file Result_file_pointer, Result_file_pointer2: Text;
 variable line_num_cnt: integer:=0;
 begin
 
-file_open(Result_file_pointer2,"../../TestingFiles/MATRIX_MUL_IP_CORE_S_INT_CSV.txt",WRITE_MODE);
-			file_open(Result_file_pointer,"../../TestingFiles/MATRIX_MUL_IP_CORE_S_INT.txt",READ_MODE);
+            file_open(Result_file_pointer2,fileMATRIX_MUL_IP_CORE_S_INT_CSV,WRITE_MODE);
+			file_open(Result_file_pointer,fileMATRIX_MUL_IP_CORE_S_INT,READ_MODE);
 			line_num_cnt := 0;
 
 			while not endfile(Result_file_pointer) loop

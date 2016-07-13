@@ -1,3 +1,8 @@
 vivado*.log
 vivado*.jou
 webtalk*.*
+src/results/rCSV/*
+src/results/r/*
+src/matlab/r/*
+src/matlab/g/*
+src/matlab/p/*

@@ -29,9 +29,11 @@ readme for dir: ETSE_GDSP/src/tcl
     * source simulate_created_project.tcl
 
 
+
 ## Simulation Times
 
 according to matrix size (rest of the time is for opening and closing vivado tools):
+
 * 3x3   =  5845 ns
 * 4x4   =  7385 ns
 * 5x5   =  9365 ns
@@ -40,3 +42,8 @@ according to matrix size (rest of the time is for opening and closing vivado too
 * 8x8   = 17945 ns
 * 9x9   = 21685 ns
 * 10x10 = 25865 ns
+
+
+## When NOT to worry:
+
+* when running simulation script, it gives you a warning that "close_sim" is not supported in conditional statement, but dont worry, it still works.

@@ -2,13 +2,13 @@ readme for dir: ETSE_GDSP/
 
 ## Readmes in this repo:
 
-* ./Readme.md
-* ./Documentation/README.md
-* ./ip_cores/README.md
-* ./project/README.md
-* ./src/README.md
-* ./src/matlab/README.md
-* ./src/tcl/README.md
+* [./Readme.md](https://github.com/tsotnep/ETSE_GDSP)
+* [./Documentation/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/Documentation)
+* [./ip_cores/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/ip_cores)
+* [./project/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/project)
+* [./src/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src)
+* [./src/matlab/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src/matlab)
+* [./src/tcl/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src/tcl)
 
 
 

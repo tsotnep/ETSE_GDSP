@@ -4,13 +4,12 @@ source ../generics.tcl
 
 #close any project if it's open already
     close_project -quiet
-    close_sim -force -quiet
+    #close_sim -force -quiet
 
 #create new project
     create_project $PROJECTNAME $PROJECTLOCATION -part xc7z020clg484-1 -force
     set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
     set_property target_language VHDL [current_project]
-
 
 #add hdl sources
     add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/CONTROL_UNIT_${PROJECTNAME}.vhd

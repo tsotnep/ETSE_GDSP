@@ -7,7 +7,7 @@ readme for dir: ETSE_GDSP/
 * ./ip_cores/README.md
 * ./project/README.md
 * ./src/README.md
-* ./src/matlab
+* ./src/matlab/README.md
 * ./src/tcl/README.md
 
 
@@ -26,11 +26,8 @@ readme for dir: ETSE_GDSP/
         -tb/ *.vhd and *.wcfg VHDL and Waveform files for simulation
         -tcl/ *.tcl files for TCL scripts
 
-most of the folders have their separate README
 
-
-
-Please note that you should not change any name existing in the project. everything is connected.
+**Please note that you should not change any name existing in the project. everything is connected.**
 
 
 TODO:
@@ -38,3 +35,5 @@ TODO:
     ip_cores/ise        -check
     ip_cores/vivado     -create
     project/ise         -create
+    in src/tcl/vivado/create_new_project.tcl
+    in src/tcl/vivado/tclbatch_for_sim.tcl

@@ -10,10 +10,10 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY_Sim.all;
 
 ENTITY TB_MATRIX_MUL_IP_CORE_S_INT IS
     generic(
-        COLUMN_TOTAL    : integer := 8;
+        COLUMN_TOTAL    : integer := 4;
         ADDR_WIDTH      : integer := 10;
         DATA_WIDTH      : integer := 18;
-        FRACTION_WIDTH  : integer := 12;
+        -- FRACTION_WIDTH  : integer := 12;
         DATA_WIDE_WIDTH : integer := 48;
         OPCODE_WIDTH    : integer := 3
     );
@@ -85,10 +85,7 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
 
     ----------------------------------------------------End of GRAM Signals ------------------------------------------
 
-    type t_BRAM_DATA is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
-    signal BRAM_DATA : t_BRAM_DATA;
 
-    --------------GENERICS START
     --------------PACKAGEDECLARATION
     --Input Files
     constant fileGdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
@@ -115,6 +112,7 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     constant msgp7 : string(positive range <> ) := "RESULT of Pt * Gt";
     constant msgp8 : string(positive range <> ) := "RESULT of [PG]t * Gt";
 
+    signal when_to_stop_simulation_flag : std_logic :='0';
     -------------------------------------------------------Procedures-----------------------------------------------
     procedure PrintResultToConsole is
         file Result_file_pointer : Text;
@@ -163,38 +161,11 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
         file_close(Result_file_pointer2);
         file_close(Result_file_pointer);
     end;
+    ------------------------------------------------------End of Procedures-------------------------------------------
 
-    procedure print_memarray_data_output(Data_input : inout std_logic_vector(DATA_WIDTH - 1 downto 0); clk_period : inout time; stop_signal : inout std_logic) is
-        variable v_i         : integer := 0;
-        variable v_line      : line;
-        variable v_BRAM_DATA : t_BRAM_DATA;
-    begin
-        write(v_line, msg1);
-        writeline(output, v_line);
-        while stop_signal = '0' loop    -- Read out the values stored in BRAM and display on simulator waveform viewer. The values are read out in exactly the way     ey were saved.
-            v_BRAM_DATA(v_i) := Data_input;
-            wait for clk_period;
-            v_i := v_i + 1;
-            if v_i = COLUMN_TOTAL then
-                for k in 0 to COLUMN_TOTAL - 1 loop
-                    if k = 0 then
-                        write(v_line, "          " & str(to_integer(unsigned(v_BRAM_DATA(COLUMN_TOTAL - 1 - k)))) & " ");
-                    else
-                        write(v_line, str(to_integer(unsigned(v_BRAM_DATA(COLUMN_TOTAL - 1 - k)))) & " ");
-                    end if;
-                end loop;
-                writeline(output, v_line);
-                v_i := 0;
-            end if;
-        --wait for CLK_period;
-        end loop;
-        write(v_line, msg2);
-        writeline(output, v_line);
-    end print_memarray_data_output;
-    --------------PACKAGEDECLARATION
-    constant LOAD_P_CMD      : std_logic_vector(1 downto 0) := "01";
-    constant LOAD_G_CMD      : std_logic_vector(1 downto 0) := "00";
-    signal g_cnt_delay_ready : integer                      := 0;
+    type t_BRAM_DATA is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal BRAM_DATA : t_BRAM_DATA;
+
 BEGIN
     Mul_DIN <= DIN when DATA_INPUT = '0' else gDOUT;
 
@@ -205,7 +176,7 @@ BEGIN
             MUL_GROW <= gROW;
         else
             MUL_GCOL <= f_gCOL;
-            MUL_GROW <= f_gROW;         ----STDRM
+            MUL_GROW <= f_gROW;
         end if;
     end process;
 
@@ -238,9 +209,9 @@ BEGIN
 
     GRAM : entity work.STANDARD_RAM
         generic map(
-            COLUMN_TOTAL => COLUMN_TOTAL, -- num columns in ram //4
-            ADDR_WIDTH   => ADDR_WIDTH, -- log2 of rows //10
-            DATA_WIDTH   => DATA_WIDTH  --//18
+            COLUMN_TOTAL => COLUMN_TOTAL, -- num columns in ram
+            ADDR_WIDTH   => ADDR_WIDTH, -- log2 of rows
+            DATA_WIDTH   => DATA_WIDTH  --
         )
         Port map(CLK  => CLK,
                  ROW  => Mul_gROW,
@@ -268,6 +239,7 @@ BEGIN
         variable line_num_cnt    : integer := 0;
         variable c               : character;
         variable is_string       : boolean;
+        --(cmd_G_READ_START,cmd_P_READ_START,cmd_Unload_BRAM_Content,cmd_PG,cmd_PGt,cmd_PtG,cmd_PtGt);
         variable v_delay_latency : integer;
     begin
 
@@ -280,13 +252,10 @@ BEGIN
         wait until LOADING_DONE = '1';
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
-        --file_open(Result_file_pointer,"../TestingFiles/PG_Result.txt",WRITE_MODE);
         sv_Result_File_Open := false;
-        --work.txt_util.
-        write(sv_line, msgp0);
-        --write(sv_line,"INITIAL DATA" );--Data loaded into BRAM. " & str(v_delay_latency) & " clock cycles to load,");
         Bank_sel_in <= '1';             -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        write(sv_line, msgp0);-- & str(v_delay_latency) & " YE");
         wait until UN_LOADING_DONE = '1';
         ------------------------------------------End of Load GRAM and Load BRAM ------------------------------------------------------------------------------------------
 
@@ -302,11 +271,9 @@ BEGIN
         v_delay_latency     := g_cnt_delay_ready; --get the time at which the operation completed
         sv_Result_File_Open := true;
 
-        --work.txt_util.
-        write(sv_line, msgp1);
-        --write(sv_line,"RESULT of P * G");--from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
         Bank_sel_in <= '0';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        write(sv_line, msgp1);
         wait until UN_LOADING_DONE = '1';
 
         CMD <= cmd_dummy;               -- fake command. used to force the simulator to see a change in the process.
@@ -317,11 +284,9 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
 
-        --work.txt_util.
-        write(sv_line, msgp2);
-        --write(sv_line,"RESULT of P G * G");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
-        Bank_sel_in <= '1';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        Bank_sel_in <= '1';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
+        write(sv_line, msgp2);
         wait until UN_LOADING_DONE = '1';
         ----------------------------------------------------------------------End of Comput P * G -----------------------------------------------------------
 
@@ -336,14 +301,6 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
         -------------------------------------------------------------------------------------------------
 
-        --  ------------------------------------------------------------Display Values ---------------------------------------------------------------------------------------
-        --  Bank_sel_in <= '1'; -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
-        --  CMD <= cmd_Unload_BRAM_Content;
-        --  write(sv_line," Data loaded into BRAM. " & str(v_delay_latency) & " clock cycles to load,");
-        --  wait until UN_LOADING_DONE = '1';
-        --    ------------------------------------------End of Display Values ------------------------------------------------------------------------------------------
-
-
         CMD <= cmd_dummy;               -- fake command. This was necessary because the simulator will not respond unless this fake command is used to create an event. I guess it is a bug.
         wait for clk_period;
         CMD         <= cmd_PGt;         --Real Command
@@ -353,11 +310,9 @@ BEGIN
         v_delay_latency     := g_cnt_delay_ready; --get the time at which the operation completed
         sv_Result_File_Open := true;
 
-        --work.txt_util.
-        write(sv_line, msgp3);
-        --write(sv_line,"RESULT of P * Gt");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
         Bank_sel_in <= '0';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        write(sv_line, msgp3);
         wait until UN_LOADING_DONE = '1';
 
         CMD <= cmd_dummy;               -- fake command. used to force the simulator to see a change in the process.
@@ -368,11 +323,9 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
 
-        --work.txt_util.
-        write(sv_line, msgp4);
-        --write(sv_line,"RESULT of PG * Gt");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
-        Bank_sel_in <= '1';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        Bank_sel_in <= '1';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
+        write(sv_line, msgp4);
         wait until UN_LOADING_DONE = '1';
         ----------------------------------------------------------------- End of Comput P * Gt ------------------------------------------------------------------
 
@@ -387,13 +340,6 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
         -------------------------------------------------------------------------------------------------
 
-        --  ------------------------------------------------------------Display Values ---------------------------------------------------------------------------------------
-        --  Bank_sel_in <= '1'; -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
-        --  CMD <= cmd_Unload_BRAM_Content;
-        --  write(sv_line," Data loaded into BRAM. " & str(v_delay_latency) & " clock cycles to load,");
-        --  wait until UN_LOADING_DONE = '1';
-        --    ------------------------------------------End of Display Values ------------------------------------------------------------------------------------------
-
 
         CMD <= cmd_dummy;               -- fake command. This was necessary because the simulator will not respond unless this fake command is used to create an event. I guess it is a bug.
         wait for clk_period;
@@ -404,11 +350,9 @@ BEGIN
         v_delay_latency     := g_cnt_delay_ready; --get the time at which the operation completed
         sv_Result_File_Open := true;
 
-        --work.txt_util.
-        write(sv_line, msgp5);
-        --write(sv_line,"RESULT of Pt * G");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
         Bank_sel_in <= '0';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        write(sv_line, msgp5);
         wait until UN_LOADING_DONE = '1';
 
         CMD <= cmd_dummy;               -- fake command. used to force the simulator to see a change in the process.
@@ -419,11 +363,9 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
 
-        --work.txt_util.
-        write(sv_line, msgp6);
-        --write(sv_line,"RESULT of [PG]t * G");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
-        Bank_sel_in <= '1';             -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        Bank_sel_in <= '1';             -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
+        write(sv_line, msgp6);
         wait until UN_LOADING_DONE = '1';
         ----------------------------------------------------------------- End of Comput Pt * G ------------------------------------------------------------------
 
@@ -438,13 +380,6 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
         -------------------------------------------------------------------------------------------------
 
-        --  ------------------------------------------------------------Display Values ---------------------------------------------------------------------------------------
-        --  Bank_sel_in <= '1'; -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
-        --  CMD <= cmd_Unload_BRAM_Content;
-        --  write(sv_line," Data loaded into BRAM. " & str(v_delay_latency) & " clock cycles to load,");
-        --  wait until UN_LOADING_DONE = '1';
-        --    ------------------------------------------End of Load GRAM and Load BRAM ------------------------------------------------------------------------------------------
-
 
         CMD <= cmd_dummy;               -- fake command. This was necessary because the simulator will not respond unless this fake command is used to create an event. I guess it is a bug.
         wait for clk_period;
@@ -455,11 +390,9 @@ BEGIN
         v_delay_latency     := g_cnt_delay_ready; --get the time at which the operation completed
         sv_Result_File_Open := true;
 
-        --work.txt_util.
-        write(sv_line, msgp7);
-        --write(sv_line,"RESULT of Pt * Gt");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
         Bank_sel_in <= '0';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        write(sv_line, msgp7);
         wait until UN_LOADING_DONE = '1';
 
         CMD <= cmd_dummy;               -- fake command. used to force the simulator to see a change in the process.
@@ -470,18 +403,17 @@ BEGIN
         v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
 
-        --work.txt_util.
-        write(sv_line, msgp8);
-        --write(sv_line,"RESULT of [PG]t * Gt");-- from upper bank of BRAM. " & str(v_delay_latency) & " clock cycles to finish multiplication, ");
-        Bank_sel_in <= '1';             -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD         <= cmd_Unload_BRAM_Content;
+        Bank_sel_in <= '1';             -- Tell BRAM to Read from upper Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
+        write(sv_line, msgp8);
         wait until UN_LOADING_DONE = '1';
         ----------------------------------------------------------------- End of Comput Pt * Gt ------------------------------------------------------------------
 
         wait for clk_period;            -- wait for the all values to be written to file
 
         PrintResultToConsole;           -- Procedure to print the result to console. Read from Result file then print to console.
-    --PrintResultInCSVFormat; -- Procedure to print the result to a file in CSV format.
+        PrintResultInCSVFormat; -- Procedure to print the result to a file in CSV format.
+        wait;
     end process;
 
     Execution_Process : process
@@ -645,4 +577,12 @@ BEGIN
         wait on cmd;
     end process;
 
+    when_to_stop_simulation: process(UN_LOADING_DONE, CLK)
+    begin
+        if rising_edge(CLK) then
+            if UN_LOADING_DONE = '1' and UN_LOADING_DONE'STABLE(1000 ns) then --if this signal is '1' now, and was '1' un
+                when_to_stop_simulation_flag <= '1';
+            end if;
+        end if;
+    end process;
 END;

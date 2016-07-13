@@ -1,10 +1,9 @@
 -- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
--- Date        : Thu Jul  7 13:40:12 2016
+-- Date        : Tue Jul 12 14:11:45 2016
 -- Host        : Tsotne-PC running 64-bit Linux Mint 17.3 Rosa
--- Command     : write_vhdl -force -mode synth_stub
---               /home/tsotne/git/ETSE_GDSP/project/vivado/s_int/s_int.srcs/sources_1/ip/BRAM18x1k/BRAM18x1k_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub /home/tsotne/git/ETSE_GDSP/src/ip/vivado/BRAM18x1k/BRAM18x1k_stub.vhdl
 -- Design      : BRAM18x1k
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg484-1

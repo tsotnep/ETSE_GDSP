@@ -1,10 +1,9 @@
 -- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
--- Date        : Thu Jul  7 13:40:12 2016
+-- Date        : Tue Jul 12 14:11:46 2016
 -- Host        : Tsotne-PC running 64-bit Linux Mint 17.3 Rosa
--- Command     : write_vhdl -force -mode funcsim
---               /home/tsotne/git/ETSE_GDSP/project/vivado/s_int/s_int.srcs/sources_1/ip/BRAM18x1k/BRAM18x1k_funcsim.vhdl
+-- Command     : write_vhdl -force -mode funcsim /home/tsotne/git/ETSE_GDSP/src/ip/vivado/BRAM18x1k/BRAM18x1k_funcsim.vhdl
 -- Design      : BRAM18x1k
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -112,7 +111,7 @@ begin
       INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_A => X"00000",
-      INIT_B => X"00000",
+      INIT_B => X"00001",
       INIT_FILE => "NONE",
       IS_CLKARDCLK_INVERTED => '0',
       IS_CLKBWRCLK_INVERTED => '0',
@@ -131,7 +130,7 @@ begin
       SIM_COLLISION_CHECK => "ALL",
       SIM_DEVICE => "7SERIES",
       SRVAL_A => X"00000",
-      SRVAL_B => X"00000",
+      SRVAL_B => X"00001",
       WRITE_MODE_A => "NO_CHANGE",
       WRITE_MODE_B => "NO_CHANGE",
       WRITE_WIDTH_A => 18,
@@ -473,7 +472,7 @@ entity BRAM18x1k_blk_mem_gen_v8_2 is
   attribute C_INITA_VAL : string;
   attribute C_INITA_VAL of BRAM18x1k_blk_mem_gen_v8_2 : entity is "0";
   attribute C_INITB_VAL : string;
-  attribute C_INITB_VAL of BRAM18x1k_blk_mem_gen_v8_2 : entity is "0";
+  attribute C_INITB_VAL of BRAM18x1k_blk_mem_gen_v8_2 : entity is "1";
   attribute C_INIT_FILE : string;
   attribute C_INIT_FILE of BRAM18x1k_blk_mem_gen_v8_2 : entity is "BRAM18x1k.mem";
   attribute C_INIT_FILE_NAME : string;
@@ -661,7 +660,7 @@ entity BRAM18x1k is
   attribute CHECK_LICENSE_TYPE : string;
   attribute CHECK_LICENSE_TYPE of BRAM18x1k : entity is "BRAM18x1k,blk_mem_gen_v8_2,{}";
   attribute core_generation_info : string;
-  attribute core_generation_info of BRAM18x1k : entity is "BRAM18x1k,blk_mem_gen_v8_2,{x_ipProduct=Vivado 2015.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=blk_mem_gen,x_ipVersion=8.2,x_ipCoreRevision=6,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,C_FAMILY=zynq,C_XDEVICEFAMILY=zynq,C_ELABORATION_DIR=./,C_INTERFACE_TYPE=0,C_AXI_TYPE=1,C_AXI_SLAVE_TYPE=0,C_USE_BRAM_BLOCK=0,C_ENABLE_32BIT_ADDRESS=0,C_CTRL_ECC_ALGO=NONE,C_HAS_AXI_ID=0,C_AXI_ID_WIDTH=4,C_MEM_TYPE=1,C_BYTE_SIZE=9,C_ALGORITHM=1,C_PRIM_TYPE=1,C_LOAD_INIT_FILE=0,C_INIT_FILE_NAME=no_coe_file_loaded,C_INIT_FILE=BRAM18x1k.mem,C_USE_DEFAULT_DATA=0,C_DEFAULT_DATA=0,C_HAS_RSTA=0,C_RST_PRIORITY_A=CE,C_RSTRAM_A=0,C_INITA_VAL=0,C_HAS_ENA=0,C_HAS_REGCEA=0,C_USE_BYTE_WEA=0,C_WEA_WIDTH=1,C_WRITE_MODE_A=NO_CHANGE,C_WRITE_WIDTH_A=18,C_READ_WIDTH_A=18,C_WRITE_DEPTH_A=1024,C_READ_DEPTH_A=1024,C_ADDRA_WIDTH=10,C_HAS_RSTB=1,C_RST_PRIORITY_B=CE,C_RSTRAM_B=1,C_INITB_VAL=0,C_HAS_ENB=0,C_HAS_REGCEB=0,C_USE_BYTE_WEB=0,C_WEB_WIDTH=1,C_WRITE_MODE_B=WRITE_FIRST,C_WRITE_WIDTH_B=18,C_READ_WIDTH_B=18,C_WRITE_DEPTH_B=1024,C_READ_DEPTH_B=1024,C_ADDRB_WIDTH=10,C_HAS_MEM_OUTPUT_REGS_A=0,C_HAS_MEM_OUTPUT_REGS_B=1,C_HAS_MUX_OUTPUT_REGS_A=0,C_HAS_MUX_OUTPUT_REGS_B=0,C_MUX_PIPELINE_STAGES=0,C_HAS_SOFTECC_INPUT_REGS_A=0,C_HAS_SOFTECC_OUTPUT_REGS_B=0,C_USE_SOFTECC=0,C_USE_ECC=0,C_EN_ECC_PIPE=0,C_HAS_INJECTERR=0,C_SIM_COLLISION_CHECK=ALL,C_COMMON_CLK=0,C_DISABLE_WARN_BHV_COLL=0,C_EN_SLEEP_PIN=0,C_USE_URAM=0,C_EN_RDADDRA_CHG=0,C_EN_RDADDRB_CHG=0,C_EN_DEEPSLEEP_PIN=0,C_EN_SHUTDOWN_PIN=0,C_DISABLE_WARN_BHV_RANGE=0,C_COUNT_36K_BRAM=0,C_COUNT_18K_BRAM=1,C_EST_POWER_SUMMARY=Estimated Power for IP     _     2.8093 mW}";
+  attribute core_generation_info of BRAM18x1k : entity is "BRAM18x1k,blk_mem_gen_v8_2,{x_ipProduct=Vivado 2015.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=blk_mem_gen,x_ipVersion=8.2,x_ipCoreRevision=6,x_ipLanguage=VHDL,x_ipSimLanguage=MIXED,C_FAMILY=zynq,C_XDEVICEFAMILY=zynq,C_ELABORATION_DIR=./,C_INTERFACE_TYPE=0,C_AXI_TYPE=1,C_AXI_SLAVE_TYPE=0,C_USE_BRAM_BLOCK=0,C_ENABLE_32BIT_ADDRESS=0,C_CTRL_ECC_ALGO=NONE,C_HAS_AXI_ID=0,C_AXI_ID_WIDTH=4,C_MEM_TYPE=1,C_BYTE_SIZE=9,C_ALGORITHM=1,C_PRIM_TYPE=1,C_LOAD_INIT_FILE=0,C_INIT_FILE_NAME=no_coe_file_loaded,C_INIT_FILE=BRAM18x1k.mem,C_USE_DEFAULT_DATA=0,C_DEFAULT_DATA=0,C_HAS_RSTA=0,C_RST_PRIORITY_A=CE,C_RSTRAM_A=0,C_INITA_VAL=0,C_HAS_ENA=0,C_HAS_REGCEA=0,C_USE_BYTE_WEA=0,C_WEA_WIDTH=1,C_WRITE_MODE_A=NO_CHANGE,C_WRITE_WIDTH_A=18,C_READ_WIDTH_A=18,C_WRITE_DEPTH_A=1024,C_READ_DEPTH_A=1024,C_ADDRA_WIDTH=10,C_HAS_RSTB=1,C_RST_PRIORITY_B=CE,C_RSTRAM_B=1,C_INITB_VAL=1,C_HAS_ENB=0,C_HAS_REGCEB=0,C_USE_BYTE_WEB=0,C_WEB_WIDTH=1,C_WRITE_MODE_B=WRITE_FIRST,C_WRITE_WIDTH_B=18,C_READ_WIDTH_B=18,C_WRITE_DEPTH_B=1024,C_READ_DEPTH_B=1024,C_ADDRB_WIDTH=10,C_HAS_MEM_OUTPUT_REGS_A=0,C_HAS_MEM_OUTPUT_REGS_B=1,C_HAS_MUX_OUTPUT_REGS_A=0,C_HAS_MUX_OUTPUT_REGS_B=0,C_MUX_PIPELINE_STAGES=0,C_HAS_SOFTECC_INPUT_REGS_A=0,C_HAS_SOFTECC_OUTPUT_REGS_B=0,C_USE_SOFTECC=0,C_USE_ECC=0,C_EN_ECC_PIPE=0,C_HAS_INJECTERR=0,C_SIM_COLLISION_CHECK=ALL,C_COMMON_CLK=0,C_DISABLE_WARN_BHV_COLL=0,C_EN_SLEEP_PIN=0,C_USE_URAM=0,C_EN_RDADDRA_CHG=0,C_EN_RDADDRB_CHG=0,C_EN_DEEPSLEEP_PIN=0,C_EN_SHUTDOWN_PIN=0,C_DISABLE_WARN_BHV_RANGE=0,C_COUNT_36K_BRAM=0,C_COUNT_18K_BRAM=1,C_EST_POWER_SUMMARY=Estimated Power for IP     _     2.8093 mW}";
   attribute downgradeipidentifiedwarnings : string;
   attribute downgradeipidentifiedwarnings of BRAM18x1k : entity is "yes";
   attribute x_core_info : string;
@@ -766,7 +765,7 @@ architecture STRUCTURE of BRAM18x1k is
   attribute C_INITA_VAL : string;
   attribute C_INITA_VAL of U0 : label is "0";
   attribute C_INITB_VAL : string;
-  attribute C_INITB_VAL of U0 : label is "0";
+  attribute C_INITB_VAL of U0 : label is "1";
   attribute C_INIT_FILE : string;
   attribute C_INIT_FILE of U0 : label is "BRAM18x1k.mem";
   attribute C_INIT_FILE_NAME : string;

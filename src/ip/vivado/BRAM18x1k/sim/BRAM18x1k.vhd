@@ -261,7 +261,7 @@ BEGIN
       C_HAS_RSTB => 1,
       C_RST_PRIORITY_B => "CE",
       C_RSTRAM_B => 1,
-      C_INITB_VAL => "0",
+      C_INITB_VAL => "1",
       C_HAS_ENB => 0,
       C_HAS_REGCEB => 0,
       C_USE_BYTE_WEB => 0,

@@ -5,6 +5,7 @@ source ../generics.tcl
 #close any project if it's open already
     close_project -quiet
     #close_sim -force -quiet
+    #TODO: investigate what happens if close_sim is commented, takes lots of time, side effects must be observed, baybe none, or maybe it remains in memory?
 
 #create new project
     create_project $PROJECTNAME $PROJECTLOCATION -part xc7z020clg484-1 -force

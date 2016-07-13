@@ -12,7 +12,7 @@
     set m 3
 
 #ending size of the column of the matrix, for simulation
-    set M 10
+    set M 4
 
 
 

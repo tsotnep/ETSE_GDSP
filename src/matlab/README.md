@@ -7,4 +7,4 @@ readme for dir: ETSE_GDSP/src/matlab
 * source the matlab/octave file by:
     * octave -p range_matrix_mult.m
 * specify in which ranges we want results, specify starting and ending size of matrix column and generate input outputs by:
-    *range_matrix_mult(3,10)
+    *range_matrix_mult(3,4)

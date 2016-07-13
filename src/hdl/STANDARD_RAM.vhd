@@ -24,8 +24,8 @@ end STANDARD_RAM;
 
 architecture Behavioral of STANDARD_RAM is
 --type column is array (0 to 2**ADDR_WIDTH) of std_logic_vector (DATA_WIDTH-1 downto 0);
-type column is array (0 to COLUMN_TOTAL) of std_logic_vector (DATA_WIDTH-1 downto 0);
-type ram is array (0 to COLUMN_TOTAL) of column;
+type column is array (0 to COLUMN_TOTAL-1) of std_logic_vector (DATA_WIDTH-1 downto 0);
+type ram is array (0 to COLUMN_TOTAL-1) of column;
 signal datamem: ram;
 signal i_DOUT,ii_DOUT:std_logic_vector (DATA_WIDTH-1 downto 0);
 begin

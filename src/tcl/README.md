@@ -12,7 +12,7 @@ readme for dir: ETSE_GDSP/src/tcl
 * vivado/:
     * create_new_project.tcl    -this script creates new project with a name specified in generics.tcl into a folder: ETSE_GDSP/project/vivado/$PROJECTNAME, adds sources to it and creates *.prj file, that is used in simulate_created_project.tcl file
     * simulate_created_project.tcl  -this script automatically simulates the design with a variable number of times that is specified in generics.tcl
-    * ip_creation_script.tcl    -in case you want to change DSP and BRAM configuration, then you can use this script as helper. currently those xilinx IPs are already generated and added to the repository. this file also uses generics.tcl
+    * ip_creation_script.tcl    -in case you want to change DSP and BRAM configuration, then you can use this script as helper. currently those xilinx IPs are already generated and added to the repository. this file also uses generics.tcl P.S. I could have included that into create_new_project.tcl but generation takes time, so I prefered to have generated xilinx IP cores in repo.
 
 
 ## How to Run:

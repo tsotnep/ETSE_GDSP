@@ -1,0 +1,54 @@
+
+0         0         3         
+1         1         5         
+0         0         7         
+INITIAL DATA
+ 
+
+9         7         7         
+0         0         5         
+9         7         7         
+RESULT of P * G
+ 
+
+9         7         11        
+0         0         5         
+9         7         7         
+RESULT of P G * G
+ 
+
+9         7         7         
+0         0         5         
+9         7         7         
+RESULT of P * Gt
+ 
+
+9         7         11        
+0         0         5         
+9         7         7         
+RESULT of PG * Gt
+ 
+
+3         5         9         
+0         0         5         
+2         4         3         
+RESULT of Pt * G
+ 
+
+9         5         7         
+0         0         5         
+4         2         9         
+RESULT of [PG]t * G
+ 
+
+17        17        7         
+0         0         7         
+20        20        3         
+RESULT of Pt * Gt
+ 
+
+13        13        3         
+0         0         12        
+24        24        7         
+RESULT of [PG]t * Gt
+ 

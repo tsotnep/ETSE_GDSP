@@ -26,6 +26,12 @@ source ../generics.tcl
         CONFIG.creg_3 {true}
         CONFIG.creg_4 {true}
         CONFIG.creg_5 {true}
+        CONFIG.pipeline_options {Expert}
+        CONFIG.creg_1 {false}
+        CONFIG.creg_2 {false}
+        CONFIG.creg_3 {false}
+        CONFIG.creg_4 {false}
+        CONFIG.creg_5 {false}
         CONFIG.opreg_1 {true}
         CONFIG.opreg_2 {true}
         CONFIG.opreg_3 {true}

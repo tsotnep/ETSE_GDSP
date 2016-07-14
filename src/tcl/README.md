@@ -32,16 +32,21 @@ readme for dir: ETSE_GDSP/src/tcl
 
 ## Simulation Times
 
-according to matrix size (rest of the time is for opening and closing vivado tools):
+* 3x3   =    5845 ns
+* 4x4   =    7385 ns
+* 5x5   =    9365 ns
+* 6x6   =   11785 ns
+* 7x7   =   14645 ns
+* 8x8   =   17945 ns
+* 9x9   =   21685 ns
+* 10x10 =   25865 ns
+* 99x99 = 2160085 ns
 
-* 3x3   =  5845 ns
-* 4x4   =  7385 ns
-* 5x5   =  9365 ns
-* 6x6   = 11785 ns
-* 7x7   = 14645 ns
-* 8x8   = 17945 ns
-* 9x9   = 21685 ns
-* 10x10 = 25865 ns
+
+## Real Data on Simulation, according to matrix size:
+* 99x99
+    * run:  Time (s): cpu = 00:00:10 ; elapsed = 00:33:16 . Memory (MB): peak = 1125.539 ; gain = 0.000 ; free physical = 1329 ; free virtual = 11042
+    * xsim: Time (s): cpu = 00:00:10 ; elapsed = 00:33:17 . Memory (MB): peak = 1125.539 ; gain = 49.465 ; free physical = 1329 ; free virtual = 11042
 
 
 ## When NOT to worry:

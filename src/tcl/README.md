@@ -40,6 +40,7 @@ readme for dir: ETSE_GDSP/src/tcl
 * 8x8   =   17945 ns
 * 9x9   =   21685 ns
 * 10x10 =   25865 ns
+* 50x50 =  553865 ns
 * 99x99 = 2160085 ns
 
 
@@ -47,6 +48,10 @@ readme for dir: ETSE_GDSP/src/tcl
 * 99x99
     * run:  Time (s): cpu = 00:00:10 ; elapsed = 00:33:16 . Memory (MB): peak = 1125.539 ; gain = 0.000 ; free physical = 1329 ; free virtual = 11042
     * xsim: Time (s): cpu = 00:00:10 ; elapsed = 00:33:17 . Memory (MB): peak = 1125.539 ; gain = 49.465 ; free physical = 1329 ; free virtual = 11042
+
+* 3x3 : 50x50 (p.s. here, it actually took 106 minutes)
+    * run: Time (s): cpu = 00:00:06 ; elapsed = 00:04:06 . Memory (MB): peak = 3411.359 ; gain = 0.000 ; free physical = 315 ; free virtual = 8319
+    * xsim: Time (s): cpu = 00:00:06 ; elapsed = 00:04:07 . Memory (MB): peak = 3411.359 ; gain = 47.219 ; free physical = 315 ; free virtual = 8319
 
 
 ## When NOT to worry:

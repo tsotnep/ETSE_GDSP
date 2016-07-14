@@ -12,6 +12,7 @@ project/vivado/*
 !README.md
 
 *octave-workspace*
+project/vivado/S_INT/*
 
 #src/results/rCSV/*
 #!src/results/rCSV/3.txt

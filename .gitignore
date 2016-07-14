@@ -6,13 +6,13 @@
 project/ise/*
 !project/ise/.gitignore
 
-#project/vivado/*
-#!project/vivado/.gitignore
+./project/vivado/*
+./project/vivado/S_INT/*
+!./project/vivado/.gitignore
 
 !README.md
 
 *octave-workspace*
-*project/vivado/S_INT/*
 
 #src/results/rCSV/*
 #!src/results/rCSV/3.txt

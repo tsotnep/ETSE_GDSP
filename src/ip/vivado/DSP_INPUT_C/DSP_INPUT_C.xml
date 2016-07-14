@@ -1052,7 +1052,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1068,7 +1068,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:21 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1096,7 +1096,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1112,7 +1112,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1130,7 +1130,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1146,7 +1146,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1165,7 +1165,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1181,7 +1181,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1209,7 +1209,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>edd49316</spirit:value>
+            <spirit:value>565d9c4d</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1225,7 +1225,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1244,7 +1244,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>edd49316</spirit:value>
+            <spirit:value>565d9c4d</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1260,7 +1260,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1278,7 +1278,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -1294,7 +1294,7 @@
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Thu Jul 07 09:23:24 UTC 2016</spirit:value>
+            <spirit:value>Thu Jul 14 09:21:10 UTC 2016</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>StaleAtRelink</spirit:name>
@@ -1312,7 +1312,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>customizationCRC</spirit:name>
-            <spirit:value>912aff4e</spirit:value>
+            <spirit:value>6b1f0950</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>customizationCRCversion</spirit:name>
@@ -3021,7 +3021,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_LATENCY</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">-1</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">128</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="string">
         <spirit:name>C_OPMODES</spirit:name>
@@ -3029,7 +3029,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="string">
         <spirit:name>C_REG_CONFIG</spirit:name>
-        <spirit:value spirit:format="string" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_REG_CONFIG">11100111100111100111100111100100</spirit:value>
+        <spirit:value spirit:format="string" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_REG_CONFIG">11000111000111000111000101100100</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_TEST_CORE</spirit:name>
@@ -28849,7 +28849,7 @@
     <spirit:parameter>
       <spirit:name>pipeline_options</spirit:name>
       <spirit:displayName>Pipeline Options</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.pipeline_options" spirit:choiceRef="choices_9" spirit:order="13">Automatic</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.pipeline_options" spirit:choiceRef="choices_9" spirit:order="13">Expert</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>tier_1</spirit:name>
@@ -28921,23 +28921,23 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>creg_1</spirit:name>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_1" spirit:order="31">true</spirit:value>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_1" spirit:order="31">false</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>creg_2</spirit:name>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_2" spirit:order="32">true</spirit:value>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_2" spirit:order="32">false</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>creg_3</spirit:name>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_3" spirit:order="33">true</spirit:value>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_3" spirit:order="33">false</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>creg_4</spirit:name>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_4" spirit:order="34">true</spirit:value>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_4" spirit:order="34">false</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>creg_5</spirit:name>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_5" spirit:order="35">true</spirit:value>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.creg_5" spirit:order="35">false</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>concatreg_3</spirit:name>
@@ -29242,6 +29242,7 @@
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.p_full_width" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.p_width" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.p_binarywidth" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.pipeline_options" xilinx:valueSource="user"/>
       </xilinx:configElementInfos>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

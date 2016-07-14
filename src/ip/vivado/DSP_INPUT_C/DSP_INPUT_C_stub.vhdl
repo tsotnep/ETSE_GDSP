@@ -1,10 +1,10 @@
 -- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
--- Date        : Thu Jul  7 13:26:10 2016
+-- Date        : Thu Jul 14 13:23:56 2016
 -- Host        : Tsotne-PC running 64-bit Linux Mint 17.3 Rosa
 -- Command     : write_vhdl -force -mode synth_stub
---               /home/tsotne/git/ETSE_GDSP/project/vivado/s_int/s_int.srcs/sources_1/ip/DSP_INPUT_C/DSP_INPUT_C_stub.vhdl
+--               /home/tsotne/git/ETSE_GDSP/src/ip/vivado/DSP_INPUT_C/DSP_INPUT_C_stub.vhdl
 -- Design      : DSP_INPUT_C
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg484-1

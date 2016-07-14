@@ -1,27 +1,7 @@
 
-vivado*.log
-vivado*.jou
-webtalk*.*
-
-src/results/rCSV/*
-!src/results/rCSV/3.txt
-!src/results/rCSV/4.txt
-
-src/results/r/*
-!src/results/r/3.txt
-!src/results/r/4.txt
-
-src/matlab/r/*
-!src/matlab/r/3.txt
-!src/matlab/r/4.txt
-
-src/matlab/g/*
-!src/matlab/g/3.txt
-!src/matlab/g/4.txt
-
-src/matlab/p/*
-!src/matlab/p/3.txt
-!src/matlab/p/4.txt
+*vivado*.log
+*vivado*.jou
+*webtalk*.*
 
 project/ise/*
 !project/ise/.gitignore
@@ -30,3 +10,25 @@ project/vivado/*
 !project/vivado/.gitignore
 
 !README.md
+
+
+#src/results/rCSV/*
+#!src/results/rCSV/3.txt
+#!src/results/rCSV/4.txt
+#!src/results/rCSV/99.txt
+#src/results/r/*
+#!src/results/r/3.txt
+#!src/results/r/4.txt
+#!src/results/r/99.txt
+#src/matlab/r/*
+#!src/matlab/r/3.txt
+#!src/matlab/r/4.txt
+#!src/matlab/r/99.txt
+#src/matlab/g/*
+#!src/matlab/g/3.txt
+#!src/matlab/g/4.txt
+#!src/matlab/g/99.txt
+#src/matlab/p/*
+#!src/matlab/p/3.txt
+#!src/matlab/p/4.txt
+#!src/matlab/p/99.txt

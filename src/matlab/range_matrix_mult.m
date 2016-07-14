@@ -151,7 +151,7 @@ function [] = WriteMatrixToFileNormal(FileName,M)
     fprintf(fid, '\n');
     x = size(M,1);
     for i=1:x
-        fprintf(fid, '%-10d', M(i,:));
+        fprintf(fid, '%-15d', M(i,:));
         fprintf(fid, '\n');
 
     end

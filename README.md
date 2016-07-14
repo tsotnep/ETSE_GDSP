@@ -32,8 +32,13 @@ readme for dir: ETSE_GDSP/
 
 TODO:
 
+    write script for comparison of results/r/* with matlab/r/*
     ip_cores/ise        -check
     ip_cores/vivado     -create
     project/ise         -create
     in src/tcl/vivado/create_new_project.tcl
     in src/tcl/vivado/tclbatch_for_sim.tcl
+
+DONE:
+    fixed input reading problem in tesbench by modifying DSP, now it works accurately.
+    finished marjor part of scripting, simulation can be done as many times as written in generics.tcl

@@ -6,9 +6,9 @@
 project/ise/*
 !project/ise/.gitignore
 
-./project/vivado/*
-./project/vivado/S_INT/*
-#!./project/vivado/.gitignore
+project/vivado/*
+*project/vivado/S_INT/*
+!project/vivado/.gitignore
 
 !README.md
 

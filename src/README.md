@@ -3,6 +3,7 @@ readme for dir: ETSE_GDSP/src/
 
 ## List of Content
 
+* diff/    -difference between results from Matlab, and results from VHDL simulation
 * hdl/    -folder for source VHDL files used for synthesis
 * io/     -text files that are used as I/O files for simulation.
 * ip/     -xilinx IP cores, BRAM and DSP used in tcl scripts and projects
@@ -14,6 +15,12 @@ readme for dir: ETSE_GDSP/src/
 
 
 ## More Details:
+
+## diff/:
+
+* ./r/  -in this folder, differences of calculations are stored.
+* compare_matlab_vhdl_results.py -script that compares results from matlab (./matlab/r/*.txt) with results from vhdl simulation ()./results/r/*.txt), like that:
+    * abs(matlab[i]) - abs(vhdl[i]) - and then writes in files ./diff/r/*.txt
 
 ## hdl/:
 

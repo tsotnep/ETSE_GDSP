@@ -7,6 +7,7 @@ readme for dir: ETSE_GDSP/
 * [./ip_cores/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/ip_cores)
 * [./project/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/project)
 * [./src/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src)
+* [./src/diff/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src/diff)
 * [./src/matlab/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src/matlab)
 * [./src/tcl/README.md](https://github.com/tsotnep/ETSE_GDSP/tree/master/src/tcl)
 
@@ -31,8 +32,8 @@ readme for dir: ETSE_GDSP/
 
 
 TODO:
-
-    write script for comparison of results/r/* with matlab/r/*
+    nicely print matrix from compare_matlab_vhdl_results.py
+    start working on AXI bus implementation
     ip_cores/ise        -check
     ip_cores/vivado     -create
     project/ise         -create
@@ -40,5 +41,6 @@ TODO:
     in src/tcl/vivado/tclbatch_for_sim.tcl
 
 DONE:
+    write script for comparison of results/r/* with matlab/r/*
     fixed input reading problem in tesbench by modifying DSP, now it works accurately.
     finished marjor part of scripting, simulation can be done as many times as written in generics.tcl

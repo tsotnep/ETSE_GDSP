@@ -17,7 +17,6 @@ end
 
 
 function [] = matrix_multiplier(M)
-    % file_pointer = strcat('result_', int2str(M));
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This session Generates a sqaure matrix of the form 1, 2, 3 . . .to N.
@@ -35,25 +34,13 @@ function [] = matrix_multiplier(M)
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % tmp = CircularizeMatrix(G_M');
-    % dlmwrite(file_pointer,tmp,'-append','delimiter','\t','roffset',1);
-
     tmp = CircularizeMatrix(G_M');
 
-    file_pointer =  strcat('./r/',int2str(M), '.txt');
-    fid = fopen(file_pointer, 'wt'); % Open file and write the original matrix to the file.
-
-    txt=sprintf('Initial Data');
-    dlmwrite(file_pointer, txt,'delimiter', '');
-    % fprintf(fid, 'Initial Data');
-    WriteMatrixToFileNormal(file_pointer,tmp); % note this function will close the file
-
-
+    % write P data
     FileName = strcat('./p/',int2str(M), '.txt');
-
-    %WriteMatrixToFileNormal(FileName, G_M');% Pass the matrix and write it to the file;
     WriteMatrixToFileNewlinePerElement(FileName,'wt',G_M');
 
+    % write G dimensions and its data
     FileName = strcat('./g/',int2str(M), '.txt');
     s_m = size(G_M,1);
     fid = fopen(FileName, 'wt');
@@ -61,6 +48,16 @@ function [] = matrix_multiplier(M)
     fprintf(fid,'%d\n',s_m);
     fclose(fid);
     WriteMatrixToFileNewlinePerElement(FileName,'a',G_M');
+
+    %file pointer of results
+    file_pointer =  strcat('./r/',int2str(M), '.txt');
+    fid = fopen(file_pointer, 'wt'); % Open file and write the original matrix to the file.
+
+
+    WriteMatrixToFileNormal(file_pointer,tmp); % note this function will close the file
+    txt=sprintf('RESULT of Initial Data\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
+
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Transpose the matrix to be in format like
@@ -79,58 +76,58 @@ function [] = matrix_multiplier(M)
     %%%%%%%%%%%%%%%%%%%%% P*G %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Res = G_M * G_M;
     tmp = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of P*G');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,tmp);
+    txt=sprintf('RESULT of P*G\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
     Res = Res * G_M;
     Res = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of PG*G');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,Res);
+    txt=sprintf('RESULT of PG*G\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
 
 
     %%%%%%%%%%%%%%%%%%%%% P*Gt %%%%%%%%%%%%%%%%%%%%%%%%%%%
     Res = G_M * G_M';
     tmp = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of P*Gt');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,tmp);
+    txt=sprintf('RESULT of P*Gt\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
     Res = Res * G_M';
     Res = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of PGt*Gt');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,Res);
+    txt=sprintf('RESULT of PGt*Gt\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
 
     %%%%%%%%%%%%%%%%%%%%% Pt*G %%%%%%%%%%%%%%%%%%%%%%%%%%%
     Res = G_M' * G_M;
     tmp = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of Pt*G');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,tmp);
+    txt=sprintf('RESULT of Pt*G\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
     Res = Res' * G_M;
     Res = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of PtG*G');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,Res);
+    txt=sprintf('RESULT of PtG*G\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
 
     %%%%%%%%%%%%%%%%%%%%% Pt*Gt %%%%%%%%%%%%%%%%%%%%%%%%%%%
     Res = G_M' * G_M';
     tmp = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of Pt*Gt');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,tmp);
+    txt=sprintf('RESULT of Pt*Gt\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
     Res = Res' * G_M';
     Res = CircularizeMatrix(Res);
-    txt=sprintf('RESULT of PtGt*Gt');
-    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',1);
     WriteMatrixToFileNormal(file_pointer,Res);
+    txt=sprintf('RESULT of PtGt*Gt\n');
+    dlmwrite(file_pointer, txt,'-append','delimiter', '','roffset',0);
 
 end
 
@@ -151,7 +148,7 @@ end
 
 function [] = WriteMatrixToFileNormal(FileName,M)
     fid = fopen(FileName, 'a'); % Open for appending.
-    % fprintf(fid, '\n');
+    fprintf(fid, '\n');
     x = size(M,1);
     for i=1:x
         fprintf(fid, '%-10d', M(i,:));

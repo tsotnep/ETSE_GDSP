@@ -1,3 +1,4 @@
+#tested on Xilinx vivado 2015.2, linux
 #this script creates a new project, that later can be used for simulations
 
 source ../generics.tcl

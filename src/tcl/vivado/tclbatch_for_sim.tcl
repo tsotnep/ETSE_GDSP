@@ -1,3 +1,4 @@
+#tested on Xilinx vivado 2015.2, linux
 #this script is executed during simulation, it defines stop statement and exits simulation
 
 #tell simulator when to stop

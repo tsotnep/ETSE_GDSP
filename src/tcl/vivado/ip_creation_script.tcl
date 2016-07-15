@@ -1,3 +1,4 @@
+#tested on Xilinx vivado 2015.2, linux
 #this script can be used to create xilinx IPs of DSP and BRAM
 
 source ../generics.tcl

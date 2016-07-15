@@ -57,3 +57,8 @@ readme for dir: ETSE_GDSP/src/tcl
 ## When NOT to worry:
 
 * when running simulation script, it gives you a warning that "close_sim" is not supported in conditional statement, but dont worry, it still works.
+
+
+## More details:
+
+* I'm using Xilinx vivado 2015.2, on linux

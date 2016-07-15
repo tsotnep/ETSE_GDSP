@@ -1,3 +1,4 @@
+#tested on Xilinx vivado 2015.2, linux
 #this script creates a loop, increments COLUMN_TOTAL and compiles *.vhd files for each size
 source ../generics.tcl
 

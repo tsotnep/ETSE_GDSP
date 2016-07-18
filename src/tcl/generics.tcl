@@ -5,14 +5,14 @@
 #Directory of the project top folder
     set ORIGIN /home/tsotne/git/ETSE_GDSP
 
-#Name of the Project, MUST be one of those: {S_INT S_REAL S_INT_G CV_INT CV_REAL}
-    set PROJECTNAME S_INT
+#Name of the Project, MUST be one of those: {S_INT S_REAL S_INT_G CV_INT CV_REAL} CURRENTLY only S_INT, S_INT_G
+    set PROJECTNAME S_INT_G
 
 #starting size of the column of the matrix, for simulation
     set m 3
 
 #ending size of the column of the matrix, for simulation
-    set M 50
+    set M 5
 
 
 

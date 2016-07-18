@@ -32,15 +32,16 @@ readme for dir: ETSE_GDSP/
 
 
 TODO:
+    what if i want to simulate two designs in separate shells?
     nicely print matrix from compare_matlab_vhdl_results.py
     start working on AXI bus implementation
     ip_cores/ise        -check
     ip_cores/vivado     -create
     project/ise         -create
     in src/tcl/vivado/create_new_project.tcl
-    in src/tcl/vivado/tclbatch_for_sim.tcl
 
 DONE:
+    in src/tcl/vivado/tclbatch_for_sim.tcl
     write script for comparison of results/r/* with matlab/r/*
     fixed input reading problem in tesbench by modifying DSP, now it works accurately.
     finished marjor part of scripting, simulation can be done as many times as written in generics.tcl

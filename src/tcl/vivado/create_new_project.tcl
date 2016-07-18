@@ -19,8 +19,7 @@ source ../generics.tcl
     add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/STANDARD_RAM.vhd
     add_files -norecurse -scan_for_includes $ORIGIN/src/hdl/MATRIX_MUL_IP_CORE_${PROJECTNAME}.vhd
     add_files -norecurse -scan_for_includes $ORIGIN/src/lib/txt_util.vhd
-    add_files -norecurse -scan_for_includes $ORIGIN/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd
-    add_files -norecurse -scan_for_includes $ORIGIN/src/lib/MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd
+    add_files -norecurse -scan_for_includes $ORIGIN/src/lib/MATRIX_MUL_IP_CORE_LIBRARY.vhd
     add_files -fileset sim_1 -norecurse -scan_for_includes /home/tsotne/git/ETSE_GDSP/src/tb/TB_MATRIX_MUL_IP_CORE_${PROJECTNAME}.vhd
 
 #add IP

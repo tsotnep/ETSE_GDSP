@@ -5,7 +5,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 use STD.textio.all;
 use work.txt_util.all;
-use work.MATRIX_MUL_IP_CORE_LIBRARY_Syn.all;
+use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 use work.MATRIX_MUL_IP_CORE_LIBRARY_Sim.all;
 
 ENTITY TB_MATRIX_MUL_IP_CORE_S_INT IS

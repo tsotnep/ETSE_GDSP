@@ -37,8 +37,7 @@ If you run the simulation and it does not print out the result on the console wi
 If it still does not run properly then probably a file is missing in the **ETSE_GDSP/src/lib/** (1) or in **ETSE_GDSP/src/io/** (2) directories, this directories hold following important files that the Test benches of the project use for simulation
 
 (1):
-- MATRIX_MUL_IP_CORE_LIBRARY_Sim.vhd
-- MATRIX_MUL_IP_CORE_LIBRARY_Syn.vhd
+- MATRIX_MUL_IP_CORE_LIBRARY.vhd
 - txt_util.vhd
 
 

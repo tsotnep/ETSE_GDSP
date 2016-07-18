@@ -10,7 +10,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-use work.MATRIX_MUL_IP_CORE_LIBRARY_Syn.all;
+use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
 --LIBRARY blk_mem_gen_v8_2;
 --USE blk_mem_gen_v8_2.blk_mem_gen_v8_2;

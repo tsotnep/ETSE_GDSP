@@ -4,7 +4,7 @@ use std.textio.all;
 use work.txt_util.all;
 use ieee.numeric_std.all;
 
-package MATRIX_MUL_IP_CORE_LIBRARY_Syn is
+package MATRIX_MUL_IP_CORE_LIBRARY is
 
 --------------------------------CONSTANTS GENERICS--------------------------------------------------
 CONSTANT COLUMN_TOTAL	: integer:=3;
@@ -39,8 +39,8 @@ CONSTANT DATA_WIDTH		: integer:=18;
 --------------------------------END OF GLOBAL SIGNALS--------------------------------------
 
 
-end package MATRIX_MUL_IP_CORE_LIBRARY_Syn;
+end package MATRIX_MUL_IP_CORE_LIBRARY;
 
-package body MATRIX_MUL_IP_CORE_LIBRARY_Syn is
+package body MATRIX_MUL_IP_CORE_LIBRARY is
 
-end package body MATRIX_MUL_IP_CORE_LIBRARY_Syn;
+end package body MATRIX_MUL_IP_CORE_LIBRARY;

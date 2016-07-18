@@ -6,49 +6,26 @@ USE ieee.numeric_std.ALL;
 use STD.textio.all;
 use work.txt_util.all;
 use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
-use work.MATRIX_MUL_IP_CORE_LIBRARY_Sim.all;
 
 ENTITY TB_MATRIX_MUL_IP_CORE_S_INT IS
     generic(
         COLUMN_TOTAL    : integer := 4;
         ADDR_WIDTH      : integer := 10;
         DATA_WIDTH      : integer := 18;
-        -- FRACTION_WIDTH  : integer := 12;
         DATA_WIDE_WIDTH : integer := 48;
         OPCODE_WIDTH    : integer := 3
     );
 END TB_MATRIX_MUL_IP_CORE_S_INT;
 
 ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
-    ---------------------------------------------------General Signals----------------------------------------------
-
     --Inputs
-    signal CLK     : std_logic := '0';
-    signal RST     : std_logic := '0';
     signal Mul_DIN : std_logic_vector(DATA_WIDTH - 1 downto 0);
-
-    -- Clock period definitions
-    constant CLK_period : time := 10 ns;
 
     -- Control Signals----
     signal DATA_INPUT : std_logic := '0';
     signal GREAD_DONE : std_logic := '0';
-    type COMMAND is (cmd_G_READ_START, cmd_P_READ_START, cmd_Unload_BRAM_Content, cmd_PG, cmd_PGt, cmd_PtG, cmd_PtGt, cmd_dummy);
-    signal CMD : COMMAND;
-
-    signal MSG                          : string(1 to 40);
-    shared variable sv_line             : line;
-    shared variable sv_Result_File_Open : boolean;
-    file Result_file_pointer : Text;
-
-    -------------------------------------------------End of General Signals------------------------------------------
-
-    ---------------------------------------------------MEMARRY_V3 Signals--------------------------------------------
 
     --Inputs
-    --   signal Ctrl_BRAM : STD_LOGIC:='0';
-    --   signal P_SHFT_IN : STD_LOGIC:='0';
-    --   signal ADDRB : std_logic_vector(ADDR_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(3,10));--(others => '0');
     signal OE   : std_logic := '0';
     signal SSEN : std_logic := '0';
 
@@ -66,27 +43,37 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     signal OP_DONE         : std_logic;
     signal LOADING_DONE    : std_logic;
     signal UN_LOADING_DONE : std_logic;
-    signal delay_latency   : integer                                   := 0;
-
-    -------------------------------------------------End of MEMARRY_V3 Signals---------------------------------------
-
-    --------------------------------------------------------GRAM Signals---------------------------------------------
 
     signal gROW  : STD_LOGIC_VECTOR(ADDR_WIDTH - 1 downto 0);
     signal gCOL  : STD_LOGIC_VECTOR(ADDR_WIDTH - 1 downto 0);
-    signal gDIN  : STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
+        signal gDIN  : STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
     signal gDOUT : STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
     signal gWE   : STD_LOGIC;
     signal f_gOE : STD_LOGIC;
 
     signal MUL_GCOL    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
     signal MUL_GROW    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal Bank_sel_in : STD_LOGIC := '0';
-
-    ----------------------------------------------------End of GRAM Signals ------------------------------------------
 
 
-    --------------PACKAGEDECLARATION
+
+--***********************PSEUDO_PACKAGE_DECLARATIONS_START
+
+    signal when_to_stop_simulation_flag : std_logic := '0';
+    constant CLK_period : time := 10 ns;
+    signal CLK : std_logic := '0';
+    signal RST : std_logic := '0';
+    signal Bank_sel_in : STD_LOGIC:='0';
+
+    type COMMAND is (cmd_G_READ_START, cmd_P_READ_START, cmd_Unload_BRAM_Content, cmd_PG, cmd_PGt, cmd_PtG, cmd_PtGt, cmd_dummy);
+    signal CMD : COMMAND;
+
+    type t_BRAM_DATA is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal BRAM_DATA : t_BRAM_DATA;
+
+    shared variable sv_line             : line;
+    shared variable sv_Result_File_Open : boolean;
+    signal delay_latency                : integer := 0;
+
     --Input Files
     constant fileGdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
     constant filePdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/p/" & str(COLUMN_TOTAL) & ".txt";
@@ -94,9 +81,8 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     --Output Files
     constant fileMATRIX_MUL_IP_CORE_S_INT     : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/r/" & str(COLUMN_TOTAL) & ".txt";
     constant fileMATRIX_MUL_IP_CORE_S_INT_CSV : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & str(COLUMN_TOTAL) & ".txt";
-    --------------GENERICS END
 
-
+    --strings for printing
     constant msg1 : string(positive range <> ) := "############# These are the values saved in BRAM ##############";
     constant msg2 : string(positive range <> ) := "#################################################";
     constant msg3 : string(positive range <> ) := "---------------BEGINNING OF SECTION (See end of Section for details)---------------";
@@ -112,8 +98,6 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     constant msgp7 : string(positive range <> ) := "RESULT of Pt * Gt";
     constant msgp8 : string(positive range <> ) := "RESULT of [PG]t * Gt";
 
-    signal when_to_stop_simulation_flag : std_logic :='0';
-    -------------------------------------------------------Procedures-----------------------------------------------
     procedure PrintResultToConsole is
         file Result_file_pointer : Text;
         variable line_num : line;
@@ -161,12 +145,28 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
         file_close(Result_file_pointer2);
         file_close(Result_file_pointer);
     end;
-    ------------------------------------------------------End of Procedures-------------------------------------------
 
-    type t_BRAM_DATA is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
-    signal BRAM_DATA : t_BRAM_DATA;
+    function Convert_Real_2_Std(real_number : real; Precision : real) return std_logic_vector is
+        variable std : std_logic_vector(DATA_WIDTH - 1 downto 0);
+    begin
+        std := std_logic_vector(to_signed(integer(real_number * Precision), DATA_WIDTH));
+        return std;
+    end;
+
+--***********************PSEUDO_PACKAGE_DECLARATIONS_END
+
 
 BEGIN
+    
+    when_to_stop_simulation: process(UN_LOADING_DONE, CLK)
+    begin
+        if rising_edge(CLK) then
+            if UN_LOADING_DONE = '1' and UN_LOADING_DONE'STABLE(1000 ns) then --if this signal is '1' now, and was '1' for last 1000 ns then stuff is done.
+                when_to_stop_simulation_flag <= '1';
+            end if;
+        end if;
+    end process;
+    
     Mul_DIN <= DIN when DATA_INPUT = '0' else gDOUT;
 
     process(cmd, f_gCOL, f_gROW, gCOL, gROW)
@@ -575,14 +575,5 @@ BEGIN
         --do nothing dummy command.
         end case;
         wait on cmd;
-    end process;
-
-    when_to_stop_simulation: process(UN_LOADING_DONE, CLK)
-    begin
-        if rising_edge(CLK) then
-            if UN_LOADING_DONE = '1' and UN_LOADING_DONE'STABLE(1000 ns) then --if this signal is '1' now, and was '1' un
-                when_to_stop_simulation_flag <= '1';
-            end if;
-        end if;
     end process;
 END;

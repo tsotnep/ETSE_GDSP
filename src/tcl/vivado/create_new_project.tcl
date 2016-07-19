@@ -16,6 +16,12 @@ source ../generics.tcl
     file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_s_real
     file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_CV_INT
     file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_CV_REAL
+    file mkdir $ORIGIN/src/results/rCSV
+    file mkdir $ORIGIN/src/results/rCSV/tb_matrix_mul_ip_core_s_int
+    file mkdir $ORIGIN/src/results/rCSV/tb_matrix_mul_ip_core_s_int_g
+    file mkdir $ORIGIN/src/results/rCSV/tb_matrix_mul_ip_core_s_real
+    file mkdir $ORIGIN/src/results/rCSV/tb_matrix_mul_ip_core_CV_INT
+    file mkdir $ORIGIN/src/results/rCSV/tb_matrix_mul_ip_core_CV_REAL
 
 
 #create new project

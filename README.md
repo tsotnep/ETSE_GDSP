@@ -32,6 +32,7 @@ readme for dir: ETSE_GDSP/
 
 
 TODO:
+    python script should read directories manually and compare all results automatically
     what if i want to simulate two designs in separate shells?
     nicely print matrix from compare_matlab_vhdl_results.py
     start working on AXI bus implementation

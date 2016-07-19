@@ -8,6 +8,16 @@ source ../generics.tcl
     #close_sim -force -quiet
     #TODO: investigate what happens if close_sim is commented, takes lots of time, side effects must be observed, baybe none, or maybe it remains in memory?
 
+#create folders for storing results
+    file mkdir $ORIGIN/src/results
+    file mkdir $ORIGIN/src/results/r
+    file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_s_int
+    file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_s_int_g
+    file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_s_real
+    file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_CV_INT
+    file mkdir $ORIGIN/src/results/r/tb_matrix_mul_ip_core_CV_REAL
+
+
 #create new project
     create_project $PROJECTNAME $PROJECTLOCATION -part xc7z020clg484-1 -force
     set_property board_part em.avnet.com:zed:part0:1.3 [current_project]

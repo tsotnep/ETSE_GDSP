@@ -55,14 +55,16 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     signal MUL_GROW    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
 
 
-
---***********************PSEUDO_PACKAGE_DECLARATIONS_START
-
+    --***********************PSEUDO_PACKAGE_DECLARATIONS_START
+    -- This part of code is called Pseudo Package, because, in a perfect world, it should be in package declaration. but since this is not vhdl 2008,
+    -- I can not pass generic parameters to package, even though i'm using generic parameters in this part of code.
+    -- So, i decided that this code will simply be copied to each and every tesbench untouched. having a functionality like a package.
+    -- P.s. if you change any 'instance' of this code, change all of them similarrly.
     signal when_to_stop_simulation_flag : std_logic := '0';
-    constant CLK_period : time := 10 ns;
-    signal CLK : std_logic := '0';
-    signal RST : std_logic := '0';
-    signal Bank_sel_in : STD_LOGIC:='0';
+    constant CLK_period                 : time      := 10 ns;
+    signal CLK                          : std_logic := '0';
+    signal RST                          : std_logic := '0';
+    signal Bank_sel_in                  : STD_LOGIC := '0';
 
     type COMMAND is (cmd_G_READ_START, cmd_P_READ_START, cmd_Unload_BRAM_Content, cmd_PG, cmd_PGt, cmd_PtG, cmd_PtGt, cmd_dummy);
     signal CMD : COMMAND;
@@ -78,9 +80,13 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
     constant fileGdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
     constant filePdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/p/" & str(COLUMN_TOTAL) & ".txt";
 
+    --with next two line, i'm getting current entity name,
+    constant entitynameRaw : string(positive range <> ) :=  behavior'INSTANCE_NAME;
+    constant entityname : string(positive range <> ) :=  entitynameRaw(2 to entitynameRaw'right-11); -- to remove extra characters
+
     --Output Files
-    constant fileMATRIX_MUL_IP_CORE_S_INT     : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/r/" & str(COLUMN_TOTAL) & ".txt";
-    constant fileMATRIX_MUL_IP_CORE_S_INT_CSV : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & str(COLUMN_TOTAL) & ".txt";
+    constant fileOutput    : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/r/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
+    constant fileOutputCSV : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
 
     --strings for printing
     constant msg1 : string(positive range <> ) := "############# These are the values saved in BRAM ##############";
@@ -102,10 +108,9 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
         file Result_file_pointer : Text;
         variable line_num : line;
     begin
-        file_open(Result_file_pointer, fileMATRIX_MUL_IP_CORE_S_INT, READ_MODE);
+        file_open(Result_file_pointer, fileOutput, READ_MODE);
         while not endfile(Result_file_pointer) loop
             Readline(Result_file_pointer, line_num);
-            --wait for clk_period;
             Writeline(output, line_num);
         end loop;
         file_close(Result_file_pointer);
@@ -118,13 +123,12 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
         file Result_file_pointer, Result_file_pointer2 : Text;
         variable line_num_cnt : integer := 0;
     begin
-        file_open(Result_file_pointer2, fileMATRIX_MUL_IP_CORE_S_INT_CSV, WRITE_MODE);
-        file_open(Result_file_pointer, fileMATRIX_MUL_IP_CORE_S_INT, READ_MODE);
+        file_open(Result_file_pointer2, fileOutputCSV, WRITE_MODE);
+        file_open(Result_file_pointer, fileOutput, READ_MODE);
         line_num_cnt := 0;
         while not endfile(Result_file_pointer) loop
             ReadLine(Result_file_pointer, line_num);
             if line_num_cnt > 0 and line_num_cnt <= COLUMN_TOTAL then
-                --ReadLine(Result_file_pointer,line_num); --procedure read(l : inout line; value : out string; good : out boolean);
                 while v_IsTheValueReadGood = true loop
                     str_read_remove_spaces(line_num, v_Value, v_IsTheValueReadGood);
                     if v_IsTheValueReadGood = true then
@@ -157,16 +161,20 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT IS
 
 
 BEGIN
-    
+
     when_to_stop_simulation: process(UN_LOADING_DONE, CLK)
+        -- this process is used to identify when simulation should stop.
+        -- i'm using signal UN_LOADING_DONE. during simulation it becomes '1' but for short times ( < 1000 ns)
+        -- so if that signal is '1' as long as 1000 ns, then i set when_to_stop_simulation_flag to '1' meaning that it's time to stop simulation.
+        -- later, i'm using that flag in a condition in file: ETSE_GDSP/src/tcl/vivado/tclbatch_for_sim.tcl
     begin
         if rising_edge(CLK) then
-            if UN_LOADING_DONE = '1' and UN_LOADING_DONE'STABLE(1000 ns) then --if this signal is '1' now, and was '1' for last 1000 ns then stuff is done.
+            if UN_LOADING_DONE = '1' and UN_LOADING_DONE'STABLE(1000 ns) then
                 when_to_stop_simulation_flag <= '1';
             end if;
         end if;
     end process;
-    
+
     Mul_DIN <= DIN when DATA_INPUT = '0' else gDOUT;
 
     process(cmd, f_gCOL, f_gROW, gCOL, gROW)
@@ -492,9 +500,9 @@ BEGIN
                 ---------------------------------Write the values to Terminal---------------------
                 i := 0;
                 if sv_Result_File_Open = false then
-                    file_open(Result_file_pointer, fileMATRIX_MUL_IP_CORE_S_INT, WRITE_MODE);
+                    file_open(Result_file_pointer, fileOutput, WRITE_MODE);
                 else
-                    file_open(Result_file_pointer, fileMATRIX_MUL_IP_CORE_S_INT, APPEND_MODE);
+                    file_open(Result_file_pointer, fileOutput, APPEND_MODE);
                 end if;
                 -- write(line_num,msg3);
                 --          writeline(output, line_num);

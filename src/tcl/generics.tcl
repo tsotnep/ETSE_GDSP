@@ -9,10 +9,10 @@
     set PROJECTNAME S_INT_G
 
 #starting size of the column of the matrix, for simulation
-    set m 3
+    set m 2 
 
 #ending size of the column of the matrix, for simulation
-    set M 5
+    set M 2 
 
 
 

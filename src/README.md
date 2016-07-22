@@ -3,12 +3,11 @@ readme for dir: ETSE_GDSP/src/
 
 ## List of Content
 
-* diff/    -difference between results from Matlab, and results from VHDL simulation
+* diff/   -difference between results from Matlab, and results from VHDL simulation, and script that generates it.
 * hdl/    -folder for source VHDL files used for synthesis
-* io/     -text files that are used as I/O files for simulation.
-* ip/     -xilinx IP cores, BRAM and DSP used in tcl scripts and projects
-* lib/    -libraries used for synthesis OR simulation,
-* matlab/ -matlab scripts for generating I/O data
+* ip/     -DSP and BRAM ip cores that are used in ISE and Vivado. used in tcl scripts and projects
+* lib/    -libraries used for synthesis or simulation,
+* matlab/ -matlab scripts and it's generated Input, Output and Result files
 * tb/     -files for simulations, *.vhd and *.wcfg files
 * tcl/    -tcl scripts
 

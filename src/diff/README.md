@@ -1,4 +1,4 @@
-readme for dir: ETSE_GDSP/src/diff_of_results
+readme for dir: ETSE_GDSP/src/diff
 
 ## To run the python code to compare results from Matlab and from VHDL simulation, type:
 

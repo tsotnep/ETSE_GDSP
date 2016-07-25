@@ -12,15 +12,3 @@ source ../generics.tcl
 
 #go back to original directory:
     cd $TCLDIR
-
-
-
-    if { [catch
-        {
-                add_condition -name StoppingCondition0 {/TB_MATRIX_MUL_IP_CORE_S_INT/when_to_stop_simulation_flag == 1}{
-                puts "Condition when_to_stop_simulation_flag==1 was encountered at [current_time]. Stopping simulation."
-                close_sim}
-        } err]
-        }
-        {puts ""}
-    else { puts "\n\n**********SIMULATION WAS SUCCESSFUL**********\n\n" }

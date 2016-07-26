@@ -34,7 +34,9 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT_G IS
     type t_BRAM_DATA_integer is array (1 to COLUMN_TOTAL * COLUMN_TOTAL) of integer;
     signal input_arr_G : t_BRAM_DATA_integer := (1,2,3,4);
     signal input_arr_P : t_BRAM_DATA_integer := (1,2,3,4);
-    signal input_arr_R : t_BRAM_DATA_integer := (1,1,1,1);
+
+    type t_BRAM_DATA_integer_big is array (0 to COLUMN_TOTAL * COLUMN_TOTAL * 3 - 1) of integer;
+    signal input_arr_R : t_BRAM_DATA_integer_big := (others => 0);
 
     --***********************PSEUDO_PACKAGE_DECLARATIONS_START
     -- This part of code is called Pseudo Package, because, in a perfect world, it should be in package declaration. but since this is not vhdl 2008,
@@ -198,64 +200,59 @@ BEGIN
         variable is_string       : boolean;
         variable v_delay_latency : integer;
     begin
+
         CMD <= cmd_G_READ_START;
         wait until LOADING_DONE = '1';
 
-        Bank_sel_in <= '0';             -- upper bank
         CMD         <= cmd_P_READ_START;
+        Bank_sel_in <= '0';             -- upper bank
         wait until LOADING_DONE = '1';
 
         sv_Result_File_Open := false;
 
-
-        Bank_sel_in         <= '1';
-        --Tell BRAM to Read from upper Bank.
-        --Note MSB of ADDR Port B is Banksel and it is inverted.
         CMD                 <= cmd_Unload_BRAM_Content;
+        Bank_sel_in         <= '1';
         wait until UN_LOADING_DONE = '1';
+        wait for clk_period;
 
         -----------Compute P * G ---------
-            wait for clk_period;
             CMD         <= cmd_PG;          --Real Command
             Bank_sel_in <= '1';             -- Tell BRAM to save result in lower bank.
             wait until OP_DONE = '1';
 
             sv_Result_File_Open := true;
 
-            Bank_sel_in <= '0';
-            --Tell BRAM to Read from lower Bank.
-            --Note MSB of ADDR Port B is Banksel and it is inverted.
             CMD         <= cmd_Unload_BRAM_Content;
+            Bank_sel_in <= '0';
             wait until UN_LOADING_DONE = '1';
+            wait for clk_period;
 
-            -- CMD <= cmd_dummy;               -- fake command. used to force the simulator to see a change in the process.
-            -- wait for clk_period;
-            -- CMD         <= cmd_PG;          --Real Command
-            -- Bank_sel_in <= '0';             -- Tell BRAM to save result in lower bank.
-            -- wait until OP_DONE = '1';
-            -- v_delay_latency := g_cnt_delay_ready; --get the time at which the operation completed
 
-            -- CMD         <= cmd_Unload_BRAM_Content;
-            -- Bank_sel_in <= '1';             -- Tell BRAM to Read from lower Bank. Note MSB of ADDR Port B is Banksel and it is inverted.
-            -- write(sv_line, msgp2);
-            -- wait until UN_LOADING_DONE = '1';
-        --End of Comput P * G ------------
+            CMD         <= cmd_PG;
+            Bank_sel_in <= '0';
+            wait until OP_DONE = '1';
 
-        -- wait for clk_period;            -- wait for the all values to be written to file
+
+            CMD         <= cmd_Unload_BRAM_Content;
+            Bank_sel_in <= '1';
+            wait until UN_LOADING_DONE = '1';
 
         wait;
 
     end process;
 
     Execution_Process : process
+        --X
         file file_pointer : text;
         file Result_file_pointer : text;
         variable line_num, line_num2 : line;
+        --X
         type t_line_array is array (0 to COLUMN_TOTAL - 1) of line;
         variable v_line_array : t_line_array;
         variable x            : integer := 0;
-        variable I_MAX, J_MAX : integer := 0;
+        variable I_MAX, J_MAX : integer := COLUMN_TOTAL;
         variable i            : integer := 0;
+        variable iram         : integer := 0;
     begin
         case cmd is
             when cmd_G_READ_START =>
@@ -263,12 +260,7 @@ BEGIN
                 rst  <= '1';
                 LOAD <= LOAD_G_CMD;     --'1';--PUT the FSM in MEMARRAY_V3 in Loading State.
                 wait for clk_period;
-
-                I_MAX:=2;
-                J_MAX:=2;
-
                 rst <= '0';
-                -- wait until READY = '1'; -- wait unitl MEMARRAY_V3 sends ready signal. --wrong multiplication result. if i change that with clk_period * 0, *1, *3, *4, *5 - still wrong result, but not similar as Until READ ='1'.
                 wait for clk_period * 2; --wait until READY = '1';-- wait unitl MEMARRAY_V3 sends ready signal.
                 for i in 1 to COLUMN_TOTAL * COLUMN_TOTAL loop
                     DIN <= std_logic_vector(to_signed(input_arr_G(i), DATA_WIDTH));
@@ -305,13 +297,53 @@ BEGIN
                 wait for clk_period * 3;
                 wait until READY = '1';
                 wait for clk_period;
-                ------------Write the values to Terminal
-                i := 0;
-                while UN_LOADING_DONE = '0' loop
-                    input_arr_R(i) <= dout;
-                    wait for CLK_period;
-                    i := i + 1;
-                end loop;
+
+                --X
+                if sv_Result_File_Open = false then
+                    file_open(Result_file_pointer, fileOutput, WRITE_MODE);
+                else
+                    file_open(Result_file_pointer, fileOutput, APPEND_MODE);
+                end if;
+                writeline(Result_file_pointer, line_num);
+                --X
+
+
+                ------------Write the values into array
+                -- for i in 1 to COLUMN_TOTAL * COLUMN_TOTAL loop
+                --     BRAM_DATA(i) <= dout;
+                --     input_arr_R(i) <= to_integer(unsigned(BRAM_DATA(i)));
+                --
+                --     --X
+                --     write(line_num, str(to_integer(unsigned(BRAM_DATA(i)))), LEFT, 10);
+                --     if i = COLUMN_TOTAL then --TODO: find modulus operator and: if COLUMN_TOTAL%i = 0 then
+                --         writeline(Result_file_pointer, line_num);
+                --     end if;
+                --     --X
+                --
+                --     wait for CLK_period;
+                -- end loop;
+			while UN_LOADING_DONE = '0' loop
+				BRAM_DATA(i) <= dout;
+                input_arr_R(iram) <= to_integer(unsigned(dout));
+				wait for CLK_period;
+				i := i + 1;
+                iram := iram + 1;
+				if i = COLUMN_TOTAL then
+					for k in 0 to COLUMN_TOTAL-1 loop
+                        write(line_num,str(to_integer(unsigned(BRAM_DATA(COLUMN_TOTAL-1-k)))),LEFT,10);
+					end loop;
+					writeline(Result_file_pointer,line_num);
+					i:=0;
+				end if;
+			end loop;
+
+                --X
+                writeline(Result_file_pointer, sv_line);
+                write(line_num, msg4);  -- write empty space
+                writeline(Result_file_pointer, line_num);
+                file_close(Result_file_pointer);
+                --X
+
             when cmd_PG =>
                 LOAD    <= "11";        --'0'; -- Tell FSM not to LOAD data.
                 UN_LOAD <= '0';         -- Tell FSM not to go to unloading state.

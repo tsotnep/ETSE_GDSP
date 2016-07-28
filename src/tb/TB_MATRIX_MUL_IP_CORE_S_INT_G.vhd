@@ -308,20 +308,6 @@ BEGIN
                 --X
 
 
-                ------------Write the values into array
-                -- for i in 1 to COLUMN_TOTAL * COLUMN_TOTAL loop
-                --     BRAM_DATA(i) <= dout;
-                --     input_arr_R(i) <= to_integer(unsigned(BRAM_DATA(i)));
-                --
-                --     --X
-                --     write(line_num, str(to_integer(unsigned(BRAM_DATA(i)))), LEFT, 10);
-                --     if i = COLUMN_TOTAL then --TODO: find modulus operator and: if COLUMN_TOTAL%i = 0 then
-                --         writeline(Result_file_pointer, line_num);
-                --     end if;
-                --     --X
-                --
-                --     wait for CLK_period;
-                -- end loop;
 			while UN_LOADING_DONE = '0' loop
 				BRAM_DATA(i) <= dout;
                 input_arr_R(iram) <= to_integer(unsigned(dout));

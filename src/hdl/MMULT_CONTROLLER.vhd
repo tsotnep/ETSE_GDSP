@@ -4,147 +4,234 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
 USE ieee.numeric_std.ALL;
 
-entity mmult_controller is
+entity MMULT_CONTROLLER is
     generic(C_SLV_DWIDTH : integer := 32;
             COLUMN_TOTAL : integer := 2
     );
-    Port(CLK              : in  STD_LOGIC; --connected to axi clock
-         RST              : in  STD_LOGIC; --connected to axi reset
+    Port(CLK                    : in  STD_LOGIC; --connected to axi clock
+         cntlr_RST_in           : in  STD_LOGIC; --connected to axi reset
+         cntlr_save_G_values_in : in  STD_LOGIC; --slv_reg29
+         cntlr_save_P_values_in : in  STD_LOGIC; --slv_reg30
 
-         LOAD_PG          : in  STD_LOGIC_VECTOR(1 downto 0); --slv_reg20
-         UN_LOAD          : in  STD_LOGIC; --slv_reg21
-         P                : in  STD_LOGIC; --slv_reg22
-         G                : in  STD_LOGIC; --slv_reg23
-         Bank_sel_in      : in  STD_LOGIC; --slv_reg24
+         LOAD_PG_in             : in  STD_LOGIC_VECTOR(1 downto 0); --slv_reg20
+         UN_LOAD_in             : in  STD_LOGIC; --slv_reg21
+         P_in                   : in  STD_LOGIC; --slv_reg22
+         G_in                   : in  STD_LOGIC; --slv_reg23
+         Bank_sel_in            : in  STD_LOGIC; --slv_reg24
 
-         save_G_values    : in  STD_LOGIC; --slv_reg29
-         save_P_values    : in  STD_LOGIC; --slv_reg30
-         clear_P_G_arrays : in  STD_LOGIC; --slv_reg30
+         slv_reg0               : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg1               : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg2               : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg3               : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg4               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg5               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg6               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg7               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg8               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg9               : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg10              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg11              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg12              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg13              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg14              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg15              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
+         slv_reg16              : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
 
-         slv_reg0         : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg1         : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg2         : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg3         : in  std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-
-         slv_reg4         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg5         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg6         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg7         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg8         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg9         : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg10        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg11        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg12        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg13        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg14        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-         slv_reg15        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-
-         slv_reg16        : out std_logic_vector(C_SLV_DWIDTH - 1 downto 0);
-
-         READY_out            : out std_logic; --slv_reg25
-         OP_DONE_out          : out std_logic; --slv_reg26
-         LOADING_DONE_out     : out std_logic; --slv_reg27
-         UN_LOADING_DONE_out  : out std_logic --slv_reg28
+         READY_out              : out std_logic; --slv_reg25
+         OP_DONE_out            : out std_logic; --slv_reg26
+         LOADING_DONE_out       : out std_logic; --slv_reg27
+         UN_LOADING_DONE_out    : out std_logic --slv_reg28
     );
-end mmult_controller;
+end MMULT_CONTROLLER;
 
-architecture Behavioral of mmult_controller is
+architecture Behavioral of MMULT_CONTROLLER is
     type t_BRAM_DATA_integer is array (0 to COLUMN_TOTAL * COLUMN_TOTAL - 1) of integer;
-    signal input_arr_G : t_BRAM_DATA_integer := (0, 0, 0, 0);
-    signal input_arr_P : t_BRAM_DATA_integer := (0, 0, 0, 0);
-
     type t_BRAM_DATA_integer_big is array (0 to COLUMN_TOTAL * COLUMN_TOTAL * 3 - 1) of integer;
-    signal input_arr_R : t_BRAM_DATA_integer_big := (others => 0);
+    type mmult_cntrl_state is (cntrl_RESET_MMULT, cntrl_IDLE, cntrl_WAIT_RESET, cntrl_WAIT_P_delay, cntrl_WAIT_G_delay, cntrl_SAVE_G_P, cntrl_LOAD_G, cntrl_LOAD_P, cntrl_CALCULTE);
 
-    type mmult_state is (LOAD_G_P, calculate);
-    signal state : mmult_state;
-    signal flag_wait_2_clk           : std_logic;
-    signal flag_wait_2_clk_delayed_1 : std_logic;
-    signal flag_wait_2_clk_delayed_2 : std_logic;
-    signal dataDIN, DIN              : std_logic_vector(DATA_WIDTH - 1 downto 0);
-
-    signal Bank_sel_in_ip : std_logic;
-    signal start_loading_P : std_logic;
-    signal LOADING_DONE : std_logic;
+    --IP signals
+    signal DIN, DOUT       : std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal Bank_sel        : std_logic;
+    signal LOADING_DONE    : std_logic;
     signal UN_LOADING_DONE : std_logic;
+    signal RST             : std_logic;
+    signal LOAD_PG         : std_logic_vector(1 downto 0);
+    signal UN_LOAD         : std_logic;
+    signal P               : std_logic;
+    signal G               : std_logic;
+    signal READY           : std_logic;
+    signal OP_DONE         : std_logic;
+    --IP signals
 
-    signal i : integer := 0;
+    --helpers
+    signal READY_shiftreg_1 : std_logic;
+    signal READY_shiftreg_2 : std_logic;
+    --helpers
+
+
+    --controller signals
+    signal cntlr_input_arr_G              : t_BRAM_DATA_integer     := (0, 0, 0, 0);
+    signal cntlr_input_arr_P              : t_BRAM_DATA_integer     := (0, 0, 0, 0);
+    signal cntlr_input_arr_R              : t_BRAM_DATA_integer_big := (others => 0);
+    signal cntrl_state                    : mmult_cntrl_state;
+    signal cntrl_start_loading_P          : std_logic;
+    constant cntrl_reset_length           : integer                 := 2;
+    signal cntrl_reset_length_count       : integer                 := 0;
+    signal cntrl_G_array_index            : integer                 := 0;
+    signal cntrl_P_array_index            : integer                 := 0;
+    signal cntrl_P_saved                  : std_logic;
+    signal cntrl_G_saved                  : std_logic;
+    signal cntrl_G_loaded                 : std_logic;
+    signal cntrl_P_loaded                 : std_logic;
+    signal cntrl_G_loading                : std_logic;
+    signal cntrl_P_loading                : std_logic;
+    constant cntrl_P_loading_predelay     : integer                 := 5;
+    signal cntrl_P_loading_predelay_count : integer                 := 0;
+
+--controller signals
+
 
 begin
-    --    IP : entity work.MATRIX_MUL_IP_CORE_S_INT_G
-    --        generic map(
-    --            COLUMN_TOTAL    => COLUMN_TOTAL,
-    --            OPCODE_WIDTH    => OPCODE_WIDTH,
-    --            ADDR_WIDTH      => ADDR_WIDTH,
-    --            DATA_WIDTH      => DATA_WIDTH,
-    --            DATA_WIDE_WIDTH => DATA_WIDE_WIDTH
-    --        )
-    --        Port map(
-    --            CLK             => CLK,
-    --            RST             => RST,
-    --            LOAD_PG         => LOAD_PG,
-    --            UN_LOAD         => cmd_UN_LOAD,
-    --            P               => cmd_P,
-    --            G               => cmd_G,
-    --            Bank_sel_in     => Bank_sel_in,
-    --            DIN             => DIN,
-    --            DOUT            => DOUT,
-    --            READY           => f_ip_READY,
-    --            OP_DONE         => f_ip_OP_DONE,
-    --            LOADING_DONE    => f_ip_LOADING_DONE,
-    --            UN_LOADING_DONE => f_ip_UN_LOADING_DONE
-    --        );
-
-    saving_values : process(clk) is
+    cntrl_FSM : process(clk) is
     begin
         if rising_edge(clk) then
-            if clear_P_G_arrays = '1' then
-                input_arr_G <= (others => 0);
-                input_arr_P <= (others => 0);
+            READY_shiftreg_1 <= READY;
+            READY_shiftreg_2 <= READY_shiftreg_1;
+
+            if cntlr_RST_in = '1' then
+                cntrl_state              <= cntrl_RESET_MMULT;
+                cntrl_reset_length_count <= 0;
+                cntrl_G_array_index      <= 0;
+                cntlr_input_arr_G        <= (others => 0);
+                cntlr_input_arr_P        <= (others => 0);
+                cntrl_P_saved            <= '0';
+                cntrl_G_saved            <= '0';
+                cntrl_P_loaded           <= '0';
+                cntrl_G_loaded           <= '0';
+                cntrl_P_loading          <= '0';
+                cntrl_G_loading          <= '0';
             else
-                if save_P_values = '1' then
-                    input_arr_P(0) <= to_integer(unsigned(slv_reg0));
-                    input_arr_P(1) <= to_integer(unsigned(slv_reg1));
-                    input_arr_P(2) <= to_integer(unsigned(slv_reg2));
-                    input_arr_P(3) <= to_integer(unsigned(slv_reg3));
-                elsif save_G_values = '1' then
-                    input_arr_G(0) <= to_integer(unsigned(slv_reg0));
-                    input_arr_G(1) <= to_integer(unsigned(slv_reg1));
-                    input_arr_G(2) <= to_integer(unsigned(slv_reg2));
-                    input_arr_G(3) <= to_integer(unsigned(slv_reg3));
-                end if;
+                case cntrl_state is
+                    when cntrl_WAIT_G_delay =>
+                        cntrl_G_loading <= '1';
+                        --                        if cntrl_G_loading = '1' then
+                        cntrl_state     <= cntrl_LOAD_G;
+                    --                        end if;
+                    when cntrl_WAIT_P_delay =>
+                        cntrl_P_loading <= '1';
+                        if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay - 1 then
+                            -- "-1" because fsm takes 1 clock cycle itself to go into proper state
+                            cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
+                        else
+                            cntrl_state <= cntrl_LOAD_P;
+                        end if;
+                    when cntrl_RESET_MMULT =>
+                        --reset MMULT
+                        Bank_sel <= '0';
+                        rst      <= '1';
+                        LOAD_PG  <= (others => '1');
+                        UN_LOAD  <= '0';
+                        P        <= '0';
+                        G        <= '0';
+                        Bank_sel <= '0';
+                        DIN      <= (others => '0');
+                        --reset MMULT
+
+                        cntrl_state <= cntrl_SAVE_G_P;
+
+                    when cntrl_WAIT_RESET =>
+                        --wait until the IP is resetted, 2 clock cycles
+                        rst     <= '0';
+                        LOAD_PG <= (others => '1');
+                        if cntrl_reset_length_count < cntrl_reset_length - 1 then
+                            -- "-1" because fsm takes 1 clock cycle itself to go into proper state
+                            cntrl_reset_length_count <= cntrl_reset_length_count + 1;
+                        else
+                            cntrl_state <= cntrl_LOAD_G;
+                        end if;
+
+                    when cntrl_IDLE     =>
+                    when cntrl_SAVE_G_P =>
+                        if cntlr_save_P_values_in = '1' then
+                            cntlr_input_arr_P(0) <= to_integer(unsigned(slv_reg0));
+                            cntlr_input_arr_P(1) <= to_integer(unsigned(slv_reg1));
+                            cntlr_input_arr_P(2) <= to_integer(unsigned(slv_reg2));
+                            cntlr_input_arr_P(3) <= to_integer(unsigned(slv_reg3));
+                            cntrl_P_saved        <= '1';
+                        end if;
+
+                        if cntlr_save_G_values_in = '1' then
+                            cntlr_input_arr_G(0) <= to_integer(unsigned(slv_reg0));
+                            cntlr_input_arr_G(1) <= to_integer(unsigned(slv_reg1));
+                            cntlr_input_arr_G(2) <= to_integer(unsigned(slv_reg2));
+                            cntlr_input_arr_G(3) <= to_integer(unsigned(slv_reg3));
+                            cntrl_G_saved        <= '1';
+                        end if;
+
+                        if cntrl_P_saved = '1' and cntrl_G_saved = '1' then
+                            cntrl_state <= cntrl_WAIT_RESET;
+                        end if;
+
+                    when cntrl_LOAD_G =>
+                        DIN     <= (others => '0');
+                        LOAD_PG <= LOAD_G_CMD;
+                        if cntrl_G_loading = '1' then
+                            if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
+                                DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_G(cntrl_G_array_index), DATA_WIDTH));
+                                cntrl_G_array_index <= cntrl_G_array_index + 1;
+                            else
+                                if LOADING_DONE = '1' then
+                                    cntrl_state <= cntrl_LOAD_P;
+                                end if;
+                            end if;
+                        else
+                            cntrl_state <= cntrl_WAIT_G_delay;
+                        end if;
+
+                    when cntrl_LOAD_P =>
+                        DIN     <= (others => '0');
+                        LOAD_PG <= LOAD_P_CMD;
+                        if cntrl_P_loading = '1' then
+                            if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
+                                DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_P(cntrl_P_array_index), DATA_WIDTH));
+                                cntrl_P_array_index <= cntrl_P_array_index + 1;
+                            else
+                                if LOADING_DONE = '1' then
+                                    cntrl_state <= cntrl_IDLE;
+                                end if;
+                            end if;
+                        else
+                            cntrl_state <= cntrl_WAIT_P_delay;
+                        end if;
+                    when cntrl_CALCULTE =>
+                        null;
+                end case;
+
             end if;
         end if;
-    end process saving_values;
+    end process cntrl_FSM;
 
-    providing_values : process(clk) is
-    begin
-        if rising_edge(clk) then
-            flag_wait_2_clk <= '0';
-            dataDIN         <= (others => '0');
-
-            if rst = '1' then
-                flag_wait_2_clk           <= '1';
-                Bank_sel_in_ip            <= '0';
-                i                         <= 0;
-                flag_wait_2_clk_delayed_1 <= '0';
-                flag_wait_2_clk_delayed_2 <= '0';
-            else
-                flag_wait_2_clk_delayed_1 <= flag_wait_2_clk or flag_wait_2_clk_delayed_1;
-
-                if flag_wait_2_clk_delayed_1 = '1' then
-                    DIN     <= dataDIN;
-                    dataDIN <= std_logic_vector(to_unsigned(input_arr_G(i), DATA_WIDTH));
-                    if i < COLUMN_TOTAL * COLUMN_TOTAL -1 then
-                        i <= i + 1;
-                    end if;
-                    if LOADING_DONE = '1'then
-                        start_loading_P <= '1';
-                    end if;
-                end if;
-
-            end if;
-        end if;
-    end process providing_values;
-
+    MATRIX_MUL_IP_CORE_S_INT_G_inst : entity work.MATRIX_MUL_IP_CORE_S_INT_G
+        generic map(
+            COLUMN_TOTAL    => COLUMN_TOTAL,
+            OPCODE_WIDTH    => 3,
+            ADDR_WIDTH      => 10,
+            DATA_WIDTH      => 18,
+            DATA_WIDE_WIDTH => 48
+        )
+        port map(
+            CLK             => CLK,
+            RST             => RST,
+            LOAD_PG         => LOAD_PG,
+            UN_LOAD         => UN_LOAD,
+            P               => P,
+            G               => G,
+            Bank_sel_in     => Bank_sel,
+            DIN             => DIN,
+            DOUT            => DOUT,
+            READY           => READY,
+            OP_DONE         => OP_DONE,
+            LOADING_DONE    => LOADING_DONE,
+            UN_LOADING_DONE => UN_LOADING_DONE
+        );
 end Behavioral;

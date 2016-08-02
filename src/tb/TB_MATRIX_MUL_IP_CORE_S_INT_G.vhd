@@ -1,4 +1,4 @@
-LIBRARY ieee;
+LIBRARY ieee;---
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 use STD.textio.all;
@@ -17,7 +17,7 @@ ENTITY TB_MATRIX_MUL_IP_CORE_S_INT_G IS
 END TB_MATRIX_MUL_IP_CORE_S_INT_G;
 
 ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT_G IS
-    signal LOAD : std_logic_vector(1 downto 0) := "00"; --'1';
+    signal LOAD_PG : std_logic_vector(1 downto 0) := "00"; --'1';
     signal P    : std_logic                    := '0';
     signal G    : std_logic                    := '0';
 
@@ -168,7 +168,7 @@ BEGIN
         PORT MAP(
             CLK             => CLK,
             RST             => RST,
-            LOAD_PG         => LOAD,
+            LOAD_PG         => LOAD_PG,
             UN_LOAD         => UN_LOAD,
             P               => P,
             G               => G,
@@ -204,7 +204,7 @@ BEGIN
         CMD <= cmd_G_READ_START;
         wait until LOADING_DONE = '1';
 
-        CMD         <= cmd_P_READ_START;
+        CMD <= cmd_P_READ_START;
         Bank_sel_in <= '0';             -- upper bank
         wait until LOADING_DONE = '1';
 
@@ -256,30 +256,27 @@ BEGIN
     begin
         case cmd is
             when cmd_G_READ_START =>
-                ------------------Begining of GRAM LOAD------
+                ------------------Begining of GRAM LOAD_PG------
+                --when becoems 0, on third clock cycle from that, data shoulb be there
                 rst  <= '1';
-                LOAD <= LOAD_G_CMD;     --'1';--PUT the FSM in MEMARRAY_V3 in Loading State.
                 wait for clk_period;
+                LOAD_PG <= LOAD_G_CMD;
                 rst <= '0';
-                wait for clk_period * 2; --wait until READY = '1';-- wait unitl MEMARRAY_V3 sends ready signal.
+                wait for clk_period * 2;
+
+                -- wait until READY = '1';
                 for i in 1 to COLUMN_TOTAL * COLUMN_TOTAL loop
                     DIN <= std_logic_vector(to_signed(input_arr_G(i), DATA_WIDTH));
                     wait for CLK_period;
                 end loop;
                 DIN <= (others => '0');
 
-            -------------------End of GRAM LOAD----------
+            -------------------End of GRAM LOAD_PG----------
             when cmd_P_READ_START =>
-                ------------------Begining of BRAM LOAD------
+                ------------------Begining of BRAM LOAD_PG------
 
-                if UN_LOADING_DONE = '1' then
-                    LOAD <= LOAD_P_CMD;
-                    rst  <= '1';
-                    wait for clk_period * 3;
-                    rst <= '0';
-                else
-                    LOAD <= LOAD_P_CMD;
-                end if;
+                LOAD_PG <= LOAD_P_CMD;
+
 
                 wait until READY = '1'; -- wait unitl MEMARRAY_V3 sends ready signal.
                 for i in 1 to COLUMN_TOTAL * COLUMN_TOTAL loop
@@ -288,11 +285,11 @@ BEGIN
                 end loop;
                 DIN <= (others => '0');
 
-            -------------------End of BRAM LOAD----------
+            -------------------End of BRAM LOAD_PG----------
 
             when cmd_Unload_BRAM_Content =>
                 --------------------Begining of UNLOAD BRAM--
-                LOAD    <= "11";        --'0';
+                LOAD_PG    <= "11";        --'0';
                 UN_LOAD <= '1';         -- Tell FSM to go to unloading state.
                 wait for clk_period * 3;
                 wait until READY = '1';
@@ -331,7 +328,7 @@ BEGIN
                 --X
 
             when cmd_PG =>
-                LOAD    <= "11";        --'0'; -- Tell FSM not to LOAD data.
+                LOAD_PG    <= "11";        --'0'; -- Tell FSM not to LOAD_PG data.
                 UN_LOAD <= '0';         -- Tell FSM not to go to unloading state.
                 P       <= '0';
                 G       <= '0';

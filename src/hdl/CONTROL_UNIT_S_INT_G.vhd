@@ -1,4 +1,4 @@
-library IEEE;--
+library IEEE;---
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
@@ -36,7 +36,8 @@ end CONTROL_UNIT_S_INT_G;
 architecture Behavioral of CONTROL_UNIT_S_INT_G is
     constant PIPELINE_DELAY : integer := 10; -- DSP delay + BRAM delay + some registers
 
-    signal rst0,rst1,rst2 : std_logic;
+    signal LOADING_DONE_internal : std_logic;
+    signal UN_LOADING_DONE_internal : std_logic;
     signal i_addr_cnt, i_row_cnt, i_col_cnt : integer range 0 to COLUMN_TOTAL;
     signal s_CSEL                           : std_logic_vector(COLUMN_TOTAL - 1 downto 0);
 
@@ -49,6 +50,8 @@ architecture Behavioral of CONTROL_UNIT_S_INT_G is
     signal s_a, s_b : integer := 0;
 
 begin
+    LOADING_DONE <= LOADING_DONE_internal;
+    UN_LOADING_DONE <= UN_LOADING_DONE_internal;
     FLAGS_and_Current_state_update : process(CLK)
         -- This Counter variable is used to create a delay for the appropriate time to set the READY signal.
         -- The READY signal is used to alert the user to know when the FSM has setteled in the IDLE state and is ready to IDLE receiving input data
@@ -60,51 +63,54 @@ begin
         if rising_edge(CLK) then
             if (RST = '1') then
                 v_cnt_delay_ready := 0;
-                READY             <= '0';
-                LOADING_DONE      <= '0';
-                UN_LOADING_DONE   <= '0';
+                READY             <= '1';
+                LOADING_DONE_internal      <= '1';
+                UN_LOADING_DONE_internal   <= '1';
                 OP_DONE           <= '0';
             else
+
+                    READY             <= '1';
+                    LOADING_DONE_internal      <= '1';
+                    UN_LOADING_DONE_internal   <= '1';
+
                 if state = LOAD_G then
                     v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    if v_cnt_delay_ready >= 2 then
-                        READY <= '1';
+                    if v_cnt_delay_ready < 2 then
+                        READY <= '0';
+                    end if;
+                    if v_cnt_delay_ready < (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
+                        LOADING_DONE_internal <= '0';
                     end if;
 
-                    if v_cnt_delay_ready = (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        LOADING_DONE <= '1';
-                    end if;
                 elsif state = LOAD_P then
                     v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    -- Note if DIN input to DSP block is delayed from GRAM (3 stage Pipeline) instead of using the 2 stage Pipeline in MEMARRY then this value should be 1 otherwise set it to 4.
-                    if v_cnt_delay_ready >= 4 then
-                        READY <= '1';
+                    if v_cnt_delay_ready < 2 then
+                        READY <= '0';
                     end if;
-
-                    if v_cnt_delay_ready = (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        LOADING_DONE <= '1';
+                    if v_cnt_delay_ready < (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
+                        LOADING_DONE_internal <= '0';
                     end if;
 
                 elsif state = UNLOAD then
                     v_cnt_delay_ready := v_cnt_delay_ready + 1;
                     if v_cnt_delay_ready >= PIPELINE_DELAY then
-                        READY <= '1';
+                        READY <= '0';
+                    end if;
+                    if v_cnt_delay_ready < (PIPELINE_DELAY + COLUMN_TOTAL * COLUMN_TOTAL) then
+                        UN_LOADING_DONE_internal <= '0';
                     end if;
 
-                    if v_cnt_delay_ready >= (PIPELINE_DELAY + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        UN_LOADING_DONE <= '1';
-                    end if;
                 elsif state = PG or state = PGt or state = PtG or state = PtGt then
                     v_cnt_delay_ready := v_cnt_delay_ready + 1;
                     if v_cnt_delay_ready >= (PIPELINE_DELAY + COLUMN_TOTAL * COLUMN_TOTAL) then
                         OP_DONE <= '1';
+                    else
+                        READY <= '0';
                     end if;
                 else
-                    READY             <= '0';
-                    LOADING_DONE      <= '0';
-                    UN_LOADING_DONE   <= '0';
+                    --TODO: consider moving this before those 'if'-s.
                     OP_DONE           <= '0';
-                            v_cnt_delay_ready := 0;
+                    v_cnt_delay_ready := 0;
                 end if;
             end if;
         end if;
@@ -124,10 +130,7 @@ begin
     begin
         if (rising_edge(CLK)) then
             if RST = '1' then
-                rst0 <= '1';
-                rst1 <= rst0;
-                rst2 <= rst1;
-                -- if rst2 = '1' and rst1 = '1' and rst0 = '1' then
+                -- if rst1 = '1' and rst0 = '1' then
                     state                  <= START;
                 -- end if;
                 i_row_cnt              <= 0;
@@ -155,7 +158,7 @@ begin
                         ELSIF LOAD_PG = LOAD_P_CMD then
                             state <= LOAD_P;
                         ELSE
-                            state <= LOAD_DONE;
+                            state <= START;
                         END IF;
                     when LOAD_G =>
                         if v_LOADING_DONE = '0' then

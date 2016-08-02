@@ -23,20 +23,17 @@ readme for dir: ETSE_GDSP/
 **Please note that you should not change any name existing in the project. everything is connected.**
 
 
-TODO:
 
-    start working on AXI bus implementation
-    python script should read directories manually and compare all results automatically
-    what if i want to simulate two designs in separate shells?
-    nicely print matrix from compare_matlab_vhdl_results.py
-    ip_cores/ise        -check
-    ip_cores/vivado     -create
-    project/ise         -create
-    in src/tcl/vivado/create_new_project.tcl
+This repository contains matrix multiplier. 
 
-DONE:
+This matrix multiplier is intented to be implemented on FPGA.
 
-    src/tcl/vivado/tclbatch_for_sim.tcl
-    write script for comparison of results/r/* with matlab/r/*
-    fixed input reading problem in tesbench by modifying DSP, now it works accurately.
-    finished marjor part of scripting, simulation can be done as many times as written in generics.tcl
+The matrix multiplier performs parallel multiplications in order to save time.
+
+
+
+
+Developmen boards used:
+
+    virtex 7 - zedboard zynq 7000
+    virtex 6 - ml 605

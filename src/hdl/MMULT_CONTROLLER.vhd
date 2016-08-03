@@ -47,7 +47,13 @@ end MMULT_CONTROLLER;
 architecture Behavioral of MMULT_CONTROLLER is
     type t_BRAM_DATA_integer is array (0 to COLUMN_TOTAL * COLUMN_TOTAL - 1) of integer;
     type t_BRAM_DATA_integer_big is array (0 to COLUMN_TOTAL * COLUMN_TOTAL * 3 - 1) of integer;
-    type mmult_cntrl_state is (cntrl_RESET_MMULT, cntrl_IDLE, cntrl_WAIT_RESET, cntrl_WAIT_P_delay, cntrl_WAIT_G_delay, cntrl_SAVE_G_P, cntrl_LOAD_G, cntrl_LOAD_P, cntrl_CALCULTE);
+    type mmult_cntrl_state is (
+        cntrl_RESET_MMULT, cntrl_IDLE,
+        cntrl_WAIT_RESET, cntrl_WAIT_P_delay, cntrl_WAIT_G_delay, cntrl_WAIT_UNLOAD,
+        cntrl_SAVE_G_P,
+        cntrl_LOAD_G, cntrl_LOAD_P,
+        cntrl_CALCULTE, cntrl_UNLOAD
+    );
 
     --IP signals
     signal DIN, DOUT       : std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -70,23 +76,25 @@ architecture Behavioral of MMULT_CONTROLLER is
 
 
     --controller signals
-    signal cntlr_input_arr_G              : t_BRAM_DATA_integer     := (0, 0, 0, 0);
-    signal cntlr_input_arr_P              : t_BRAM_DATA_integer     := (0, 0, 0, 0);
-    signal cntlr_input_arr_R              : t_BRAM_DATA_integer_big := (others => 0);
-    signal cntrl_state                    : mmult_cntrl_state;
-    signal cntrl_start_loading_P          : std_logic;
-    constant cntrl_reset_length           : integer                 := 2;
-    signal cntrl_reset_length_count       : integer                 := 0;
-    signal cntrl_G_array_index            : integer                 := 0;
-    signal cntrl_P_array_index            : integer                 := 0;
+    signal cntlr_input_arr_G              : t_BRAM_DATA_integer := (0, 0, 0, 0);
+    signal cntlr_input_arr_P              : t_BRAM_DATA_integer := (0, 0, 0, 0);
+    signal cntlr_output_arr_R             : t_BRAM_DATA_integer := (others => 0);
+    signal cntrl_G_array_index            : integer             := 0;
+    signal cntrl_P_array_index            : integer             := 0;
+    signal cntrl_R_array_index            : integer             := 0;
     signal cntrl_P_saved                  : std_logic;
     signal cntrl_G_saved                  : std_logic;
     signal cntrl_G_loaded                 : std_logic;
     signal cntrl_P_loaded                 : std_logic;
     signal cntrl_G_loading                : std_logic;
     signal cntrl_P_loading                : std_logic;
-    constant cntrl_P_loading_predelay     : integer                 := 5;
-    signal cntrl_P_loading_predelay_count : integer                 := 0;
+    signal cntrl_state                    : mmult_cntrl_state;
+    constant cntrl_reset_length           : integer             := 2;
+    signal cntrl_reset_length_count       : integer             := 0;
+    constant cntrl_P_loading_predelay     : integer             := 5;
+    constant cntrl_G_loading_predelay     : integer             := 0;
+    signal cntrl_P_loading_predelay_count : integer             := 0;
+    signal cntrl_G_loading_predelay_count : integer             := 0;
 
 --controller signals
 
@@ -112,45 +120,54 @@ begin
                 cntrl_G_loading          <= '0';
             else
                 case cntrl_state is
+                    when cntrl_IDLE =>
+                        if LOAD_PG_in = "11" then
+                            cntrl_state <= cntrl_WAIT_UNLOAD;
+                            LOAD_PG     <= LOAD_PG_in;
+                            Bank_sel    <= '1';
+                            UN_LOAD     <= '1';
+                        end if;
                     when cntrl_WAIT_G_delay =>
-                        cntrl_G_loading <= '1';
-                        --                        if cntrl_G_loading = '1' then
-                        cntrl_state     <= cntrl_LOAD_G;
-                    --                        end if;
+                        DIN     <= (others => '0');
+                        LOAD_PG <= LOAD_G_CMD;
+                        if cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay then
+                            cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
+                        else
+                            cntrl_state <= cntrl_LOAD_G;
+                        end if;
                     when cntrl_WAIT_P_delay =>
-                        cntrl_P_loading <= '1';
-                        if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay - 1 then
-                            -- "-1" because fsm takes 1 clock cycle itself to go into proper state
+                        DIN     <= (others => '0');
+                        LOAD_PG <= LOAD_P_CMD;
+                        if cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay then
                             cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
                         else
                             cntrl_state <= cntrl_LOAD_P;
                         end if;
-                    when cntrl_RESET_MMULT =>
-                        --reset MMULT
-                        Bank_sel <= '0';
-                        rst      <= '1';
-                        LOAD_PG  <= (others => '1');
-                        UN_LOAD  <= '0';
-                        P        <= '0';
-                        G        <= '0';
-                        Bank_sel <= '0';
-                        DIN      <= (others => '0');
-                        --reset MMULT
-
-                        cntrl_state <= cntrl_SAVE_G_P;
-
-                    when cntrl_WAIT_RESET =>
+                    when cntrl_WAIT_UNLOAD =>
+                        if READY = '1' and op_done = '1' then
+                            cntrl_state <= cntrl_UNLOAD;
+                        end if;
+                    when cntrl_WAIT_RESET  =>
                         --wait until the IP is resetted, 2 clock cycles
                         rst     <= '0';
                         LOAD_PG <= (others => '1');
                         if cntrl_reset_length_count < cntrl_reset_length - 1 then
-                            -- "-1" because fsm takes 1 clock cycle itself to go into proper state
                             cntrl_reset_length_count <= cntrl_reset_length_count + 1;
                         else
-                            cntrl_state <= cntrl_LOAD_G;
+                            cntrl_state <= cntrl_WAIT_G_delay;
                         end if;
-
-                    when cntrl_IDLE     =>
+                    when cntrl_RESET_MMULT =>
+                        --reset MMULT
+                        Bank_sel    <= '0';
+                        rst         <= '1';
+                        LOAD_PG     <= (others => '1');
+                        UN_LOAD     <= '0';
+                        P           <= '0';
+                        G           <= '0';
+                        Bank_sel    <= '0';
+                        DIN         <= (others => '0');
+                        --reset MMULT
+                        cntrl_state <= cntrl_SAVE_G_P;
                     when cntrl_SAVE_G_P =>
                         if cntlr_save_P_values_in = '1' then
                             cntlr_input_arr_P(0) <= to_integer(unsigned(slv_reg0));
@@ -171,40 +188,34 @@ begin
                         if cntrl_P_saved = '1' and cntrl_G_saved = '1' then
                             cntrl_state <= cntrl_WAIT_RESET;
                         end if;
-
                     when cntrl_LOAD_G =>
                         DIN     <= (others => '0');
                         LOAD_PG <= LOAD_G_CMD;
-                        if cntrl_G_loading = '1' then
-                            if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
-                                DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_G(cntrl_G_array_index), DATA_WIDTH));
-                                cntrl_G_array_index <= cntrl_G_array_index + 1;
-                            else
-                                if LOADING_DONE = '1' then
-                                    cntrl_state <= cntrl_LOAD_P;
-                                end if;
-                            end if;
+                        if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
+                            DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_G(cntrl_G_array_index), DATA_WIDTH));
+                            cntrl_G_array_index <= cntrl_G_array_index + 1;
                         else
-                            cntrl_state <= cntrl_WAIT_G_delay;
+                            if LOADING_DONE = '1' then
+                                --                                    cntrl_state <= cntrl_LOAD_P;cntrl_WAIT_P_delay
+                                cntrl_state <= cntrl_WAIT_P_delay;
+                            end if;
                         end if;
-
                     when cntrl_LOAD_P =>
-                        DIN     <= (others => '0');
-                        LOAD_PG <= LOAD_P_CMD;
-                        if cntrl_P_loading = '1' then
-                            if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
-                                DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_P(cntrl_P_array_index), DATA_WIDTH));
-                                cntrl_P_array_index <= cntrl_P_array_index + 1;
-                            else
-                                if LOADING_DONE = '1' then
-                                    cntrl_state <= cntrl_IDLE;
-                                end if;
-                            end if;
+                        if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
+                            DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_P(cntrl_P_array_index), DATA_WIDTH));
+                            cntrl_P_array_index <= cntrl_P_array_index + 1;
                         else
-                            cntrl_state <= cntrl_WAIT_P_delay;
+                            if LOADING_DONE = '1' then
+                                cntrl_state <= cntrl_IDLE;
+                            end if;
                         end if;
                     when cntrl_CALCULTE =>
                         null;
+                    when cntrl_UNLOAD =>
+                        if cntrl_R_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
+                            cntlr_output_arr_R(cntrl_R_array_index) <= to_integer(unsigned(DOUT));
+                            cntrl_R_array_index                     <= cntrl_R_array_index + 1;
+                        end if;
                 end case;
 
             end if;

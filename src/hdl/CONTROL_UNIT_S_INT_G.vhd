@@ -50,74 +50,71 @@ architecture Behavioral of CONTROL_UNIT_S_INT_G is
     signal s_a, s_b : integer := 0;
 
 begin
-    LOADING_DONE <= LOADING_DONE_internal;
-    UN_LOADING_DONE <= UN_LOADING_DONE_internal;
-    FLAGS_and_Current_state_update : process(CLK)
-        -- This Counter variable is used to create a delay for the appropriate time to set the READY signal.
-        -- The READY signal is used to alert the user to know when the FSM has setteled in the IDLE state and is ready to IDLE receiving input data
-        -- for storage in BRAM. The current value is set to 4 but it can be changed accordingly to allow enough time for the READY signal to trigger,
-        -- and user to Respond. Typically this value could be set to 3 instead of 4 to give the user 1 clock cycle to react. But for simulation
-        -- Purpose the value 4 is ok.
-        variable v_cnt_delay_ready : integer range 0 to ((PIPELINE_DELAY + 1) + COLUMN_TOTAL * COLUMN_TOTAL);
-    begin
-        if rising_edge(CLK) then
-            if (RST = '1') then
-                v_cnt_delay_ready := 0;
-                READY             <= '1';
-                LOADING_DONE_internal      <= '1';
-                UN_LOADING_DONE_internal   <= '1';
-                OP_DONE           <= '0';
-            else
 
-                    READY             <= '1';
-                    LOADING_DONE_internal      <= '1';
-                    UN_LOADING_DONE_internal   <= '1';
-
-                if state = LOAD_G then
-                    v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    if v_cnt_delay_ready < 2 then
-                        READY <= '0';
-                    end if;
-                    if v_cnt_delay_ready < (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        LOADING_DONE_internal <= '0';
-                    end if;
-
-                elsif state = LOAD_P then
-                    v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    if v_cnt_delay_ready < 2 then
-                        READY <= '0';
-                    end if;
-                    if v_cnt_delay_ready < (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        LOADING_DONE_internal <= '0';
-                    end if;
-
-                elsif state = UNLOAD then
-                    v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    if v_cnt_delay_ready >= PIPELINE_DELAY then
-                        READY <= '0';
-                    end if;
-                    if v_cnt_delay_ready < (PIPELINE_DELAY + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        UN_LOADING_DONE_internal <= '0';
-                    end if;
-
-                elsif state = PG or state = PGt or state = PtG or state = PtGt then
-                    v_cnt_delay_ready := v_cnt_delay_ready + 1;
-                    if v_cnt_delay_ready >= (PIPELINE_DELAY + COLUMN_TOTAL * COLUMN_TOTAL) then
-                        OP_DONE <= '1';
-                    else
-                        READY <= '0';
-                    end if;
-                else
-                    --TODO: consider moving this before those 'if'-s.
-                    OP_DONE           <= '0';
-                    v_cnt_delay_ready := 0;
+FLAGS_and_Current_state_update:process (CLK)
+-- This Counter variable is used to create a delay for the appropriate time to set the READY signal.
+-- The READY signal is used to alert the user to know when the FSM has setteled in the START state and is ready to start receiving input data
+-- for storage in BRAM. The current value is set to 4 but it can be changed accordingly to allow enough time for the READY signal to trigger,
+-- and user to Respond. Typically this value could be set to 3 instead of 4 to give the user 1 clock cycle to react. But for simulation
+-- Purpose the value 4 is ok. 
+    variable v_cnt_delay_ready: integer range 0 to ((PIPELINE_DELAY + 1)  + COLUMN_TOTAL*COLUMN_TOTAL);
+begin
+if rising_edge(CLK) then
+        if(RST='1') then
+            --state<=START;
+            v_cnt_delay_ready := 0;
+            READY <= '0';
+            LOADING_DONE <= '0';
+            UN_LOADING_DONE <= '0';
+            OP_DONE <= '0';         
+        else
+--          current_state <= next_state;   --state change.
+            if state = LOAD_G then
+                v_cnt_delay_ready := v_cnt_delay_ready + 1;
+                if v_cnt_delay_ready >= 2 then
+                    READY <= '1';
                 end if;
+                
+                if v_cnt_delay_ready = (PIPELINE_DELAY + 1 + COLUMN_TOTAL*COLUMN_TOTAL) then
+                    LOADING_DONE <= '1';
+                end if;
+            elsif state = LOAD_P then
+                v_cnt_delay_ready := v_cnt_delay_ready + 1;
+-- Note if DIN input to DSP block is delayed from GRAM (3 stage Pipeline) instead of using the 2 stage Pipeline in MEMARRY then this value should be 1 otherwise set it to 4.               
+                if v_cnt_delay_ready >= 4 then
+                    READY <= '1';
+                end if;
+                
+                if v_cnt_delay_ready = (PIPELINE_DELAY + 1 + COLUMN_TOTAL*COLUMN_TOTAL) then
+                    LOADING_DONE <= '1';
+                end if;
+                
+            elsif state = UNLOAD then
+                v_cnt_delay_ready := v_cnt_delay_ready + 1;
+                if v_cnt_delay_ready >= PIPELINE_DELAY then
+                    READY <= '1';
+                end if;
+                
+                if v_cnt_delay_ready >= (PIPELINE_DELAY + COLUMN_TOTAL*COLUMN_TOTAL) then
+                    UN_LOADING_DONE <= '1';
+                end if;
+            elsif state = PG or state = PGt or state = PtG or state = PtGt then
+                v_cnt_delay_ready := v_cnt_delay_ready + 1;
+                if v_cnt_delay_ready >= (PIPELINE_DELAY + COLUMN_TOTAL*COLUMN_TOTAL) then
+                    OP_DONE <= '1';
+                end if;         
+            else
+                READY <= '0';
+                LOADING_DONE <= '0';
+                UN_LOADING_DONE <= '0';
+                OP_DONE <= '0';
+                v_cnt_delay_ready := 0;
             end if;
         end if;
-        cnt_delay_ready   <= v_cnt_delay_ready;
-        g_cnt_delay_ready <= v_cnt_delay_ready; --write to global variable
-    end process;
-    -----------------------------------------------------------
+end if;
+cnt_delay_ready <= v_cnt_delay_ready;
+g_cnt_delay_ready <= v_cnt_delay_ready;--write to global variable
+end process;
     process(CLK)
         variable i, j, v_load_count                       : integer range 0 to COLUMN_TOTAL;
         variable v_CSEL                                   : std_logic_vector(COLUMN_TOTAL - 1 downto 0);

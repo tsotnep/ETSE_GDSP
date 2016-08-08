@@ -105,6 +105,7 @@ begin
     cntrl_FSM : process(clk) is
     begin
         if rising_edge(clk) then
+            --TODO: remove those two
             cntlr_save_G_values_in_old <= cntlr_save_G_values_in;
             cntlr_save_P_values_in_old <= cntlr_save_P_values_in;
             
@@ -157,7 +158,7 @@ begin
                         if cntrl_P_saved = '1' and cntrl_G_saved = '1' and cntlr_send_result_in = '1' then
                             cntrl_state <= cntrl_WAIT_RESET;
                         end if;
---                        if cntlr_save_P_values_in = '1' then
+--                        if cntlr_save_P_values_in = '1' then --TODO: uncomment this line and comment two lines below
                             if cntlr_save_P_values_in_old = '0' and cntlr_save_P_values_in = '1' then
 --                         if rising_edge(cntlr_save_P_values_in) then
                             cntlr_input_arr_P(0) <= to_integer(unsigned(slv_reg0));
@@ -166,7 +167,7 @@ begin
                             cntlr_input_arr_P(3) <= to_integer(unsigned(slv_reg3));
                             cntrl_P_saved        <= '1';
                         end if;
---                        if cntlr_save_G_values_in = '1' then
+--                        if cntlr_save_G_values_in = '1' then --TODO: uncomment this line and comment two lines below
                             if cntlr_save_G_values_in_old = '0' and cntlr_save_G_values_in = '1' then
 --                         if rising_edge(cntlr_save_G_values_in) then
                             cntlr_input_arr_G(0) <= to_integer(unsigned(slv_reg0));

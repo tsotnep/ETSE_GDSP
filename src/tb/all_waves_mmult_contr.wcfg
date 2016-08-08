@@ -26,6 +26,8 @@
    <WVObjectSize size="8" />
    <wave_markers>
       <marker time="103833000" label="" />
+      <marker time="332049000" label="" />
+      <marker time="1446072000" label="" />
    </wave_markers>
    <wvobject fp_name="group307" type="group">
       <obj_property name="label">tb_mmult</obj_property>
@@ -39,10 +41,6 @@
          <obj_property name="ElementShortName">c_slv_dwidth</obj_property>
          <obj_property name="ObjectShortName">c_slv_dwidth</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller/clear_p_g_arrays_in" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">clear_p_g_arrays_in</obj_property>
-         <obj_property name="ObjectShortName">clear_p_g_arrays_in</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>
@@ -59,6 +57,14 @@
       <wvobject fp_name="/tb_mmult_conroller/cntlr_save_p_values_in" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">cntlr_save_p_values_in</obj_property>
          <obj_property name="ObjectShortName">cntlr_save_p_values_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller/cntlr_send_result_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">cntlr_send_result_in</obj_property>
+         <obj_property name="ObjectShortName">cntlr_send_result_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller/clear_p_g_arrays_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clear_p_g_arrays_in</obj_property>
+         <obj_property name="ObjectShortName">clear_p_g_arrays_in</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/column_total" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">column_total</obj_property>
@@ -98,6 +104,7 @@
       <wvobject fp_name="group471" type="group">
          <obj_property name="label">slv_reg</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          <wvobject fp_name="/tb_mmult_conroller/slv_reg0" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">slv_reg0[31:0]</obj_property>
             <obj_property name="ObjectShortName">slv_reg0[31:0]</obj_property>
@@ -108,10 +115,48 @@
             <obj_property name="ObjectShortName">slv_reg1[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg2" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg2[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg2[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg3" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg3[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg3[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
          <wvobject fp_name="/tb_mmult_conroller/slv_reg10" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">slv_reg10[31:0]</obj_property>
             <obj_property name="ObjectShortName">slv_reg10[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg4" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg4[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg4[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+            <obj_property name="CustomSignalColor">#ffffff</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg5" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg5[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg5[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+            <obj_property name="CustomSignalColor">#ffffff</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg6" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg6[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg6[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+            <obj_property name="CustomSignalColor">#ffffff</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mmult_conroller/slv_reg7" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">slv_reg7[31:0]</obj_property>
+            <obj_property name="ObjectShortName">slv_reg7[31:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
+            <obj_property name="CustomSignalColor">#ffffff</obj_property>
          </wvobject>
          <wvobject fp_name="/tb_mmult_conroller/slv_reg11" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">slv_reg11[31:0]</obj_property>
@@ -141,36 +186,6 @@
          <wvobject fp_name="/tb_mmult_conroller/slv_reg16" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">slv_reg16[31:0]</obj_property>
             <obj_property name="ObjectShortName">slv_reg16[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg2" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg2[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg2[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg3" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg3[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg3[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg4" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg4[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg4[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg5" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg5[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg5[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg6" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg6[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg6[31:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_mmult_conroller/slv_reg7" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">slv_reg7[31:0]</obj_property>
-            <obj_property name="ObjectShortName">slv_reg7[31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
          <wvobject fp_name="/tb_mmult_conroller/slv_reg8" type="array" db_ref_id="1">
@@ -246,6 +261,16 @@
          <obj_property name="ObjectShortName">cntrl_g_array_index</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_p_array_index" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">cntrl_p_array_index</obj_property>
+         <obj_property name="ObjectShortName">cntrl_p_array_index</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_r_array_index" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">cntrl_r_array_index</obj_property>
+         <obj_property name="ObjectShortName">cntrl_r_array_index</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_g_loaded" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">cntrl_g_loaded</obj_property>
          <obj_property name="ObjectShortName">cntrl_g_loaded</obj_property>
@@ -257,11 +282,6 @@
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_g_saved" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">cntrl_g_saved</obj_property>
          <obj_property name="ObjectShortName">cntrl_g_saved</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_p_array_index" type="other" db_ref_id="1">
-         <obj_property name="ElementShortName">cntrl_p_array_index</obj_property>
-         <obj_property name="ObjectShortName">cntrl_p_array_index</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/cntrl_p_loaded" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">cntrl_p_loaded</obj_property>
@@ -367,14 +387,6 @@
          <obj_property name="ElementShortName">ready_out</obj_property>
          <obj_property name="ObjectShortName">ready_out</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/ready_shiftreg_1" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">ready_shiftreg_1</obj_property>
-         <obj_property name="ObjectShortName">ready_shiftreg_1</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/ready_shiftreg_2" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">ready_shiftreg_2</obj_property>
-         <obj_property name="ObjectShortName">ready_shiftreg_2</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/rst" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">rst</obj_property>
          <obj_property name="ObjectShortName">rst</obj_property>
@@ -382,6 +394,7 @@
       <wvobject fp_name="group470" type="group">
          <obj_property name="label">slv_reg</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/slv_reg0" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">slv_reg0[31:0]</obj_property>
             <obj_property name="ObjectShortName">slv_reg0[31:0]</obj_property>
@@ -1005,6 +1018,8 @@
          <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
          <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ff0000</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\block_a_mem_gen(0)\/MEMA/i_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
@@ -1020,6 +1035,8 @@
          <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
          <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ff0000</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\block_a_mem_gen(0)\/MEMA/column_number" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">column_number</obj_property>
@@ -1098,6 +1115,8 @@
          <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
          <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ff0000</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\block_a_mem_gen(1)\/MEMA/i_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
@@ -1113,6 +1132,8 @@
          <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
          <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ff0000</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller/MMULT_CONTROLLER_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\block_a_mem_gen(1)\/MEMA/column_number" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">column_number</obj_property>

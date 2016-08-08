@@ -28,6 +28,15 @@ entity MATRIX_MUL_IP_CORE_S_INT_G is
 end MATRIX_MUL_IP_CORE_S_INT_G;
 
 architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
+    component DSP_INPUT_C
+        port(clk : IN  STD_LOGIC;
+             sel : IN  STD_LOGIC_VECTOR(2 DOWNTO 0);
+             a   : IN  STD_LOGIC_VECTOR(17 DOWNTO 0);
+             b   : IN  STD_LOGIC_VECTOR(17 DOWNTO 0);
+             c   : IN  STD_LOGIC_VECTOR(47 DOWNTO 0);
+             p   : OUT STD_LOGIC_VECTOR(47 DOWNTO 0));
+    end component DSP_INPUT_C;
+    
     -------------------------------------------SIGNALS-----------------------
 
     type i_DATA_t is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -182,7 +191,7 @@ begin
             );
     end generate;
     --------------------------------------------------------------
-    FIRST_DSP : entity work.DSP_INPUT_C PORT MAP(
+    FIRST_DSP : component DSP_INPUT_C PORT MAP(
             clk => CLK,
             sel => i_OPCODE,
             a   => s_MUl_Din,           --DIN(17 downto 0),--i_DIN,
@@ -193,7 +202,7 @@ begin
 
     ---------------------------------------------------
     BLOCK_A_DSP_GEN : for i in 1 to COLUMN_TOTAL - 1 generate
-        DSP : entity work.DSP_INPUT_C PORT MAP(
+        DSP : component DSP_INPUT_C PORT MAP(
                 clk => CLK,
                 sel => i_OPCODE,
                 a   => s_MUl_Din,       --DIN(17 downto 0),--i_DIN,

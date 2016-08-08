@@ -37,6 +37,17 @@ entity BRAM_WRAPPER_V2 is
 end BRAM_WRAPPER_V2;
 
 architecture Behavioral of BRAM_WRAPPER_V2 is
+    
+    component BRAM18x1k
+        port(clka  : IN  STD_LOGIC;
+             wea   : IN  STD_LOGIC_VECTOR(0 DOWNTO 0);
+             addra : IN  STD_LOGIC_VECTOR(9 DOWNTO 0);
+             dina  : IN  STD_LOGIC_VECTOR(17 DOWNTO 0);
+             clkb  : IN  STD_LOGIC;
+             rstb  : IN  STD_LOGIC;
+             addrb : IN  STD_LOGIC_VECTOR(9 DOWNTO 0);
+             doutb : OUT STD_LOGIC_VECTOR(17 DOWNTO 0));
+    end component BRAM18x1k;
 
 ----------------------------------------------------------------
 signal i_rst,i_OE: std_logic;
@@ -78,24 +89,36 @@ begin
 	end if;
 end process;
 
-BMG_PORT: entity work.BRAM18x1k PORT MAP ( --BRAM18x1k 
-      --Port A
-      WEA        => i_wea,
-      ADDRA      => i_write_addr,
-      DINA       => i_dina,
-      CLKA       => CLK,
-      --Port B
-      RSTB       => i_RST,
-      ADDRB      => i_Read_addr,
-      DOUTB      => DOUTB,
-      CLKB       => CLK
-----    clka : IN STD_LOGIC;
-----      wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-----      addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-----      dina : IN STD_LOGIC_VECTOR(17 DOWNTO 0);
-----      clkb : IN STD_LOGIC;
-----      addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-----      doutb : OUT STD_LOGIC_VECTOR(17 DOWNTO 0)
+BRAM18x1k_inst : component BRAM18x1k
+    port map(
+        clka  => CLK,
+        wea   => i_wea,
+        addra => i_write_addr,
+        dina  => i_dina,
+        clkb  => CLK,
+        rstb  => i_RST,
+        addrb => i_Read_addr,
+        doutb => DOUTB
     );
+----
+--BMG_PORT: entity work.BRAM18x1k PORT MAP ( --BRAM18x1k 
+--      --Port A
+--      WEA        => i_wea,
+--      ADDRA      => i_write_addr,
+--      DINA       => i_dina,
+--      CLKA       => CLK,
+--      --Port B
+--      RSTB       => i_RST,
+--      ADDRB      => i_Read_addr,
+--      DOUTB      => DOUTB,
+--      CLKB       => CLK
+------    clka : IN STD_LOGIC;
+------      wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+------      addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+------      dina : IN STD_LOGIC_VECTOR(17 DOWNTO 0);
+------      clkb : IN STD_LOGIC;
+------      addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+------      doutb : OUT STD_LOGIC_VECTOR(17 DOWNTO 0)
+--    );
 end Behavioral;
 

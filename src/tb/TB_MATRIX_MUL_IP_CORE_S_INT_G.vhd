@@ -60,32 +60,32 @@ ARCHITECTURE behavior OF TB_MATRIX_MUL_IP_CORE_S_INT_G IS
         signal delay_latency                : integer := 0;
 
         --Input Files
-        constant fileGdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
-        constant filePdata : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/matlab/p/" & str(COLUMN_TOTAL) & ".txt";
+        constant fileGdata : string := "/home/tsotne/git/ETSE_GDSP/src/matlab/g/" & str(COLUMN_TOTAL) & ".txt";
+        constant filePdata : string := "/home/tsotne/git/ETSE_GDSP/src/matlab/p/" & str(COLUMN_TOTAL) & ".txt";
 
         --with next two line, i'm getting current entity name,
-        constant entitynameRaw : string(positive range <> ) :=  behavior'INSTANCE_NAME;
-        constant entityname : string(positive range <> ) :=  entitynameRaw(2 to entitynameRaw'right-11); -- to remove extra characters
+        constant entitynameRaw : string :=  behavior'INSTANCE_NAME;
+        constant entityname : string :=  entitynameRaw(2 to entitynameRaw'right-11); -- to remove extra characters
 
         --Output Files
-        constant fileOutput     : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/r/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
-        constant fileOutputCSV : string(positive range <> ) := "/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
+        constant fileOutput     : string := "/home/tsotne/git/ETSE_GDSP/src/results/r/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
+        constant fileOutputCSV : string := "/home/tsotne/git/ETSE_GDSP/src/results/rCSV/" & entityname &"/" & str(COLUMN_TOTAL) & ".txt";
 
         --strings for printing
-        constant msg1 : string(positive range <> ) := "############# These are the values saved in BRAM ##############";
-        constant msg2 : string(positive range <> ) := "#################################################";
-        constant msg3 : string(positive range <> ) := "---------------BEGINNING OF SECTION (See end of Section for details)---------------";
-        constant msg4 : string(positive range <> ) := " ";
+        constant msg1 : string := "############# These are the values saved in BRAM ##############";
+        constant msg2 : string := "#################################################";
+        constant msg3 : string := "---------------BEGINNING OF SECTION (See end of Section for details)---------------";
+        constant msg4 : string := " ";
 
-        constant msgp0 : string(positive range <> ) := "INITIAL DATA";
-        constant msgp1 : string(positive range <> ) := "RESULT of P * G";
-        constant msgp2 : string(positive range <> ) := "RESULT of P G * G";
-        constant msgp3 : string(positive range <> ) := "RESULT of P * Gt";
-        constant msgp4 : string(positive range <> ) := "RESULT of PG * Gt";
-        constant msgp5 : string(positive range <> ) := "RESULT of Pt * G";
-        constant msgp6 : string(positive range <> ) := "RESULT of [PG]t * G";
-        constant msgp7 : string(positive range <> ) := "RESULT of Pt * Gt";
-        constant msgp8 : string(positive range <> ) := "RESULT of [PG]t * Gt";
+        constant msgp0 : string := "INITIAL DATA";
+        constant msgp1 : string := "RESULT of P * G";
+        constant msgp2 : string := "RESULT of P G * G";
+        constant msgp3 : string := "RESULT of P * Gt";
+        constant msgp4 : string := "RESULT of PG * Gt";
+        constant msgp5 : string := "RESULT of Pt * G";
+        constant msgp6 : string := "RESULT of [PG]t * G";
+        constant msgp7 : string := "RESULT of Pt * Gt";
+        constant msgp8 : string := "RESULT of [PG]t * Gt";
 
         procedure PrintResultToConsole is
             file Result_file_pointer : Text;

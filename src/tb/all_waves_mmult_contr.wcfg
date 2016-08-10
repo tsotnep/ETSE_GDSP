@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/tsotne/git/ETSE_GDSP/project/ise/MMULT_CONTR/TB_MMULT_CONROLLER_isim_beh.wdb" id="1" type="fixed">
+      <db_ref path="/home/tsotne/workspaceIse/MMULT_AXI_1/TB_MMULT_CONROLLER_isim_beh.wdb" id="1" type="fixed">
          <top_modules>
             <top_module name="bip_dsp48_macro_pkg_v2_1" />
             <top_module name="bip_usecase_utils_pkg_v2_0" />

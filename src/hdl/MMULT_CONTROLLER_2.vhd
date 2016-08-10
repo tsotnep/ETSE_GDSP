@@ -9,38 +9,38 @@ entity MMULT_CONTROLLER_2 is
             COLUMN_TOTAL       : integer := 3;
             OPCODE_WIDTH       : integer := 3;
             CMD_SIZE           : integer := 4;
-            OPT_MEM_ADDR_BITS  : integer := 4;
+            OPT_MEM_ADDR_BITS  : integer := 1;
             ADDR_WIDTH         : integer := 10;
             DATA_WIDTH         : integer := 18;
             DATA_WIDE_WIDTH    : integer := 48
     );
     Port(
-        CLK    : in  STD_LOGIC;         --connected to axi clock
-        WREN   : in  STD_LOGIC;         --AXI write enable, when '1' data is valid. connect this to: "slv_reg_wren"
-        WDATA  : in  std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --AXI data, connect this to "S_AXI_WDATA"
+        CLK          : in  STD_LOGIC;   --connected to axi clock
+        WREN         : in  STD_LOGIC;   --AXI write enable, when '1' data is valid. connect this to: "slv_reg_wren"
+        WDATA        : in  std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --AXI data, connect this to "S_AXI_WDATA"
 
-        RDADDR : in  std_logic_vector(OPT_MEM_ADDR_BITS downto 0); --AXI addr, connect to "rd_loc_addr_to_cntrl", same as var: loc_addr
-        RDEN   : in  STD_LOGIC;
+        RDADDR       : in  std_logic_vector(OPT_MEM_ADDR_BITS downto 0); --AXI addr, connect to "rd_loc_addr_to_cntrl", same as var: loc_addr
+        RDEN         : in  STD_LOGIC; --connect this to: "slv_reg_rden"
 
-        RDATA  : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --not DATA_WIDTH, because, i can add flags here
-        RMATRIX_ADDR  : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0) --will be used later, COL and ROW addr
+        RDATA        : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --connected to slv_reg1
+        RMATRIX_ADDR : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0) --will be used later, COL and ROW addr, slv_reg2
     );
 end MMULT_CONTROLLER_2;
 
 architecture Behavioral of MMULT_CONTROLLER_2 is
     constant N_of_EL : integer := COLUMN_TOTAL * COLUMN_TOTAL;
+    constant DOUT_SLV_REG1_ADRR : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS+1));
 
     constant cmd_RESET_CNTRL       : std_logic_vector := "1111";
-    constant cmd_SAVE_G            : std_logic_vector := "000";
-    constant cmd_SAVE_P            : std_logic_vector := "000";
-    constant cmd_LOAD_IN_MMULT     : std_logic_vector := "000";
-    constant cmd_take_next_command : std_logic_vector := "000";
-    constant cmd_UNLOAD            : std_logic_vector := "000";
-    constant cmd_CALCULTE_PG          : std_logic_vector := "000";
-
+    constant cmd_SAVE_G            : std_logic_vector := "0001";
+    constant cmd_SAVE_P            : std_logic_vector := "0010";
+    constant cmd_LOAD_IN_MMULT     : std_logic_vector := "0011";
+    constant cmd_take_next_command : std_logic_vector := "0100";
+    constant cmd_UNLOAD            : std_logic_vector := "0101";
+    constant cmd_CALCULTE_PG       : std_logic_vector := "0110";
 
     type t_BRAM_DATA_integer is array (0 to N_of_EL - 1) of integer;
-    
+
     type mmult_state is (
         cntrl_RESET_MMULT, cntrl_READ_NEXT_CMD,
         cntrl_WAIT_RESET, cntrl_WAIT_P_delay, cntrl_WAIT_G_delay, cntrl_WAIT_UNLOAD,
@@ -99,9 +99,8 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cmd_next_command : std_logic_vector(CMD_SIZE - 1 downto 0);
 
 begin
-    
-    RMATRIX_ADDR <= (others =>'0');
-    
+    RMATRIX_ADDR <= (others => '0');
+
     readNextCommand : process(clk) is
     begin
         if rising_edge(clk) then
@@ -249,7 +248,7 @@ begin
                         end if;
 
                     when cntrl_WRITE_RESULTS =>
-                        if RDEN = '1' and RDADDR = "00001" then
+                        if RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR then
                             RDATA               <= std_logic_vector(to_unsigned(cntlr_output_arr_R(cntrl_R_array_index), C_S_AXI_DATA_WIDTH));
                             cntrl_R_array_index <= cntrl_R_array_index + 1;
                         end if;

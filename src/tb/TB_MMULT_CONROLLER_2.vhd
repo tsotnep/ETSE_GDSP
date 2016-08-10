@@ -28,8 +28,8 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     signal RDADDR                     : std_logic_vector(1 downto 0);
 
     alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
-    alias cmdin is WDATA(DATA_WIDTH + CMD_SIZE - 1 downto DATA_WIDTH); --4 bits
-    alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits spared for future.
+    alias cmdin is WDATA(DATA_WIDTH + CMD_SIZE - 1 downto DATA_WIDTH); --4 bits current command
+    alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits next command.
     alias cmdin3 is WDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH + CMD_SIZE * 2); --6 bits spared for future.
 
     constant cmd_RESET_CNTRL       : std_logic_vector := "1111";
@@ -39,7 +39,7 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     constant cmd_take_next_command : std_logic_vector := "0100";
     constant cmd_UNLOAD            : std_logic_vector := "0101";
     constant cmd_CALCULTE_PG       : std_logic_vector := "0110";
-    constant cmd_NULL              : std_logic_vector := "0110";
+    constant cmd_NULL              : std_logic_vector := "0111";
     constant DOUT_SLV_REG1_ADRR    : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS+1));
     constant COLADDR_SLV_REG2_ADRR : std_logic_vector := std_logic_vector(to_unsigned(2, OPT_MEM_ADDR_BITS+1));
 

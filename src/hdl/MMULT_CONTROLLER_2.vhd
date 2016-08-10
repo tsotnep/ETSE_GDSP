@@ -20,16 +20,18 @@ entity MMULT_CONTROLLER_2 is
         WDATA        : in  std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --AXI data, connect this to "S_AXI_WDATA"
 
         RDADDR       : in  std_logic_vector(OPT_MEM_ADDR_BITS downto 0); --AXI addr, connect to "rd_loc_addr_to_cntrl", same as var: loc_addr
-        RDEN         : in  STD_LOGIC; --connect this to: "slv_reg_rden"
+        RDEN         : in  STD_LOGIC;   --connect this to: "slv_reg_rden"
 
         RDATA        : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --connected to slv_reg1
         RMATRIX_ADDR : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0) --will be used later, COL and ROW addr, slv_reg2
+
+    --TODO: add forth register as input for COL ROW address
     );
 end MMULT_CONTROLLER_2;
 
 architecture Behavioral of MMULT_CONTROLLER_2 is
-    constant N_of_EL : integer := COLUMN_TOTAL * COLUMN_TOTAL;
-    constant DOUT_SLV_REG1_ADRR : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS+1));
+    constant N_of_EL            : integer          := COLUMN_TOTAL * COLUMN_TOTAL;
+    constant DOUT_SLV_REG1_ADRR : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS + 1));
 
     constant cmd_RESET_CNTRL       : std_logic_vector := "1111";
     constant cmd_SAVE_G            : std_logic_vector := "0001";
@@ -105,6 +107,7 @@ begin
     begin
         if rising_edge(clk) then
             if WREN = '1' and cmdin = cmd_take_next_command then
+                --TODO: next_cmd_command can be removed
                 cmd_next_command <= cmdin2;
             end if;
         end if;
@@ -249,11 +252,10 @@ begin
 
                     when cntrl_WRITE_RESULTS =>
                         if RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR then
-                            RDATA               <= std_logic_vector(to_unsigned(cntlr_output_arr_R(cntrl_R_array_index), C_S_AXI_DATA_WIDTH));
                             cntrl_R_array_index <= cntrl_R_array_index + 1;
                         end if;
                         if cntrl_R_array_index >= N_of_EL then
-                            state <= cntrl_RESET_MMULT;
+                            state <= cntrl_FINISHED;
                         end if;
 
                     when cntrl_CALCULTE =>
@@ -265,6 +267,9 @@ begin
             end if;
         end if;
     end process cntrl_FSM;
+    
+    --i made it combinational to remove 1 clock cycle delay.
+    RDATA <= std_logic_vector(to_unsigned(cntlr_output_arr_R(cntrl_R_array_index), C_S_AXI_DATA_WIDTH)) when (RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR) else (others => '0');
 
     MATRIX_MUL_IP_CORE_S_INT_G_inst : entity work.MATRIX_MUL_IP_CORE_S_INT_G
         generic map(

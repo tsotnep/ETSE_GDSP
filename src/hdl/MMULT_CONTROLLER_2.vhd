@@ -107,7 +107,7 @@ begin
     begin
         if rising_edge(clk) then
             if WREN = '1' and cmdin = cmd_take_next_command then
-                --TODO: next_cmd_command can be removed
+                --TODO: cmd_take_next_command can be removed from above, we don't need to waste another 1 write time
                 cmd_next_command <= cmdin2;
             end if;
         end if;

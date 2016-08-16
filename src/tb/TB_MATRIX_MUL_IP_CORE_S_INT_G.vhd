@@ -211,7 +211,7 @@ BEGIN
         sv_Result_File_Open := false;
 
         CMD                 <= cmd_Unload_BRAM_Content;
-        Bank_sel_in         <= '1';
+        Bank_sel_in         <= '1';--inv 0
         wait until UN_LOADING_DONE = '1';
         wait for clk_period;
 
@@ -223,7 +223,7 @@ BEGIN
             sv_Result_File_Open := true;
 
             CMD         <= cmd_Unload_BRAM_Content;
-            Bank_sel_in <= '0';
+            Bank_sel_in <= '0';--inv 1
             wait until UN_LOADING_DONE = '1';
             wait for clk_period;
 
@@ -234,7 +234,7 @@ BEGIN
 
 
             CMD         <= cmd_Unload_BRAM_Content;
-            Bank_sel_in <= '1';
+            Bank_sel_in <= '1';--inv 0
             wait until UN_LOADING_DONE = '1';
 
         wait;

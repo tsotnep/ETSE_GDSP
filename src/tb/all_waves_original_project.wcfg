@@ -38,19 +38,9 @@
          <obj_property name="ObjectShortName">bank_sel_in</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/bram_data" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">bram_data[0:1]</obj_property>
-         <obj_property name="ObjectShortName">bram_data[0:1]</obj_property>
+         <obj_property name="ElementShortName">bram_data[0:2]</obj_property>
+         <obj_property name="ObjectShortName">bram_data[0:2]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/bram_data[0]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">bram_data[0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/bram_data[1]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">bram_data[1]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>
@@ -147,97 +137,144 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/rst" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">rst</obj_property>
-         <obj_property name="ObjectShortName">rst</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/load_pg" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">load_pg[1:0]</obj_property>
-         <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/un_load" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">un_load</obj_property>
-         <obj_property name="ObjectShortName">un_load</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">p</obj_property>
-         <obj_property name="ObjectShortName">p</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/g" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">g</obj_property>
-         <obj_property name="ObjectShortName">g</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/bank_sel_in" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">bank_sel_in</obj_property>
-         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/din" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">din[17:0]</obj_property>
          <obj_property name="ObjectShortName">din[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/dout" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">dout[17:0]</obj_property>
          <obj_property name="ObjectShortName">dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/rst" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ffffff</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/ready" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">ready</obj_property>
          <obj_property name="ObjectShortName">ready</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ffff00</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/op_done" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">op_done</obj_property>
          <obj_property name="ObjectShortName">op_done</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ffff00</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/loading_done" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">loading_done</obj_property>
          <obj_property name="ObjectShortName">loading_done</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ffff00</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/un_loading_done" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">un_loading_done</obj_property>
          <obj_property name="ObjectShortName">un_loading_done</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ffff00</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/cmd" type="other" db_ref_id="1">
+         <obj_property name="ElementShortName">cmd</obj_property>
+         <obj_property name="ObjectShortName">cmd</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/bank_sel_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">bank_sel_in</obj_property>
+         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#00ffff</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/load_pg" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">load_pg[1:0]</obj_property>
+         <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#00ffff</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/un_load" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_load</obj_property>
+         <obj_property name="ObjectShortName">un_load</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#00ffff</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">p</obj_property>
+         <obj_property name="ObjectShortName">p</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#00ffff</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/g" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">g</obj_property>
+         <obj_property name="ObjectShortName">g</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#00ffff</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/i_mem2alu" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_mem2alu[0:1]</obj_property>
-         <obj_property name="ObjectShortName">i_mem2alu[0:1]</obj_property>
+         <obj_property name="ElementShortName">i_mem2alu[0:2]</obj_property>
+         <obj_property name="ObjectShortName">i_mem2alu[0:2]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/i_alu2alu" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_alu2alu[0:1]</obj_property>
-         <obj_property name="ObjectShortName">i_alu2alu[0:1]</obj_property>
+         <obj_property name="ElementShortName">i_alu2alu[0:2]</obj_property>
+         <obj_property name="ObjectShortName">i_alu2alu[0:2]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p_opcode" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">p_opcode[0:1]</obj_property>
          <obj_property name="ObjectShortName">p_opcode[0:1]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/i_opcode" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">i_opcode[2:0]</obj_property>
          <obj_property name="ObjectShortName">i_opcode[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p_web" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">p_web[0:7]</obj_property>
          <obj_property name="ObjectShortName">p_web[0:7]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/i_web" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_web[0:1]</obj_property>
-         <obj_property name="ObjectShortName">i_web[0:1]</obj_property>
+         <obj_property name="ElementShortName">i_web[0:2]</obj_property>
+         <obj_property name="ObjectShortName">i_web[0:2]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">p_write_addr[0:7]</obj_property>
          <obj_property name="ObjectShortName">p_write_addr[0:7]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/p_addrb" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">p_addrb[0:7]</obj_property>
          <obj_property name="ObjectShortName">p_addrb[0:7]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/i_p_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">i_p_write_addr[8:0]</obj_property>
          <obj_property name="ObjectShortName">i_p_write_addr[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_csel" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">s_fsm_csel[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_fsm_csel[1:0]</obj_property>
+         <obj_property name="ElementShortName">s_fsm_csel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">s_fsm_csel[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_read_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_read_addr[8:0]</obj_property>
          <obj_property name="ObjectShortName">s_fsm_read_addr[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_read_shft" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_read_shft</obj_property>
@@ -246,6 +283,7 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_opcode" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_opcode[2:0]</obj_property>
          <obj_property name="ObjectShortName">s_fsm_opcode[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_we" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_we</obj_property>
@@ -254,10 +292,12 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_modified_fsm_read_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_modified_fsm_read_addr[9:0]</obj_property>
          <obj_property name="ObjectShortName">s_modified_fsm_read_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_modified_fsm_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_modified_fsm_write_addr[9:0]</obj_property>
          <obj_property name="ObjectShortName">s_modified_fsm_write_addr[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_mul_p_shft" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_mul_p_shft</obj_property>
@@ -266,6 +306,7 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_write_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_write_addr[8:0]</obj_property>
          <obj_property name="ObjectShortName">s_fsm_write_addr[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_un_load" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_un_load</obj_property>
@@ -274,10 +315,12 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_control_a_input_of_dsp" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_control_a_input_of_dsp[1:0]</obj_property>
          <obj_property name="ObjectShortName">s_fsm_control_a_input_of_dsp[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_mul_din" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_mul_din[17:0]</obj_property>
          <obj_property name="ObjectShortName">s_mul_din[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_fsm_write_shft" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_fsm_write_shft</obj_property>
@@ -286,10 +329,12 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_g_row" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_g_row[9:0]</obj_property>
          <obj_property name="ObjectShortName">s_g_row[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_g_column" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_g_column[9:0]</obj_property>
          <obj_property name="ObjectShortName">s_g_column[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_g_o_en" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">s_g_o_en</obj_property>
@@ -302,34 +347,42 @@
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/s_gram_dout" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">s_gram_dout[17:0]</obj_property>
          <obj_property name="ObjectShortName">s_gram_dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/column_total" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">column_total</obj_property>
          <obj_property name="ObjectShortName">column_total</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/opcode_width" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">opcode_width</obj_property>
          <obj_property name="ObjectShortName">opcode_width</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/addr_width" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">addr_width</obj_property>
          <obj_property name="ObjectShortName">addr_width</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/data_width" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">data_width</obj_property>
          <obj_property name="ObjectShortName">data_width</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/data_wide_width" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">data_wide_width</obj_property>
          <obj_property name="ObjectShortName">data_wide_width</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/din_delay" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">din_delay</obj_property>
          <obj_property name="ObjectShortName">din_delay</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/delay_depth" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">delay_depth</obj_property>
          <obj_property name="ObjectShortName">delay_depth</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group107" type="group">
@@ -357,8 +410,8 @@
          <obj_property name="ObjectShortName">control_a_input_of_dsp[1:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/FSM_UNIT/csel" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">csel[1:0]</obj_property>
-         <obj_property name="ObjectShortName">csel[1:0]</obj_property>
+         <obj_property name="ElementShortName">csel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">csel[2:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/FSM_UNIT/data_width" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">data_width</obj_property>
@@ -449,8 +502,8 @@
          <obj_property name="ObjectShortName">s_b</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/FSM_UNIT/s_csel" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">s_csel[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_csel[1:0]</obj_property>
+         <obj_property name="ElementShortName">s_csel[2:0]</obj_property>
+         <obj_property name="ObjectShortName">s_csel[2:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/FSM_UNIT/state" type="other" db_ref_id="1">
          <obj_property name="ElementShortName">state</obj_property>
@@ -502,8 +555,8 @@
          <obj_property name="ObjectShortName">data_width</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/GRAM/datamem" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">datamem[0:1]</obj_property>
-         <obj_property name="ObjectShortName">datamem[0:1]</obj_property>
+         <obj_property name="ElementShortName">datamem[0:2]</obj_property>
+         <obj_property name="ObjectShortName">datamem[0:2]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_matrix_mul_ip_core_s_int_g/uut/GRAM/din" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">din[17:0]</obj_property>

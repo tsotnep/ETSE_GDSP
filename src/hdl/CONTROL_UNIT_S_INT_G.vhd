@@ -155,7 +155,7 @@ end process;
                         ELSIF LOAD_PG = LOAD_P_CMD then
                             state <= LOAD_P;
                         ELSE
-                            state <= START;
+                            state <= LOAD_DONE;
                         END IF;
                     when LOAD_G =>
                         if v_LOADING_DONE = '0' then

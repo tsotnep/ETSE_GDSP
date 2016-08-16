@@ -83,7 +83,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_G_loading : std_logic;
     signal cntrl_P_loading : std_logic;
 
-    signal state : mmult_state;
+    signal state, next_state : mmult_state;
 
     signal cntrl_reset_length_count       : integer := 0;
     signal cntrl_P_loading_predelay_count : integer := 0;
@@ -106,7 +106,7 @@ begin
     readNextCommand : process(clk) is
     begin
         if rising_edge(clk) then
-            if WREN = '1' and cmdin = cmd_take_next_command then
+            if WREN = '1' and cmdin = cmd_LOAD_IN_MMULT then
                 --TODO: cmd_take_next_command can be removed from above, we don't need to waste another 1 write time
                 cmd_next_command <= cmdin2;
             end if;
@@ -117,7 +117,8 @@ begin
     begin
         if rising_edge(clk) then
             if WREN = '1' and cmdin = cmd_RESET_CNTRL then
-                state <= cntrl_RESET_MMULT;
+                state      <= cntrl_RESET_MMULT;
+                next_state <= cntrl_CALCULTE;
 
                 cntrl_reset_length_count       <= 0;
                 cntrl_P_loading_predelay_count <= 0;
@@ -138,6 +139,7 @@ begin
                 cntrl_G_loading <= '0';
                 cntrl_P_loading <= '0';
             else
+                LOAD_PG <= "11";
                 case state is
                     when cntrl_RESET_MMULT =>
                         Bank_sel <= '0';
@@ -146,7 +148,6 @@ begin
                         UN_LOAD  <= '0';
                         P        <= '0';
                         G        <= '0';
-                        Bank_sel <= '0';
                         DIN      <= (others => '0');
                         state    <= cntrl_SAVE_G_P;
 
@@ -166,19 +167,20 @@ begin
                         end if;
 
                         if WREN = '1' and cmdin = cmd_LOAD_IN_MMULT then
-                            state <= cntrl_WAIT_RESET;
+                            state      <= cntrl_WAIT_RESET;
+                            next_state <= cntrl_WAIT_G_delay;
                         end if;
 
                     when cntrl_WAIT_RESET =>
                         --wait until the IP finishs resetting, 2 clock cycles
-                        rst           <= '0';
-                        LOAD_PG       <= (others => '1');
                         cntrl_P_saved <= '0';
                         cntrl_G_saved <= '0';
-                        if cntrl_reset_length_count < cntrl_reset_length - 1 then
+                        if cntrl_reset_length_count < cntrl_reset_length then
                             cntrl_reset_length_count <= cntrl_reset_length_count + 1;
                         else
-                            state <= cntrl_WAIT_G_delay;
+                            cntrl_reset_length_count <= 0;
+                            state <= next_state;
+                            rst           <= '0';
                         end if;
 
                     when cntrl_WAIT_G_delay =>
@@ -191,7 +193,6 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
-                        DIN     <= (others => '0');
                         LOAD_PG <= LOAD_G_CMD;
                         if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
                             DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_G(cntrl_G_array_index), DATA_WIDTH));
@@ -212,6 +213,7 @@ begin
                         end if;
 
                     when cntrl_LOAD_P =>
+                        LOAD_PG <= LOAD_P_CMD;
                         if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL - 1 then
                             DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_P(cntrl_P_array_index), DATA_WIDTH));
                             cntrl_P_array_index <= cntrl_P_array_index + 1;
@@ -221,26 +223,40 @@ begin
                             end if;
                         end if;
 
-                    when cntrl_READ_NEXT_CMD =>
-                        if cmd_next_command = cmd_unload then
-                            state    <= cntrl_WAIT_UNLOAD;
-                            LOAD_PG  <= "11";
-                            Bank_sel <= '1';
-                            UN_LOAD  <= '1';
-                        else
-                            state    <= cntrl_WAIT_UNLOAD; --TODO: tell to go in calculation state instead
-                            LOAD_PG  <= "11";
-                            Bank_sel <= '1';
-                            UN_LOAD  <= '1';
-                        end if;
 
-                    when cntrl_WAIT_UNLOAD =>
-                        if loading_done = '1' then
-                            state <= cntrl_UNLOAD;
+
+
+                    when cntrl_READ_NEXT_CMD =>
+                        if cmd_next_command(3) = '1' then --READ/UNLOAD
+                            --only specify which bank to read
+                            state    <= cntrl_WAIT_UNLOAD;
+                            UN_LOAD  <= '1';
+                            Bank_sel <= not cmd_next_command(2); --because it is inverted when reading
+                            LOAD_PG  <= "11";
+                        else            --WRITE
+                            --specify which bank to write, and what command to execute
+                            rst <= '1';
+                            state      <= cntrl_WAIT_RESET;
+                            next_state <= cntrl_CALCULTE;
+                            UN_LOAD    <= '0';
+                            LOAD_PG    <= "11";
+                            Bank_sel   <= cmd_next_command(2);
+                            P <= cmd_next_command(1);
+                            G <= cmd_next_command(0);
                         end if;
+                        
+                        
+                        
+                        --TODO: add command receiving state
+                        --TODO: add flag when it can read the data, that will be interrupt later.
+                        
+
+
 
                     when cntrl_UNLOAD =>
-                        if READY = '1' then
+                        UN_LOAD <= '1';
+                        Bank_sel <= '0';
+                        if READY = '1' or cntrl_R_array_index > 0 then
                             if cntrl_R_array_index <= N_of_EL - 1 then
                                 cntlr_output_arr_R(cntrl_R_array_index) <= to_integer(unsigned(DOUT));
                                 cntrl_R_array_index                     <= cntrl_R_array_index + 1;
@@ -249,6 +265,8 @@ begin
                                 cntrl_R_array_index <= 0;
                             end if;
                         end if;
+
+
 
                     when cntrl_WRITE_RESULTS =>
                         if RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR then
@@ -259,15 +277,19 @@ begin
                         end if;
 
                     when cntrl_CALCULTE =>
-                        null;
-                    when cntrl_FINISHED =>
+                        if OP_DONE = '1' then
+                            --TODO, in order to perfor chained calculations, you should modify transmissions here
+                            state <= cntrl_UNLOAD;
+                        end if;
+
+                    when OTHERS =>
                         null;
                 end case;
 
             end if;
         end if;
     end process cntrl_FSM;
-    
+
     --i made it combinational to remove 1 clock cycle delay.
     RDATA <= std_logic_vector(to_unsigned(cntlr_output_arr_R(cntrl_R_array_index), C_S_AXI_DATA_WIDTH)) when (RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR) else (others => '0');
 

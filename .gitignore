@@ -1,5 +1,7 @@
 src/ip/ise/BRAM18x1k/coregen.cgp
 src/ip/ise/DSP_INPUT_C/coregen.cgp
+project/vivado/
+
 *vivado*.log
 *vivado*.jou
 *webtalk*.*

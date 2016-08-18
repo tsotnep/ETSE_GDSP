@@ -266,11 +266,6 @@
          <obj_property name="ElementShortName">wren</obj_property>
          <obj_property name="ObjectShortName">wren</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/state_after_reset" type="other" db_ref_id="2">
-         <obj_property name="ElementShortName">state_after_reset</obj_property>
-         <obj_property name="ObjectShortName">state_after_reset</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/wdata" type="array" db_ref_id="2">
          <obj_property name="ElementShortName">wdata[31:0]</obj_property>
          <obj_property name="ObjectShortName">wdata[31:0]</obj_property>
@@ -297,6 +292,12 @@
          <obj_property name="ElementShortName">rden</obj_property>
          <obj_property name="ObjectShortName">rden</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdy_for_cmd" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">rdy_for_cmd</obj_property>
+         <obj_property name="ObjectShortName">rdy_for_cmd</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="CustomSignalColor">#ff00ff</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdata" type="array" db_ref_id="2">
          <obj_property name="ElementShortName">rdata[31:0]</obj_property>
          <obj_property name="ObjectShortName">rdata[31:0]</obj_property>
@@ -310,6 +311,11 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/state" type="other" db_ref_id="2">
          <obj_property name="ElementShortName">state</obj_property>
          <obj_property name="ObjectShortName">state</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/state_after_reset" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">state_after_reset</obj_property>
+         <obj_property name="ObjectShortName">state_after_reset</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rst" type="logic" db_ref_id="2">
@@ -351,10 +357,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdy_for_cmd" type="logic" db_ref_id="2">
-         <obj_property name="ElementShortName">rdy_for_cmd</obj_property>
-         <obj_property name="ObjectShortName">rdy_for_cmd</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>

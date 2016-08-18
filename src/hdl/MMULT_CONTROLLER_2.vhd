@@ -74,8 +74,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
         cntrl_CALCULTE,
         cntrl_UNLOAD,
         cntrl_PRINT,
-        cntrl_RESET_MMULT_IP,
-        cntrl_RESET_MMULT_CNTRL
+        cntrl_RESET_MMULT_IP
     );
 
     signal state, state_after_reset : mmult_state;
@@ -151,20 +150,31 @@ begin
                 G        <= '0';
                 DIN      <= (others => '0');
                 state    <= cntrl_WAIT_FOR_CMD;
+                RDY_FOR_CMD <= '0';
 
             else
-                RDY_FOR_CMD <= '0';
                 LOAD_PG     <= IDLE_CMD;
                 case state is
-                    when cntrl_RESET_MMULT_CNTRL =>
-                        Bank_sel <= '0';
-                        rst      <= '1';
-                        LOAD_PG  <= IDLE_CMD;
-                        UN_LOAD  <= '0';
-                        P        <= '0';
-                        G        <= '0';
-                        DIN      <= (others => '0');
-                        state    <= cntrl_WAIT_FOR_CMD;
+                    when cntrl_WAIT_FOR_CMD =>
+--                        rst <= '0';
+                        resetted_MMULT_IP <= '0';
+--                        RDY_FOR_CMD       <= '1';
+                        LOAD_PG           <= IDLE_CMD;
+                        if WREN = '1' then
+                            case cmdin is
+                                when cmd_WAIT_FOR_CMD      => state <= cntrl_WAIT_FOR_CMD;
+                                when cmd_RESET_MMULT_IP    => state <= cntrl_RESET_MMULT_IP;
+                                when cmd_SAVE_G_or_P       => state <= cntrl_SAVE_G_or_P;
+                                when cmd_LOAD_G            => state <= cntrl_LOAD_G;
+                                when cmd_LOAD_P            => state <= cntrl_LOAD_P;
+                                when cmd_CALCULTE          => state <= cntrl_CALCULTE;
+                                    cmd_details          <= cmdin2;
+                                when cmd_UNLOAD => state <= cntrl_UNLOAD;
+                                    cmd_details          <= cmdin2;
+                                when cmd_PRINT => state  <= cntrl_PRINT;
+                                when others => null;
+                            end case;
+                        end if;
 
                     when cntrl_RESET_MMULT_IP =>
                         if only_wait = '1' then
@@ -179,27 +189,6 @@ begin
                             rst                      <= '0';
                             resetted_MMULT_IP        <= '1';
                             state                    <= state_after_reset;
-                        end if;
-
-                    when cntrl_WAIT_FOR_CMD =>
-                        resetted_MMULT_IP <= '0';
-                        RDY_FOR_CMD       <= '1';
-                        LOAD_PG           <= IDLE_CMD;
-                        if WREN = '1' then
-                            case cmdin is
-                                when cmd_WAIT_FOR_CMD      => state <= cntrl_WAIT_FOR_CMD;
-                                when cmd_RESET_MMULT_CNTRL => state <= cntrl_RESET_MMULT_CNTRL;
-                                when cmd_RESET_MMULT_IP    => state <= cntrl_RESET_MMULT_IP;
-                                when cmd_SAVE_G_or_P       => state <= cntrl_SAVE_G_or_P;
-                                when cmd_LOAD_G            => state <= cntrl_LOAD_G;
-                                when cmd_LOAD_P            => state <= cntrl_LOAD_P;
-                                when cmd_CALCULTE          => state <= cntrl_CALCULTE;
-                                    cmd_details          <= cmdin2;
-                                when cmd_UNLOAD => state <= cntrl_UNLOAD;
-                                    cmd_details          <= cmdin2;
-                                when cmd_PRINT => state  <= cntrl_PRINT;
-                                when others => null;
-                            end case;
                         end if;
 
                     when cntrl_SAVE_G_or_P =>
@@ -302,6 +291,7 @@ begin
                             state             <= cntrl_RESET_MMULT_IP;
                             state_after_reset <= cntrl_UNLOAD;
                         end if;
+                        
                     when cntrl_PRINT =>
                         --TODO: later, read from GRAM
                         if RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR then
@@ -311,6 +301,7 @@ begin
                             cntrl_R_array_index <= 0;
                             state               <= cntrl_WAIT_FOR_CMD;
                         end if;
+
                 end case;
 
             end if;

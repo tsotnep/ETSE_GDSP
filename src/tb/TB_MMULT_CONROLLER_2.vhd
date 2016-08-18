@@ -79,7 +79,6 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     begin
         WREN   <= '1';
         WREN   <= '0' after period;
-        cmdin2 <= (others => '0');
         cmdin  <= command;
         cmdin2 <= command2;
         datain <= std_logic_vector(to_unsigned(val, DATA_WIDTH));
@@ -151,7 +150,7 @@ begin
 
         simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
         wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
+--        wait until RDY_FOR_CMD = '1';
 
         simulate_AXI_write(0, cmd_SAVE_G_or_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
 
@@ -165,6 +164,10 @@ begin
         simulate_AXI_write(32, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
         simulate_AXI_write(33, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
         simulate_AXI_write(11, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        wait for period * 30;
+--        simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        wait for period * 30;
         simulate_AXI_write(12, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
         simulate_AXI_write(13, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
         simulate_AXI_write(21, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
@@ -214,11 +217,11 @@ begin
 
         simulate_AXI_write(1, cmd_FINISH_SAVING_G_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
         wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
+--        wait until RDY_FOR_CMD = '1';
 
         simulate_AXI_write(0, cmd_LOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
         wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
+--        wait until RDY_FOR_CMD = '1';
 
         simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
         wait for period * 30;

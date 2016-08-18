@@ -45,6 +45,7 @@ architecture Behavioral of CONTROL_UNIT_S_INT_G is
     signal state           : state_type;
     signal cnt_delay_ready : integer range 0 to (PIPELINE_DELAY + 1 + COLUMN_TOTAL * COLUMN_TOTAL); -- The counter should be able to count up to square of TOTAL_NUM_OF_COLUMNS + 1 +Pipeline delay
 
+    signal P_is_loaded, G_is_loaded : std_logic;
 
     --dubug sigals
     signal s_a, s_b : integer := 0;
@@ -147,6 +148,8 @@ end process;
                 WE                     <= '0';
                 OPCODE                 <= (others => '0');
                 s_CSEL                 <= (others => '0');
+                P_is_loaded <= '0';
+                G_is_loaded <= '0';
             else
                 case state is
                     when START =>
@@ -192,6 +195,7 @@ end process;
                                     --remain here untilt signal changes from load_g to load_p or something else.
                                 else
                                     state <= LOAD_DONE;
+                                    G_is_loaded <= '1';
                                     --if input signal changed, go into LOAD_DONE state
                                 end if;
                             end if;
@@ -256,6 +260,7 @@ end process;
                                     --remain here untilt signal changes from load_g to load_p or something else.
                                 else
                                     state <= LOAD_DONE;
+                                    P_is_loaded <= '1';
                                 end if;
                             end if;
 
@@ -274,11 +279,11 @@ end process;
                         s_CSEL         <= (others => '1');
                         --Enble BRAM for Saving multiplication result.
                         --TODO: but that actually goes into OEB - output enable input of bram.
-                        IF LOAD_PG = LOAD_G_CMD then
+                        IF G_is_loaded = '0' and LOAD_PG = LOAD_G_CMD then
                             state <= LOAD_G;
-                        elsif LOAD_PG = LOAD_P_CMD then
+                        elsif P_is_loaded = '0' and  LOAD_PG = LOAD_P_CMD then
                             state <= LOAD_P;
-                        else
+                        elsif LOAD_PG = OPERATE_CMD then
                             Write_SHFT <= '1';
                             if UN_LOAD = '1' then
                                 state <= UNLOAD;
@@ -545,6 +550,8 @@ end process;
                             state <= UNLOAD;
                         end if;
                     when others =>
+                        P_is_loaded <= '0';
+                        G_is_loaded <= '0';
                         if v_UNLOAD_DONE = '0' then
                             CONTROL_A_INPUT_OF_DSP <= "01"; --'1';
                             if j > COLUMN_TOTAL then -- J = 0 initially.

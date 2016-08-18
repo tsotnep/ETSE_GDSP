@@ -36,7 +36,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
              c   : IN  STD_LOGIC_VECTOR(47 DOWNTO 0);
              p   : OUT STD_LOGIC_VECTOR(47 DOWNTO 0));
     end component DSP_INPUT_C;
-    
+
     -------------------------------------------SIGNALS-----------------------
 
     type i_DATA_t is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -79,6 +79,11 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal s_G_O_EN    : STD_LOGIC;
     signal s_G_WE      : std_logic;
     signal s_GRAM_DOUT : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
+    
+    ----------------------
+    signal DIN_gram : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
+    signal WE_gram, OE_gram, READY_internal :std_logic;
+    signal COL_gram, ROW_gram     : std_logic_vector(ADDR_WIDTH - 1 downto 0);
 begin
 
     -----------------------------------------------------------
@@ -142,11 +147,12 @@ begin
             G_WE                   => s_G_WE,
             G_EN                   => s_G_O_EN,
             OP_DONE                => OP_DONE,
-            READY                  => READY,
+            READY                  => READY_internal,
             LOADING_DONE           => LOADING_DONE,
             UN_LOADING_DONE        => UN_LOADING_DONE,
             CONTROL_A_INPUT_OF_DSP => s_fsm_CONTROL_A_INPUT_OF_DSP
         );
+READY <= READY_internal;
     --------------------------------------------------------------
 
     GRAM : entity work.STANDARD_RAM
@@ -156,19 +162,47 @@ begin
             DATA_WIDTH   => DATA_WIDTH  --
         )
         Port map(CLK  => CLK,
-                 ROW  => s_G_ROW,
-                 COL  => s_G_COLUMN,
-                 DIN  => DIN,
+                 ROW  => ROW_gram,
+                 COL  => COL_gram,
+                 DIN  => DIN_gram,
                  DOUT => s_GRAM_DOUT,
-                 WE   => s_G_WE,
-                 OE   => s_G_O_EN
+                 WE   => WE_gram,
+                 OE   => OE_gram
         );
+
+    GramControl : process (DIN, UN_LOAD, i_ALU2ALU, s_G_WE, READY_internal) is
+    begin
+        if UN_LOAD = '1' and READY_internal = '1' and LOAD_PG = OPERATE_CMD then
+            --P to G, when unloading from Bram it will come here in GRAM
+            --TODO: write address generating
+            ROW_gram <="00";
+            COL_gram <="00";     
+            DIN_gram <=i_ALU2ALU(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0); --output from fsm, data of Bram
+            WE_gram <= UN_LOAD;
+            OE_gram <='1';
+        elsif LOAD_PG = IDLE_CMD then
+            ROW_gram <=s_G_ROW;
+            COL_gram <=s_G_COLUMN;            
+            DIN_gram <=DIN; --output from fsm, having data for G ram
+            WE_gram <=s_G_WE;
+            OE_gram <=s_G_O_EN;
+            
+        else
+            ----normal operating mode
+            ROW_gram <=s_G_ROW;
+            COL_gram <=s_G_COLUMN;            
+            DIN_gram <=DIN; --output from fsm, having data for G ram
+            WE_gram <=s_G_WE;
+            OE_gram <=s_G_O_EN;
+        end if;
+
+    end process GramControl;
 
     --------------------------------------------------------------
 
     s_modified_fsm_Write_ADDR <= Bank_sel_in & i_P_Write_ADDR;
-    s_modified_fsm_Read_ADDR <= not (Bank_sel_in) & s_fsm_Read_ADDR;
-    s_MUl_Din <= DIN(DATA_WIDTH - 1 downto 0) when s_fsm_CONTROL_A_INPUT_OF_DSP = "00" else (0 => '1', others => '0') when s_fsm_CONTROL_A_INPUT_OF_DSP = "01" --set to 1 when FSM is in control. (B*A=B) when A = 1.
+    s_modified_fsm_Read_ADDR  <= not (Bank_sel_in) & s_fsm_Read_ADDR;
+    s_MUl_Din                 <= DIN(DATA_WIDTH - 1 downto 0) when s_fsm_CONTROL_A_INPUT_OF_DSP = "00" else (0 => '1', others => '0') when s_fsm_CONTROL_A_INPUT_OF_DSP = "01" --set to 1 when FSM is in control. (B*A=B) when A = 1.
         else s_GRAM_DOUT;
 
     BLOCK_A_MEM_GEN : for i in 0 to COLUMN_TOTAL - 1 generate

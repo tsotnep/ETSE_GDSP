@@ -328,6 +328,7 @@ begin
             G               => G,
             Bank_sel_in     => Bank_sel,
             DIN             => DIN,
+            RDEN => RDEN,
             DOUT            => DOUT,
             READY           => READY,
             OP_DONE         => OP_DONE,

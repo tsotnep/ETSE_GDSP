@@ -4,6 +4,19 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
 USE ieee.numeric_std.ALL;
 
+--NOTES: cmd is the main command, while cmd2 is the details of this command when calculating or unloading,
+--to select corresponding BANK or calculating method.
+
+--CALCULATING:
+--cmd == cmd_CALCULTE, cmd2 == cmd_CALCULATE_PG_LOWER or cmd_CALCULATE_PG_HIGHER or cmd_CALCULATE_PGt_LOWER
+
+--UNLOADING:
+--cmd == cmd_UNLOAD, cmd2 == cmd_UNLOAD_LOWER or cmd_UNLOAD_HIGHER
+
+--LOADING:
+--P is always loaded into LOWER bank
+
+
 entity MMULT_CONTROLLER_2 is
     generic(C_S_AXI_DATA_WIDTH : integer := 32;
             COLUMN_TOTAL       : integer := 3;
@@ -146,7 +159,7 @@ begin
                     when cntrl_RESET_MMULT_CNTRL =>
                         Bank_sel <= '0';
                         rst      <= '1';
-                        LOAD_PG  <= (others => '1');
+                        LOAD_PG  <= IDLE_CMD;
                         UN_LOAD  <= '0';
                         P        <= '0';
                         G        <= '0';

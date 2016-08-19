@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "platform.h"
 #include "MMULT_AXI_2_GramUnload.h"
-//screenshot of this implementation result on Zedboard: http://dl.dropbox.com/u/65113214/16-08-19_11%3A35%3A27_Selection.png
+//screenshot of this implementation result on Zedboard:
+	// http://dl.dropbox.com/u/65113214/16-08-19_11%3A35%3A27_Selection.png
 
 //CMD
 #define cmd_NULL               0
@@ -19,7 +20,7 @@
 #define cmd_FINISH_SAVING_G_P  15
 
 //CMD2
-#define cmd_P_LOWER_to_G  		    11
+#define cmd_P_LOWER_to_G            11
 #define cmd_P_HIGHER_to_G           15
 #define cmd_CALCULATE_PG_LOWER      0
 #define cmd_CALCULATE_PG_HIGHER     4
@@ -41,7 +42,7 @@
  * 31:26   25:22     21:18     17:0
  * 000000  0000      0000      00 00000000 00000000
  *         |cmd2|    |cmd|     |data              |
- *         (nextcmd) (currcmd)
+ *         (details) (command)
  */
 
 

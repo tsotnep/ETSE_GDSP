@@ -53,8 +53,8 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     constant cmd_LOAD_G            : std_logic_vector := std_logic_vector(to_unsigned(2, 4));
     constant cmd_LOAD_P            : std_logic_vector := std_logic_vector(to_unsigned(3, 4));
     constant cmd_CALCULTE          : std_logic_vector := std_logic_vector(to_unsigned(4, 4));
-    constant cmd_UNLOAD            : std_logic_vector := std_logic_vector(to_unsigned(5, 4));
-    constant cmd_PRINT             : std_logic_vector := std_logic_vector(to_unsigned(6, 4));
+    constant cmd_P_to_G            : std_logic_vector := std_logic_vector(to_unsigned(5, 4));
+    constant cmd_UNLOAD_G             : std_logic_vector := std_logic_vector(to_unsigned(6, 4));
     --7,8,9,10 
     constant cmd_RESET_MMULT_IP    : std_logic_vector := std_logic_vector(to_unsigned(11, 4));
     constant cmd_RESET_MMULT_CNTRL : std_logic_vector := std_logic_vector(to_unsigned(12, 4));
@@ -168,9 +168,9 @@ begin
                                 when cmd_LOAD_P         => state <= cntrl_LOAD_P;
                                 when cmd_CALCULTE       => state <= cntrl_CALCULTE;
                                     cmd_details          <= cmdin2;
-                                when cmd_UNLOAD => state <= cntrl_P_to_G;
+                                when cmd_P_to_G => state <= cntrl_P_to_G;
                                     cmd_details          <= cmdin2;
-                                when cmd_PRINT => state  <= cntrl_UNLOAD_G;
+                                when cmd_UNLOAD_G => state  <= cntrl_UNLOAD_G;
                                 when others => null;
                             end case;
                         end if;

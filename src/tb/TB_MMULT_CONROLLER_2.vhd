@@ -32,39 +32,43 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits next command.
     alias cmdin3 is WDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH + CMD_SIZE * 2); --6 bits spared for future.
 
-    --cmd-s that affect state transition, they are read inside state: cmd_NULL
+    constant DOUT_SLV_REG1_ADRR    : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS + 1));
+    constant COLADDR_SLV_REG2_ADRR : std_logic_vector := std_logic_vector(to_unsigned(2, OPT_MEM_ADDR_BITS + 1));
+    
+    
+    ----------------------------------------------------->>>
+    --CMD:
+    ------cmd that affect state transition, they are read inside state: cntrl_WAIT_FOR_CMD
     constant cmd_NULL              : std_logic_vector := std_logic_vector(to_unsigned(0, 4));
     constant cmd_SAVE_G_or_P       : std_logic_vector := std_logic_vector(to_unsigned(1, 4));
     constant cmd_LOAD_G            : std_logic_vector := std_logic_vector(to_unsigned(2, 4));
     constant cmd_LOAD_P            : std_logic_vector := std_logic_vector(to_unsigned(3, 4));
     constant cmd_CALCULTE          : std_logic_vector := std_logic_vector(to_unsigned(4, 4));
-    constant cmd_UNLOAD            : std_logic_vector := std_logic_vector(to_unsigned(5, 4));
-    constant cmd_PRINT             : std_logic_vector := std_logic_vector(to_unsigned(6, 4));
-    --7,8,9,10 
+    constant cmd_P_to_G            : std_logic_vector := std_logic_vector(to_unsigned(5, 4));
+    constant cmd_UNLOAD_G             : std_logic_vector := std_logic_vector(to_unsigned(6, 4));
     constant cmd_RESET_MMULT_IP    : std_logic_vector := std_logic_vector(to_unsigned(11, 4));
     constant cmd_RESET_MMULT_CNTRL : std_logic_vector := std_logic_vector(to_unsigned(12, 4));
-
-    --cmd details inside states, they are read in state: cmd_SAVE_G_or_P
+    --------those cmd are used as state-specific commands, they are read in state: cntrl_SAVE_G_or_P
     constant cmd_SAVE_G            : std_logic_vector := std_logic_vector(to_unsigned(13, 4));
     constant cmd_SAVE_P            : std_logic_vector := std_logic_vector(to_unsigned(14, 4));
     constant cmd_FINISH_SAVING_G_P : std_logic_vector := std_logic_vector(to_unsigned(15, 4));
 
-    constant DOUT_SLV_REG1_ADRR    : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS + 1));
-    constant COLADDR_SLV_REG2_ADRR : std_logic_vector := std_logic_vector(to_unsigned(2, OPT_MEM_ADDR_BITS + 1));
-
-
-
-    --cmd2(3) 1=read or 0=write
-    --cmd2(2) 1=upperbank or 0=lowerbank
-    --cmd2(1 downto 0) -> what kind of calculation 00=PG, 01=PGt, etc.
-    constant cmd_UNLOAD_LOWER  : std_logic_vector := "1011";
-    constant cmd_UNLOAD_HIGHER : std_logic_vector := "1111";
-
+    ----------------------------------------------------->>>
+    --CMD2: 
+    ------calculation or unload details
+    constant cmd_P_LOWER_to_G  : std_logic_vector := "1011";
+    constant cmd_P_HIGHER_to_G : std_logic_vector := "1111";
     constant cmd_CALCULATE_PG_LOWER  : std_logic_vector := "0000";
     constant cmd_CALCULATE_PG_HIGHER : std_logic_vector := "0100";
-
     constant cmd_CALCULATE_PGt_LOWER  : std_logic_vector := "0001";
     constant cmd_CALCULATE_PGt_HIGHER : std_logic_vector := "0101";
+    constant cmd_CALCULATE_PtG_LOWER  : std_logic_vector := "0010";
+    constant cmd_CALCULATE_PtG_HIGHER : std_logic_vector := "0110";
+    constant cmd_CALCULATE_PtGt_LOWER  : std_logic_vector := "0011";
+    constant cmd_CALCULATE_PtGt_HIGHER : std_logic_vector := "0111";
+    --------cmd2(3) 1=read or 0=write
+    --------cmd2(2) 1=upperbank or 0=lowerbank
+    --------cmd2(1 downto 0) -> what kind of calculation 00=PG, 01=PGt, etc.
 
 
 
@@ -233,12 +237,12 @@ begin
         --wait until RDY_FOR_CMD = '1';
 
 
-        simulate_AXI_write(0, cmd_UNLOAD, cmd_UNLOAD_HIGHER, WREN, cmdin, cmdin2, datain);
+        simulate_AXI_write(0, cmd_P_to_G, cmd_P_HIGHER_to_G, WREN, cmdin, cmdin2, datain);
         wait for period * 30;
         --wait until RDY_FOR_CMD = '1';
 
 
-        simulate_AXI_write(0, cmd_PRINT, cmd_NULL, WREN, cmdin, cmdin2, datain);
+        simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
         simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
         simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
         simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);

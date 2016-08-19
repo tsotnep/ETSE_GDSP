@@ -72,38 +72,37 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
         cntrl_LOAD_G,
         cntrl_LOAD_P,
         cntrl_CALCULTE,
-        cntrl_UNLOAD,
-        cntrl_PRINT,
+        cntrl_P_to_G,
+        cntrl_UNLOAD_G,
         cntrl_RESET_MMULT_IP
     );
 
     signal state, state_after_reset : mmult_state;
 
     --IP signals
-    signal DIN, DOUT       : std_logic_vector(DATA_WIDTH - 1 downto 0);
-    signal Bank_sel        : std_logic;
-    signal LOADING_DONE    : std_logic;
-    signal UN_LOADING_DONE : std_logic;
-    signal RST             : std_logic;
-    signal LOAD_PG         : std_logic_vector(1 downto 0);
-    signal UN_LOAD         : std_logic;
-    signal P               : std_logic;
-    signal G               : std_logic;
-    signal READY           : std_logic;
-    signal OP_DONE         : std_logic;
+    signal DIN, DOUT, single_data_buff : std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal Bank_sel                    : std_logic;
+    signal LOADING_DONE                : std_logic;
+    signal UN_LOADING_DONE             : std_logic;
+    signal RST                         : std_logic;
+    signal LOAD_PG                     : std_logic_vector(1 downto 0);
+    signal UN_LOAD                     : std_logic;
+    signal P                           : std_logic;
+    signal G                           : std_logic;
+    signal READY                       : std_logic;
+    signal OP_DONE                     : std_logic;
     --IP signals
 
 
     --controller signals
-    signal cntlr_input_arr_G  : t_BRAM_DATA_integer := (others => 0);
-    signal cntlr_input_arr_P  : t_BRAM_DATA_integer := (others => 0);
-    signal cntlr_output_arr_R : t_BRAM_DATA_integer := (others => 0);
+    signal cntlr_input_arr_G : t_BRAM_DATA_integer := (others => 0);
+    signal cntlr_input_arr_P : t_BRAM_DATA_integer := (others => 0);
 
     signal cntrl_G_array_index : integer := 0;
     signal cntrl_P_array_index : integer := 0;
     signal cntrl_R_array_index : integer := 0;
 
-    signal resetted_MMULT_IP, only_wait : std_logic;
+    signal resetted_MMULT_IP, only_wait, first_read, data_available, RDEN_internal : std_logic;
 
     signal cntrl_reset_length_count       : integer := 0;
     signal cntrl_P_loading_predelay_count : integer := 0;
@@ -138,40 +137,40 @@ begin
                 cntrl_P_array_index <= 0;
                 cntrl_R_array_index <= 0;
 
-                cntlr_input_arr_G  <= (others => 0);
-                cntlr_input_arr_P  <= (others => 0);
-                cntlr_output_arr_R <= (others => 0);
+                cntlr_input_arr_G <= (others => 0);
+                cntlr_input_arr_P <= (others => 0);
 
-                Bank_sel <= '0';
-                rst      <= '1';
-                LOAD_PG  <= (others => '1');
-                UN_LOAD  <= '0';
-                P        <= '0';
-                G        <= '0';
-                DIN      <= (others => '0');
-                state    <= cntrl_WAIT_FOR_CMD;
-                RDY_FOR_CMD <= '0';
+                Bank_sel      <= '0';
+                rst           <= '1';
+                LOAD_PG       <= (others => '1');
+                UN_LOAD       <= '0';
+                P             <= '0';
+                G             <= '0';
+                DIN           <= (others => '0');
+                state         <= cntrl_WAIT_FOR_CMD;
+                RDY_FOR_CMD   <= '0';
+                RDEN_internal <= '0';
 
             else
-                LOAD_PG     <= IDLE_CMD;
+                LOAD_PG <= IDLE_CMD;
                 case state is
                     when cntrl_WAIT_FOR_CMD =>
---                        rst <= '0';
                         resetted_MMULT_IP <= '0';
---                        RDY_FOR_CMD       <= '1';
+                        first_read        <= '1';
+                        --                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
                         LOAD_PG           <= IDLE_CMD;
                         if WREN = '1' then
                             case cmdin is
-                                when cmd_WAIT_FOR_CMD      => state <= cntrl_WAIT_FOR_CMD;
-                                when cmd_RESET_MMULT_IP    => state <= cntrl_RESET_MMULT_IP;
-                                when cmd_SAVE_G_or_P       => state <= cntrl_SAVE_G_or_P;
-                                when cmd_LOAD_G            => state <= cntrl_LOAD_G;
-                                when cmd_LOAD_P            => state <= cntrl_LOAD_P;
-                                when cmd_CALCULTE          => state <= cntrl_CALCULTE;
+                                when cmd_WAIT_FOR_CMD   => state <= cntrl_WAIT_FOR_CMD;
+                                when cmd_RESET_MMULT_IP => state <= cntrl_RESET_MMULT_IP;
+                                when cmd_SAVE_G_or_P    => state <= cntrl_SAVE_G_or_P;
+                                when cmd_LOAD_G         => state <= cntrl_LOAD_G;
+                                when cmd_LOAD_P         => state <= cntrl_LOAD_P;
+                                when cmd_CALCULTE       => state <= cntrl_CALCULTE;
                                     cmd_details          <= cmdin2;
-                                when cmd_UNLOAD => state <= cntrl_UNLOAD;
+                                when cmd_UNLOAD => state <= cntrl_P_to_G;
                                     cmd_details          <= cmdin2;
-                                when cmd_PRINT => state  <= cntrl_PRINT;
+                                when cmd_PRINT => state  <= cntrl_UNLOAD_G;
                                 when others => null;
                             end case;
                         end if;
@@ -211,7 +210,7 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
-                        --TODO: later, directly write into GRAM
+                        --TODO: later, directly write into FSM one by one.
                         DIN     <= (others => '0');
                         LOAD_PG <= LOAD_G_CMD;
 
@@ -237,7 +236,7 @@ begin
                         --TODO: later, directly write into BRAM
                         DIN      <= (others => '0');
                         LOAD_PG  <= LOAD_P_CMD;
-                        Bank_sel <= '0'; --TODO: attach to cmd2
+                        Bank_sel <= '0';
                         if resetted_MMULT_IP = '1' then
                             if cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
@@ -271,7 +270,7 @@ begin
                             state_after_reset <= cntrl_CALCULTE;
                         end if;
 
-                    when cntrl_UNLOAD =>
+                    when cntrl_P_to_G =>
                         UN_LOAD  <= '1';
                         LOAD_PG  <= OPERATE_CMD;
                         Bank_sel <= not cmd_details(2); --because it is inverted when reading
@@ -279,8 +278,7 @@ begin
                         if resetted_MMULT_IP = '1' then
                             if READY = '1' or cntrl_R_array_index > 0 then
                                 if cntrl_R_array_index <= N_of_EL - 1 then
-                                    cntlr_output_arr_R(cntrl_R_array_index) <= to_integer(unsigned(DOUT));
-                                    cntrl_R_array_index                     <= cntrl_R_array_index + 1;
+                                    cntrl_R_array_index <= cntrl_R_array_index + 1;
                                 else
                                     state               <= cntrl_WAIT_FOR_CMD;
                                     cntrl_R_array_index <= 0;
@@ -289,19 +287,26 @@ begin
                         else
                             only_wait         <= '0';
                             state             <= cntrl_RESET_MMULT_IP;
-                            state_after_reset <= cntrl_UNLOAD;
-                        end if;
-                        
-                    when cntrl_PRINT =>
-                        --TODO: later, read from GRAM
-                        if RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR then
-                            cntrl_R_array_index <= cntrl_R_array_index + 1;
-                        end if;
-                        if cntrl_R_array_index >= N_of_EL - 1 then
-                            cntrl_R_array_index <= 0;
-                            state               <= cntrl_WAIT_FOR_CMD;
+                            state_after_reset <= cntrl_P_to_G;
                         end if;
 
+                    when cntrl_UNLOAD_G =>
+                        if first_read = '1' then
+                            first_read    <= '0';
+                            RDEN_internal <= '1';
+                        else
+                            RDEN_internal <= RDEN;
+                        end if;
+                        if RDADDR = DOUT_SLV_REG1_ADRR then
+                            if data_available = '1' then
+                                single_data_buff    <= DOUT;
+                                cntrl_R_array_index <= cntrl_R_array_index + 1;
+                            end if;
+
+                            if cntrl_R_array_index = N_of_EL then
+                                state <= cntrl_WAIT_FOR_CMD;
+                            end if;
+                        end if;
                 end case;
 
             end if;
@@ -309,7 +314,8 @@ begin
     end process cntrl_FSM;
 
     --i made it combinational to remove 1 clock cycle delay.
-    RDATA <= std_logic_vector(to_unsigned(cntlr_output_arr_R(cntrl_R_array_index), C_S_AXI_DATA_WIDTH)) when (RDEN = '1' and RDADDR = DOUT_SLV_REG1_ADRR) else (others => '0');
+    RDATA(DATA_WIDTH - 1 downto 0)                  <= single_data_buff;
+    RDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
 
     MATRIX_MUL_IP_CORE_S_INT_G_inst : entity work.MATRIX_MUL_IP_CORE_S_INT_G
         generic map(
@@ -328,7 +334,8 @@ begin
             G               => G,
             Bank_sel_in     => Bank_sel,
             DIN             => DIN,
-            RDEN => RDEN,
+            RDEN            => RDEN_internal,
+            data_available  => data_available,
             DOUT            => DOUT,
             READY           => READY,
             OP_DONE         => OP_DONE,

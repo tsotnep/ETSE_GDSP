@@ -278,7 +278,7 @@
       <wvobject fp_name="group352" type="group">
          <obj_property name="label">New Group</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="vbus351" type="vbus" db_ref_id="2">
+         <wvobject fp_name="vbus351" type="vbus" db_ref_id="1">
             <obj_property name="label">New Virtual Bus</obj_property>
             <obj_property name="DisplayName">label</obj_property>
          </wvobject>
@@ -292,11 +292,20 @@
          <obj_property name="ElementShortName">rden</obj_property>
          <obj_property name="ObjectShortName">rden</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rden_internal" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">rden_internal</obj_property>
+         <obj_property name="ObjectShortName">rden_internal</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdy_for_cmd" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">rdy_for_cmd</obj_property>
          <obj_property name="ObjectShortName">rdy_for_cmd</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="CustomSignalColor">#ff00ff</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/single_data_buff" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">single_data_buff[17:0]</obj_property>
+         <obj_property name="ObjectShortName">single_data_buff[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdata" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">rdata[31:0]</obj_property>
@@ -614,6 +623,19 @@
          <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="CustomSignalColor">#ff00ff</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/rden" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">rden</obj_property>
+         <obj_property name="ObjectShortName">rden</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/data_available" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">data_available</obj_property>
+         <obj_property name="ObjectShortName">data_available</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/dout" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dout[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/rst" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">rst</obj_property>
          <obj_property name="ObjectShortName">rst</obj_property>
@@ -642,11 +664,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/din" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">din[17:0]</obj_property>
          <obj_property name="ObjectShortName">din[17:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/dout" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">dout[17:0]</obj_property>
-         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/ready" type="logic" db_ref_id="1">

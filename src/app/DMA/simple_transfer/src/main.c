@@ -38,6 +38,7 @@ u32 *RxBufferPtr = (u32 *) RX_BUFFER_BASE;
 static int init_dma(void);
 static int execute_dma_transfer(void);
 void static test();
+void static print_arr(void);
 
 int main() {
 
@@ -114,7 +115,7 @@ End main
 	TxBufferPtr[0] = 1;
 	TxBufferPtr[1] = 2;
 	TxBufferPtr[2] = 4;
-	TxBufferPtr[3] = 9;
+	TxBufferPtr[3] = 8;
 
 	RxBufferPtr[0] = 0;
 	RxBufferPtr[2] = 0;
@@ -129,11 +130,46 @@ End main
 
 	status = init_dma();
 	status = check_DMA_irq_event();
-	status = execute_dma_transfer();
-	while (check_DMA_idle() != XST_SUCCESS) {
-	}
-	status = check_DMA_irq_event();
 
+//	status = check_DMA_irq_event();
+
+   	//solution 1:
+	Xil_DCacheDisable();
+
+	//solution 2:
+    //if you do this, every time you transfer data, you have to flush and invalidate
+    //Xil_DCacheFlushRange((u32) TxBufferPtr, Number_Of_Bytes);
+	//Xil_DCacheInvalidateRange((u32) RxBufferPtr, Number_Of_Bytes);
+
+
+
+    status = execute_dma_transfer();
+	while (check_DMA_idle() != XST_SUCCESS);
+    print_arr();
+
+
+
+    TxBufferPtr[0] = 15;
+	TxBufferPtr[1] = 4;
+	TxBufferPtr[2] = 5;
+	TxBufferPtr[3] = 7;
+
+
+	status = execute_dma_transfer();
+    while (check_DMA_idle() != XST_SUCCESS);
+    print_arr();
+
+
+
+
+
+	xil_printf("End main\n\r\n\r\n\r\n\r ");
+	cleanup_platform();
+	return XST_SUCCESS;
+}
+
+
+void static print_arr(void){
 	xil_printf("TxBufferPtr = %08x \n\r", (TxBufferPtr));
 	xil_printf("TxBufferPtr[0] = %x \n\r", (TxBufferPtr[0]));
 	xil_printf("TxBufferPtr[1] = %x \n\r", (TxBufferPtr[1]));
@@ -144,12 +180,8 @@ End main
 	xil_printf("RxBufferPtr[1] = %x \n\r", (RxBufferPtr[1]));
 	xil_printf("RxBufferPtr[2] = %x \n\r", (RxBufferPtr[2]));
 	xil_printf("RxBufferPtr[3] = %x \n\r", (RxBufferPtr[3]));
-//	test();
-	xil_printf("End main\n\r\n\r\n\r\n\r ");
-
-	cleanup_platform();
-	return XST_SUCCESS;
 }
+
 
 int static init_dma(void) {
 
@@ -176,13 +208,6 @@ int static init_dma(void) {
 }
 
 int static execute_dma_transfer(void) {
-	//solution 1:
-	//		Xil_DCacheDisable();
-
-	//solution 2:
-	Xil_DCacheFlushRange((u32) TxBufferPtr, Number_Of_Bytes);
-	Xil_DCacheInvalidateRange((u32) RxBufferPtr, Number_Of_Bytes);
-
 //	print("exeuting DMA transfer\n\r");
 	write(XPAR_AXI_DMA_0_BASEADDR, da_S2MM, (u32) RxBufferPtr); //specify destination address
 	write(XPAR_AXI_DMA_0_BASEADDR, sa_MM2S, (u32) TxBufferPtr); //specify source address

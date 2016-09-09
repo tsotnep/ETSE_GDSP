@@ -1,0 +1,2 @@
+source build_project_baremetal.sh
+source program_fpga_fsbl_baremetal.sh

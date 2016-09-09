@@ -64,7 +64,8 @@ DMA size
 
 
 	/*
-start of Main
+     * output:
+Start of Main
 Resetting DMA
 Normal DMA mode is enabled
 DMA interrupts are disabled
@@ -88,24 +89,42 @@ DMA is busy
 DMA is busy
 DMA is busy
 DMA is busy
+DMA is idle
+TxBufferPtr = 00100000
+TxBufferPtr[0] = 1
+TxBufferPtr[1] = 2
+TxBufferPtr[2] = 4
+TxBufferPtr[3] = 8
+RxBufferPtr = 00900000
+RxBufferPtr[0] = 1
+RxBufferPtr[1] = 2
+RxBufferPtr[2] = 4
+RxBufferPtr[3] = 8
+reading transfer addresses
+reg_40400000+18 = 00100000
+reg_40400000+48 = 00900000
+reading transfer lengths
+reg_40400000+28 = 007FFFFF
+reg_40400000+58 = 007FFFFF
+DMA is busy
 DMA is busy
 DMA is busy
 DMA is busy
 DMA is busy
 DMA is busy
 DMA is idle
-DMA irq flag has been asserted
 TxBufferPtr = 00100000
-TxBufferPtr[0] = 1
-TxBufferPtr[1] = 2
-TxBufferPtr[2] = 4
-TxBufferPtr[3] = 9
+TxBufferPtr[0] = F
+TxBufferPtr[1] = 4
+TxBufferPtr[2] = 5
+TxBufferPtr[3] = 7
 RxBufferPtr = 00900000
-RxBufferPtr[0] = 1
-RxBufferPtr[1] = 2
-RxBufferPtr[2] = 4
-RxBufferPtr[3] = 9
+RxBufferPtr[0] = F
+RxBufferPtr[1] = 4
+RxBufferPtr[2] = 5
+RxBufferPtr[3] = 7
 End main
+
 	 */
 
 	init_platform();
@@ -124,12 +143,12 @@ End main
 
 	u32 status;
 	status = check_DMA_normal_mode();
-	status = check_DMA_irq_disabled();
-	status = enable_DMA_irq();
-	status = check_DMA_irq_disabled();
+	//status = check_DMA_irq_disabled();
+	//status = enable_DMA_irq();
+	//status = check_DMA_irq_disabled();
 
 	status = init_dma();
-	status = check_DMA_irq_event();
+	//status = check_DMA_irq_event();
 
 //	status = check_DMA_irq_event();
 

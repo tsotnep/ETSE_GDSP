@@ -61,7 +61,7 @@ char* getBinary(u32 n) {
 }
 
 
-//returns XST_SUCCESS if DMA is configured in Normal Mode.
+//returns XST_SUCCESS if DMA is configured in Normal Mode. returns XST_FAILURE if its SG mode
 static int check_DMA_normal_mode() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 3) || rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 3)) {
 		xil_printf("SG DMA mode is enabled\n\r");
@@ -96,7 +96,7 @@ static int check_DMA_idle() {
 }
 
 
-//returns XST_SUCCESS if interrupt flag has been asserted
+//returns XST_SUCCESS if interrupt flag has been asserted.. polling
 static int check_DMA_irq_event() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 12) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 12)) {
 		xil_printf("DMA irq flag has been asserted\n\r");
@@ -108,7 +108,7 @@ static int check_DMA_irq_event() {
 
 }
 
-//returns XST_SUCCESS if it is able to enable DMA interrupts
+//enables interrupts in DMA
 static int enable_DMA_irq() {
 	set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 12); //start MM2S channel
 	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 12); //start S2MM channel
@@ -117,10 +117,11 @@ static int enable_DMA_irq() {
 
 
 //resets DMA by writing 1 into reset soft register
-void static enable_DMA_soft_reset(void) {
+void int static enable_DMA_soft_reset(void) {
 	print("Resetting DMA\n\r");
 	set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
-	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start MM2S channel
+	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start S2MM channel
+	return XST_SUCCESS;
 }
 
 

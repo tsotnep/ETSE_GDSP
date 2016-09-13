@@ -1,0 +1,126 @@
+Script started on Mon 12 Sep 2016 17:11:12 CEST
+[sudo] password for tsotne:
+picocom v1.7
+
+port is        : /dev/ttyACM0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+escape is      : C-x
+local echo is  : no
+noinit is      : no
+noreset is     : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv
+imap is        :
+omap is        :
+emap is        : crcrlf,delbs,
+
+Terminal ready
+Resetting DMA
+Normal DMA mode is enabled
+reading DMA channels enable bits in control reg(1=enabled):
+reg_40400000+0[0] = 1
+reg_40400000+30[0] = 1
+reading DMA channels enable bits in status reg(0=running):
+reg_40400000+4[0] = 0
+reg_40400000+34[0] = 0
+reading transfer addresses
+reg_40400000+18 = 00100000
+reg_40400000+48 = 00900000
+reading transfer lengths
+reg_40400000+28 = 00000028
+reg_40400000+58 = 00000028
+
+
+Please Enter New Command Number :
+:0) To print this Commands
+:1) SAVE_G_or_P
+:2) LOAD_G
+:3) LOAD_P
+:4) CALCULTE
+:5) P_to_G
+:6) UNLOAD_G
+:11) RESET_MMULT_IP
+:12) RESET_MMULT_CNTRL
+Command Received : 2
+written on slv_reg0, bin value = 00000000000010000000000000000000
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 0
+from slv_reg1, value = 12
+from slv_reg1, value = 13
+from slv_reg1, value = 21
+from slv_reg1, value = 22
+from slv_reg1, value = 23
+from slv_reg1, value = 31
+from slv_reg1, value = 32
+from slv_reg1, value = 0
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+from slv_reg1, value = 11
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+from slv_reg1, value = 0
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 31
+from slv_reg1, value = 32
+from slv_reg1, value = 0
+from slv_reg1, value = 11
+from slv_reg1, value = 12
+from slv_reg1, value = 13
+from slv_reg1, value = 21
+from slv_reg1, value = 22
+from slv_reg1, value = 23
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 31
+from slv_reg1, value = 32
+from slv_reg1, value = 0
+from slv_reg1, value = 11
+from slv_reg1, value = 12
+from slv_reg1, value = 13
+from slv_reg1, value = 21
+from slv_reg1, value = 22
+from slv_reg1, value = 23
+Command Completed Successfully
+Command Received : 6
+written on slv_reg0, bin value = 00000000000110000000000000000000
+from slv_reg1, value = 31
+from slv_reg1, value = 32
+from slv_reg1, value = 0
+from slv_reg1, value = 11
+from slv_reg1, value = 12
+from slv_reg1, value = 13
+from slv_reg1, value = 21
+from slv_reg1, value = 22
+from slv_reg1, value = 23
+Command Completed Successfully
+
+Thanks for using picocom
+
+Script done on Mon 12 Sep 2016 17:11:43 CEST

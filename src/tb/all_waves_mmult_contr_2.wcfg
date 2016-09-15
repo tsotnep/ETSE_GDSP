@@ -160,16 +160,6 @@
          <obj_property name="ObjectShortName">cmd_calculte[3:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/cmd_unload" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_unload[3:0]</obj_property>
-         <obj_property name="ObjectShortName">cmd_unload[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/cmd_print" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_print[3:0]</obj_property>
-         <obj_property name="ObjectShortName">cmd_print[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/cmd_reset_mmult_ip" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">cmd_reset_mmult_ip[3:0]</obj_property>
          <obj_property name="ObjectShortName">cmd_reset_mmult_ip[3:0]</obj_property>
@@ -203,16 +193,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/coladdr_slv_reg2_adrr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">coladdr_slv_reg2_adrr[1:0]</obj_property>
          <obj_property name="ObjectShortName">coladdr_slv_reg2_adrr[1:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/cmd_unload_lower" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_unload_lower[0:3]</obj_property>
-         <obj_property name="ObjectShortName">cmd_unload_lower[0:3]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/cmd_unload_higher" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_unload_higher[0:3]</obj_property>
-         <obj_property name="ObjectShortName">cmd_unload_higher[0:3]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/cmd_calculate_pg_lower" type="array" db_ref_id="1">
@@ -275,14 +255,6 @@
          <obj_property name="ElementShortName">wdata[31:0]</obj_property>
          <obj_property name="ObjectShortName">wdata[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="group352" type="group">
-         <obj_property name="label">New Group</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="vbus351" type="vbus" db_ref_id="1">
-            <obj_property name="label">New Virtual Bus</obj_property>
-            <obj_property name="DisplayName">label</obj_property>
-         </wvobject>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdaddr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">rdaddr[1:0]</obj_property>
          <obj_property name="ObjectShortName">rdaddr[1:0]</obj_property>
@@ -292,25 +264,29 @@
          <obj_property name="ElementShortName">rden</obj_property>
          <obj_property name="ObjectShortName">rden</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rden_internal" type="logic" db_ref_id="2">
-         <obj_property name="ElementShortName">rden_internal</obj_property>
-         <obj_property name="ObjectShortName">rden_internal</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdy_for_cmd" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">rdy_for_cmd</obj_property>
          <obj_property name="ObjectShortName">rdy_for_cmd</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="CustomSignalColor">#ff00ff</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/single_data_buff" type="array" db_ref_id="2">
-         <obj_property name="ElementShortName">single_data_buff[17:0]</obj_property>
-         <obj_property name="ObjectShortName">single_data_buff[17:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rdata" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">rdata[31:0]</obj_property>
          <obj_property name="ObjectShortName">rdata[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/single_data_buff" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">single_data_buff[17:0]</obj_property>
+         <obj_property name="ObjectShortName">single_data_buff[17:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/dout" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dout[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/dout" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dout[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[17:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/rmatrix_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">rmatrix_addr[31:0]</obj_property>
@@ -417,11 +393,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cntlr_input_arr_p" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">cntlr_input_arr_p[0:8]</obj_property>
          <obj_property name="ObjectShortName">cntlr_input_arr_p[0:8]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cntlr_output_arr_r" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cntlr_output_arr_r[0:8]</obj_property>
-         <obj_property name="ObjectShortName">cntlr_output_arr_r[0:8]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cntrl_g_array_index" type="other" db_ref_id="1">
@@ -538,16 +509,6 @@
          <obj_property name="ObjectShortName">cmd_calculte[3:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cmd_unload" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_unload[3:0]</obj_property>
-         <obj_property name="ObjectShortName">cmd_unload[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cmd_print" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cmd_print[3:0]</obj_property>
-         <obj_property name="ObjectShortName">cmd_print[3:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cmd_reset_mmult_ip" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">cmd_reset_mmult_ip[3:0]</obj_property>
          <obj_property name="ObjectShortName">cmd_reset_mmult_ip[3:0]</obj_property>
@@ -640,14 +601,9 @@
          <obj_property name="ElementShortName">rst</obj_property>
          <obj_property name="ObjectShortName">rst</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/load_pg" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">load_pg[1:0]</obj_property>
-         <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/un_load" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">un_load</obj_property>
-         <obj_property name="ObjectShortName">un_load</obj_property>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/bank_sel_in" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">bank_sel_in</obj_property>
+         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/p" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">p</obj_property>
@@ -657,14 +613,31 @@
          <obj_property name="ElementShortName">g</obj_property>
          <obj_property name="ObjectShortName">g</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/bank_sel_in" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">bank_sel_in</obj_property>
-         <obj_property name="ObjectShortName">bank_sel_in</obj_property>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/un_load" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">un_load</obj_property>
+         <obj_property name="ObjectShortName">un_load</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/ready_internal" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">ready_internal</obj_property>
+         <obj_property name="ObjectShortName">ready_internal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/load_pg" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">load_pg[1:0]</obj_property>
+         <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/din_gram" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">din_gram[17:0]</obj_property>
+         <obj_property name="ObjectShortName">din_gram[17:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/din" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">din[17:0]</obj_property>
          <obj_property name="ObjectShortName">din[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/i_alu2alu" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">i_alu2alu[0:2]</obj_property>
+         <obj_property name="ObjectShortName">i_alu2alu[0:2]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/ready" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">ready</obj_property>
@@ -1060,11 +1033,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/cntlr_output_arr_r" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">cntlr_output_arr_r[0:8]</obj_property>
-         <obj_property name="ObjectShortName">cntlr_output_arr_r[0:8]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/row" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">row[9:0]</obj_property>

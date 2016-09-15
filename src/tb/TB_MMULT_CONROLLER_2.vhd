@@ -3,10 +3,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-
 entity TB_MMULT_CONROLLER_2 is
     generic(C_S_AXI_DATA_WIDTH : integer := 32;
             COLUMN_TOTAL       : integer := 3;
@@ -15,7 +11,14 @@ entity TB_MMULT_CONROLLER_2 is
             OPT_MEM_ADDR_BITS  : integer := 1;
             ADDR_WIDTH         : integer := 10;
             DATA_WIDTH         : integer := 18;
-            DATA_WIDE_WIDTH    : integer := 48
+            DATA_WIDE_WIDTH    : integer := 48;
+
+                -- Parameters of Axi Slave Bus Interface S00_AXIS
+        C_S00_AXIS_TDATA_WIDTH  : integer   := 32;
+
+        -- Parameters of Axi Master Bus Interface M00_AXIS
+        C_M00_AXIS_TDATA_WIDTH  : integer   := 32;
+        C_M00_AXIS_START_COUNT  : integer   := 32
     );
 end entity TB_MMULT_CONROLLER_2;
 
@@ -27,15 +30,26 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     signal WDATA, RDATA, RMATRIX_ADDR : std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0);
     signal RDADDR                     : std_logic_vector(1 downto 0);
 
-    alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
-    alias cmdin is WDATA(DATA_WIDTH + CMD_SIZE - 1 downto DATA_WIDTH); --4 bits current command
-    alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits next command.
-    alias cmdin3 is WDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH + CMD_SIZE * 2); --6 bits spared for future.
-
     constant DOUT_SLV_REG1_ADRR    : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS + 1));
     constant COLADDR_SLV_REG2_ADRR : std_logic_vector := std_logic_vector(to_unsigned(2, OPT_MEM_ADDR_BITS + 1));
-    
-    
+
+                -- Ports of Axi Slave Bus Interface S00_AXIS
+     signal   s00_axis_aresetn   : std_logic;
+     signal   s00_axis_tready :  std_logic;
+     signal   s00_axis_aclk   : std_logic;
+     signal   s00_axis_tdata  : std_logic_vector(C_S00_AXIS_TDATA_WIDTH-1 downto 0);
+     signal   s00_axis_tstrb  : std_logic_vector((C_S00_AXIS_TDATA_WIDTH/8)-1 downto 0);
+     signal   s00_axis_tlast  : std_logic;
+     signal   s00_axis_tvalid : std_logic;
+
+     signal   m00_axis_aclk   : std_logic;
+     signal   m00_axis_aresetn   : std_logic;
+     signal   m00_axis_tvalid :  std_logic;
+     signal   m00_axis_tdata  :  std_logic_vector(C_M00_AXIS_TDATA_WIDTH-1 downto 0);
+     signal   m00_axis_tstrb  :  std_logic_vector((C_M00_AXIS_TDATA_WIDTH/8)-1 downto 0);
+     signal   m00_axis_tlast  :  std_logic;
+     signal   m00_axis_tready : std_logic;
+
     ----------------------------------------------------->>>
     --CMD:
     ------cmd that affect state transition, they are read inside state: cntrl_WAIT_FOR_CMD
@@ -54,7 +68,7 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     constant cmd_FINISH_SAVING_G_P : std_logic_vector := std_logic_vector(to_unsigned(15, 4));
 
     ----------------------------------------------------->>>
-    --CMD2: 
+    --CMD2:
     ------calculation or unload details
     constant cmd_P_LOWER_to_G  : std_logic_vector := "1011";
     constant cmd_P_HIGHER_to_G : std_logic_vector := "1111";
@@ -71,7 +85,14 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     --------cmd2(1 downto 0) -> what kind of calculation 00=PG, 01=PGt, etc.
 
 
+    alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
+--    alias datain is WDATA(0 to DATA_WIDTH - 1); --18 bits
+    alias cmdin is WDATA(DATA_WIDTH + CMD_SIZE - 1 downto DATA_WIDTH); --4 bits current command
+    alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits next command.
+    alias cmdin3 is WDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH + CMD_SIZE * 2); --6 bits spared for future.
 
+
+--WRITE
     procedure simulate_AXI_write(
         constant val      : in  integer;
         constant command  : in  std_logic_vector(CMD_SIZE - 1 downto 0);
@@ -89,6 +110,8 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
         wait for period * 10;
     end procedure simulate_AXI_write;
 
+
+--READ
     procedure simulate_AXI_read(
         constant RDADDR_IN : in  std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
         signal RDEN        : out std_logic;
@@ -96,11 +119,12 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     begin
         RDEN <= '1';
         RDEN <= '0' after period;
-        if RDADDR_IN = DOUT_SLV_REG1_ADRR then
-            RDADDR <= DOUT_SLV_REG1_ADRR;
-        else
-            RDADDR <= COLADDR_SLV_REG2_ADRR;
-        end if;
+        RDADDR <= RDADDR_IN;
+--        if RDADDR_IN = DOUT_SLV_REG1_ADRR then
+--            RDADDR <= DOUT_SLV_REG1_ADRR;
+--        else
+--            RDADDR <= COLADDR_SLV_REG2_ADRR;
+--        end if;
         wait for period * 10;
     end procedure simulate_AXI_read;
 begin
@@ -124,6 +148,21 @@ begin
             DATA_WIDE_WIDTH    => DATA_WIDE_WIDTH
         )
         port map(
+s00_axis_aresetn => s00_axis_aresetn,
+s00_axis_tready => s00_axis_tready,
+s00_axis_aclk => s00_axis_aclk,
+s00_axis_tdata => s00_axis_tdata,
+s00_axis_tstrb => s00_axis_tstrb,
+s00_axis_tlast => s00_axis_tlast,
+s00_axis_tvalid => s00_axis_tvalid,
+m00_axis_aclk => m00_axis_aclk,
+m00_axis_aresetn => m00_axis_aresetn,
+m00_axis_tvalid => m00_axis_tvalid,
+m00_axis_tdata => m00_axis_tdata,
+m00_axis_tstrb => m00_axis_tstrb,
+m00_axis_tlast => m00_axis_tlast,
+m00_axis_tready => m00_axis_tready,
+
             CLK          => CLK,
 
             --in wr
@@ -152,108 +191,65 @@ begin
 
         wait for period * 20;
 
-        simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
+        simulate_AXI_write(7, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
         wait for period * 30;
---        wait until RDY_FOR_CMD = '1';
-
-        simulate_AXI_write(0, cmd_SAVE_G_or_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-
-        simulate_AXI_write(11, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(12, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(13, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(21, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(22, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(23, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(31, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(32, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(33, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(11, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
---        simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--
+--        simulate_AXI_write(0, cmd_SAVE_G_or_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--
+--        simulate_AXI_write(11, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(12, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(13, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(21, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(22, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(23, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(31, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(32, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(33, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(11, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(12, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(13, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(21, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(22, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(23, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(31, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(32, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_write(33, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--
+--        simulate_AXI_write(1, cmd_FINISH_SAVING_G_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
 --        wait for period * 30;
---        simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
+----        wait until RDY_FOR_CMD = '1';
+--
+--        simulate_AXI_write(0, cmd_LOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
 --        wait for period * 30;
-        simulate_AXI_write(12, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(13, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(21, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(22, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(23, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(31, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(32, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_write(33, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(2, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(3, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(4, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(5, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(6, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(7, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(8, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(9, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(2, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(3, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(4, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(5, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(6, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(7, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(8, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(9, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_write(1, cmd_SAVE_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-
-        simulate_AXI_write(1, cmd_FINISH_SAVING_G_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
---        wait until RDY_FOR_CMD = '1';
-
-        simulate_AXI_write(0, cmd_LOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
---        wait until RDY_FOR_CMD = '1';
-
-        simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
-
-
-        simulate_AXI_write(0, cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
-
-
-        simulate_AXI_write(0, cmd_P_to_G, cmd_P_HIGHER_to_G, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
-
-
-        simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        wait for period * 30;
-        --wait until RDY_FOR_CMD = '1';
+----        wait until RDY_FOR_CMD = '1';
+--
+--        simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        wait for period * 30;
+--        --wait until RDY_FOR_CMD = '1';
+--
+--
+--        simulate_AXI_write(0, cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, WREN, cmdin, cmdin2, datain);
+--        wait for period * 30;
+--        --wait until RDY_FOR_CMD = '1';
+--
+--
+--        simulate_AXI_write(0, cmd_P_to_G, cmd_P_HIGHER_to_G, WREN, cmdin, cmdin2, datain);
+--        wait for period * 30;
+--        --wait until RDY_FOR_CMD = '1';
+--
+--
+--        simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--        wait for period * 30;
+--        --wait until RDY_FOR_CMD = '1';
 
 
         wait;

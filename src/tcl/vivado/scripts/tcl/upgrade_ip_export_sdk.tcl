@@ -31,7 +31,13 @@ set pr1 [get_property PROGRESS [get_runs synth_1]]
 set pr2 [get_property PROGRESS [get_runs synth_1]]
 set ref1 [get_property needs_refresh [get_runs synth_1]]
 set ref2 [get_property needs_refresh [get_runs impl_1]]
-if { $ref1 == 0 && $ref2 == 0 && $pr1 == "100%" && $pr2 == "100%" && $st1=="synth_design complete!" && $st2=="write_bitstream Complete!"} {
+puts $st1
+puts $st2
+puts $pr1
+puts $pr2
+puts $ref1
+puts $ref2
+if { $ref1 == 0 && $ref2 == 0 && $pr1 == "100%" && $pr2 == "100%" && $st1=="synth_design Complete!" && $st2=="write_bitstream Complete!"} {
     puts "TSOTNE: no need to Regenerate bitstream"
 } else {
     puts "TSOTNE: sources changed, bitstream needs to be regenerated"
@@ -41,6 +47,7 @@ reset_run synth_1
 launch_runs impl_1 -to_step write_bitstream -jobs 1
 wait_on_run impl_1
 puts "TSOTNE: generated bitstream"
+}
 
 #export to SDK
 set v0 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.runs/synth_1/${BLOCK_DESIGN}.hwdef
@@ -57,12 +64,10 @@ file copy -force ${v4} ${v5}
 file copy -force ${v2} ${v5_1}/${BLOCK_DESIGN}_wrapper.bit
 puts "TSOTNE: exported to sdk"
 
-
 #launch SDK and exit vivado
 set v6 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk
 set v7 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${BLOCK_DESIGN}_wrapper.hdf
-if { [file exists ${BLOCK_DESIGN}_wrapper_hw_platform_0 ] == 0 } { launch_sdk -workspace ${v6} -hwspec ${v7} }
+if { [file exists ${HW_PLATFORM_N} ] == 0 } { launch_sdk -workspace ${v6} -hwspec ${v7} } else { puts "TSOTNE: no need to launch SDK" }
 puts "TSOTNE: exiting vivado"
-}
 exit
 ############################

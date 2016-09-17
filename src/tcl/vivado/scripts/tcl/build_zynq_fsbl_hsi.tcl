@@ -9,7 +9,8 @@ set SCRIPTS_LOC /home/tsotne/workspaceVivado/scripts
 source ${SCRIPTS_LOC}/Genericstcl
 ############################
 
-
+if { [file exists ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${FSBL_NAME} ] == 0 } {
+    puts "TSOTNE: is generating"
 #open design
 open_hw_design ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${BLOCK_DESIGN}_wrapper.hdf
 
@@ -22,3 +23,7 @@ file rename ${v0}/executable.elf ${v0}/${FSBL_NAME}.elf
 open_sw_design ${v0}/zynq_fsbl_bsp/system.mss
 generate_bsp -os standalone -proc ps7_cortexa9_0 -compile -dir ${v0}_bsp
 ############################
+} else {
+    puts "TSOTNE: no need to regenerate fsbl"
+}
+exit

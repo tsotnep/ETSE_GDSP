@@ -21,7 +21,7 @@ fpga -f ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${HW_PLATFORM_N}/${BLOCK_DESI
 source ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${HW_PLATFORM_N}/ps7_init.tcl
 ps7_init
 ps7_post_config
-dow ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${FSBL_NAME}/Debug/${FSBL_NAME}.elf
+#dow ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${FSBL_NAME}/Debug/${FSBL_NAME}.elf
 dow ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${APP_NAME}/Debug/${APP_NAME}.elf
 run
 

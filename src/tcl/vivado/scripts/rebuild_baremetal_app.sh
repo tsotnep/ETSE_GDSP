@@ -3,10 +3,6 @@
 ############################
 
 #Variables:
-PROJ_PATH=/home/tsotne/workspaceVivado
-PROJ_NAME=MMULT_AXI_STREAM
-APP_NAME=zapp_1
-SDK_BINARIES=/opt/Xilinx/SDK/2015.2/gnu/arm/lin/bin
 source Generics
 ############################
 

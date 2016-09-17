@@ -6,8 +6,6 @@
 ############################
 
 #Variables:
-SCRIPTS_LOC=/home/tsotne/workspaceVivado/scripts
-VIVADO_SOURCE=/opt/Xilinx/SDK/2015.2/settings64.sh
 source Generics
 ############################
 

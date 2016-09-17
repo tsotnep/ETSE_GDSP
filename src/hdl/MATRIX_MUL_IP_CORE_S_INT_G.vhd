@@ -20,7 +20,7 @@ entity MATRIX_MUL_IP_CORE_S_INT_G is
          Bank_sel_in     : in  STD_LOGIC;
          DIN             : in  STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
          RDEN            : in  STD_LOGIC;
-         data_available : out STD_LOGIC;
+         data_available  : out STD_LOGIC;
          DOUT            : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
          READY           : out std_logic;
          OP_DONE         : out std_logic;
@@ -86,7 +86,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal DIN_gram                                                                  : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
     signal WE_gram, OE_gram, READY_internal, UN_LOADING_DONE_internal, RDEN_internal : std_logic;
     signal COL_gram, ROW_gram, G_ROW_ADDR, G_COL_ADDR                                : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal data_available_i, data_available_ii                       : std_logic;
+    signal data_available_i, data_available_ii                                       : std_logic;
 begin
 
     -----------------------------------------------------------
@@ -174,65 +174,61 @@ begin
                  OE   => OE_gram
         );
 
-    GaddressGenerator : process(clk, RST) is
+    GRAM_ADDRESS_GENERATOR_inst : entity work.GRAM_ADDRESS_GENERATOR
+        generic map(
+            COLUMN_TOTAL => COLUMN_TOTAL,
+            ADDR_WIDTH   => ADDR_WIDTH
+        )
+        port map(
+            --out
+            G_COL_ADDR_out           => G_COL_ADDR,
+            G_ROW_ADDR_out           => G_ROW_ADDR,
+
+            --in
+            RDEN_internal            => RDEN_internal,
+            UN_LOAD                  => UN_LOAD,
+            READY_internal           => READY_internal,
+            LOAD_PG                  => LOAD_PG,
+            UN_LOADING_DONE_internal => UN_LOADING_DONE_internal,
+            clk                      => clk,
+            rst                      => rst
+        );
+
+    gram_data_available : process(clk) is
     begin
-        if rst = '1' then
-            G_COL_ADDR        <= (others => '0');
-            G_ROW_ADDR        <= (others => '0');
-            data_available    <= '0';
-            data_available_i  <= '0';
-            data_available_ii <= '0';
-            RDEN_internal     <= '0';
-        elsif rising_edge(clk) then
-            RDEN_internal <= '0';
-            if UN_LOAD = '1' and READY_internal = '1' and LOAD_PG = OPERATE_CMD and UN_LOADING_DONE_internal = '0' then
-                --P to G addressing
-                G_ROW_ADDR <= STD_LOGIC_VECTOR(unsigned(G_ROW_ADDR) + 1);
-                if unsigned(G_ROW_ADDR) = COLUMN_TOTAL - 1 then
-                    G_COL_ADDR <= STD_LOGIC_VECTOR(unsigned(G_COL_ADDR) + 1);
-                    G_ROW_ADDR <= (others => '0');
-                    if unsigned(G_COL_ADDR) = COLUMN_TOTAL - 1 then
-                        G_COL_ADDR <= (others => '0');
-                    end if;
-                end if;
-            elsif LOAD_PG = IDLE_CMD then
-                --G to AXI addressing
+        if rising_edge(clk) then
+            if rst = '1' then
+                data_available    <= '0';
+                data_available_i  <= '0';
+                data_available_ii <= '0';
+                RDEN_internal     <= '0';
+            else
                 RDEN_internal     <= RDEN;
                 data_available_i  <= RDEN_internal;
                 data_available_ii <= data_available_i;
-                data_available    <= data_available_ii;
-                if RDEN_internal = '1' then
-                    G_COL_ADDR <= STD_LOGIC_VECTOR(unsigned(G_COL_ADDR) + 1);
-                end if;
-                if unsigned(G_COL_ADDR) = COLUMN_TOTAL then
-                    G_ROW_ADDR <= STD_LOGIC_VECTOR(unsigned(G_ROW_ADDR) + 1);
-                    G_COL_ADDR <= (others => '0');
-                    if unsigned(G_ROW_ADDR) = COLUMN_TOTAL - 1 then
-                        G_ROW_ADDR <= (others => '0');
-                    end if;
-                end if;
+                data_available    <= data_available_i;
             end if;
         end if;
-    end process GaddressGenerator;
+    end process gram_data_available;
 
     GramControl : process(DIN, UN_LOAD, i_ALU2ALU, s_G_WE, READY_internal, LOAD_PG, s_G_COLUMN, s_G_O_EN, s_G_ROW, G_COL_ADDR, G_ROW_ADDR, UN_LOADING_DONE_internal, RDEN_internal) is
     begin
         if UN_LOAD = '1' and READY_internal = '1' and LOAD_PG = OPERATE_CMD then
-            --P to G, when unloading from Bram it will come here in GRAM
+            --P to G, when unloading from Bram data will come go GRAM
             ROW_gram <= G_ROW_ADDR;
             COL_gram <= G_COL_ADDR;
             DIN_gram <= i_ALU2ALU(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0); --output from fsm, data of Bram
             WE_gram  <= UN_LOAD and (not UN_LOADING_DONE_internal);
             OE_gram  <= '0';
         elsif LOAD_PG = IDLE_CMD then
-            --when we want to print out data to axi
+            --G to AXI
             ROW_gram <= G_ROW_ADDR;
             COL_gram <= G_COL_ADDR;
             DIN_gram <= (others => '0'); --output from fsm, having data for G ram
             WE_gram  <= '0';
             OE_gram  <= RDEN_internal;
         else
-            ----normal operating mode
+            ----FSM <-> G, normal operating mode
             ROW_gram <= s_G_ROW;
             COL_gram <= s_G_COLUMN;
             DIN_gram <= DIN;            --output from fsm, having data for G ram

@@ -249,20 +249,12 @@ begin
                         end if;
 
                     when cntrl_RESET_MMULT_IP =>
-                        if only_wait = '1' then
-                            rst <= '0';
-                        else
-                            rst <= '1';
-                        end if;
-
-                        --                        if state_after_reset = cntrl_LOAD_G then
-                        --                            MMULT_AXIS_INPUT_ENABLE <= '1';
+                        --                        if only_wait = '1' then
+                        --                            rst <= '0';
+                        --                        else
+                        --                            rst <= '1';
                         --                        end if;
-                        --32
-                        --0
-                        --11
-                        --12
-                        --but 33 was still lost
+                        rst <= '1';
 
                         if cntrl_reset_length_count < cntrl_reset_length then
                             cntrl_reset_length_count <= cntrl_reset_length_count + 1;
@@ -300,16 +292,21 @@ begin
                         LOAD_PG <= LOAD_G_CMD;
 
                         if resetted_MMULT_IP = '1' then
-                            MMULT_AXIS_INPUT_ENABLE <= '1';
                             if cntrl_G_loading_predelay_count < cntrl_G_loading_predelay then --TODO: might need to decrase with 1. <= (->) <
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
+                                if cntrl_G_loading_predelay_count = cntrl_G_loading_predelay - 1 then
+                                end if;
                             else
-                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 3 then
+                                MMULT_AXIS_INPUT_ENABLE <= '1';
+                                if cntrl_G_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
+                                    MMULT_AXIS_INPUT_ENABLE <= '0';
                                     if LOADING_DONE = '1' then
-                                        state <= cntrl_WAIT_FOR_CMD;
+                                        state                          <= cntrl_WAIT_FOR_CMD;
+                                        cntrl_G_loading_predelay_count <= 0;
+                                        cntrl_G_array_index            <= 0;
                                     end if;
                                 end if;
                             end if;
@@ -325,15 +322,19 @@ begin
                         if resetted_MMULT_IP = '1' then
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
+                                if cntrl_P_loading_predelay_count = cntrl_P_loading_predelay - 1 then
+                                end if;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
+                                if cntrl_P_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                    --                                    DIN                 <= std_logic_vector(to_unsigned(cntlr_input_arr_P(cntrl_P_array_index), DATA_WIDTH));
                                     cntrl_P_array_index <= cntrl_P_array_index + 1;
                                 else
+                                    MMULT_AXIS_INPUT_ENABLE <= '0';
                                     if LOADING_DONE = '1' then
-                                        state <= cntrl_WAIT_FOR_CMD;
+                                        state                          <= cntrl_WAIT_FOR_CMD;
+                                        cntrl_P_loading_predelay_count <= 0;
+                                        cntrl_P_array_index            <= 0;
                                     end if;
                                 end if;
                             end if;
@@ -364,7 +365,7 @@ begin
 
                         if resetted_MMULT_IP = '1' then
                             if READY = '1' or cntrl_R_array_index > 0 then
-                                if cntrl_R_array_index <= N_of_EL - 1 then
+                                if cntrl_R_array_index < N_of_EL then
                                     cntrl_R_array_index <= cntrl_R_array_index + 1;
                                 else
                                     state               <= cntrl_WAIT_FOR_CMD;
@@ -372,7 +373,6 @@ begin
                                 end if;
                             end if;
                         else
-                            only_wait         <= '0';
                             state             <= cntrl_RESET_MMULT_IP;
                             state_after_reset <= cntrl_P_to_G;
                         end if;
@@ -390,9 +390,17 @@ begin
                                 cntrl_R_array_index <= cntrl_R_array_index + 1;
                             end if;
 
-                            if cntrl_R_array_index = N_of_EL then
-                                state <= cntrl_WAIT_FOR_CMD;
+                            if WREN = '1' and cmdin = cmd_WAIT_FOR_CMD then
+                                state               <= cntrl_WAIT_FOR_CMD;
+                                first_read          <= '0';
+                                single_data_buff    <= (others => '0');
+                                cntrl_R_array_index <= 0;
+                                RDEN_internal       <= '0';
                             end if;
+
+                        --                            if cntrl_R_array_index = N_of_EL then
+                        --                                state <= cntrl_WAIT_FOR_CMD;
+                        --                            end if;
                         end if;
                 end case;
 

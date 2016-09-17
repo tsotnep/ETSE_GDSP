@@ -42,7 +42,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="9" />
+   <WVObjectSize size="11" />
    <wave_markers>
       <marker time="103833000" label="" />
       <marker time="332049000" label="" />
@@ -343,6 +343,10 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/mmult_axis_input_enable" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">mmult_axis_input_enable</obj_property>
+         <obj_property name="ObjectShortName">mmult_axis_input_enable</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -617,7 +621,7 @@
          <obj_property name="ElementShortName">un_load</obj_property>
          <obj_property name="ObjectShortName">un_load</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/ready_internal" type="logic" db_ref_id="2">
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/ready_internal" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">ready_internal</obj_property>
          <obj_property name="ObjectShortName">ready_internal</obj_property>
       </wvobject>
@@ -626,7 +630,7 @@
          <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/din_gram" type="array" db_ref_id="2">
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/din_gram" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">din_gram[17:0]</obj_property>
          <obj_property name="ObjectShortName">din_gram[17:0]</obj_property>
       </wvobject>
@@ -635,7 +639,7 @@
          <obj_property name="ObjectShortName">din[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/i_alu2alu" type="array" db_ref_id="2">
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/i_alu2alu" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">i_alu2alu[0:2]</obj_property>
          <obj_property name="ObjectShortName">i_alu2alu[0:2]</obj_property>
       </wvobject>
@@ -1433,6 +1437,171 @@
          <obj_property name="ElementShortName">data_width</obj_property>
          <obj_property name="ObjectShortName">data_width</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group305" type="group">
+      <obj_property name="label">axis_m</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_aclk" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_aclk</obj_property>
+         <obj_property name="ObjectShortName">m_axis_aclk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_aresetn" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_aresetn</obj_property>
+         <obj_property name="ObjectShortName">m_axis_aresetn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_tvalid" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_tdata" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_tdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tdata[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_tstrb" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_tstrb[3:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tstrb[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_tlast" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_tlast</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tlast</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/m_axis_tready" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">m_axis_tready</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/mst_exec_state" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">mst_exec_state</obj_property>
+         <obj_property name="ObjectShortName">mst_exec_state</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/read_pointer" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">read_pointer</obj_property>
+         <obj_property name="ObjectShortName">read_pointer</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/count" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">count[4:0]</obj_property>
+         <obj_property name="ObjectShortName">count[4:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/axis_tvalid" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">axis_tvalid</obj_property>
+         <obj_property name="ObjectShortName">axis_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/axis_tvalid_delay" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">axis_tvalid_delay</obj_property>
+         <obj_property name="ObjectShortName">axis_tvalid_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/axis_tlast" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">axis_tlast</obj_property>
+         <obj_property name="ObjectShortName">axis_tlast</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/axis_tlast_delay" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">axis_tlast_delay</obj_property>
+         <obj_property name="ObjectShortName">axis_tlast_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/stream_data_out" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">stream_data_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">stream_data_out[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/tx_en" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">tx_en</obj_property>
+         <obj_property name="ObjectShortName">tx_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/tx_done" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">tx_done</obj_property>
+         <obj_property name="ObjectShortName">tx_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/c_m_axis_tdata_width" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">c_m_axis_tdata_width</obj_property>
+         <obj_property name="ObjectShortName">c_m_axis_tdata_width</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/c_m_start_count" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">c_m_start_count</obj_property>
+         <obj_property name="ObjectShortName">c_m_start_count</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/number_of_output_words" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">number_of_output_words</obj_property>
+         <obj_property name="ObjectShortName">number_of_output_words</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/wait_count_bits" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">wait_count_bits</obj_property>
+         <obj_property name="ObjectShortName">wait_count_bits</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/depth" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">depth</obj_property>
+         <obj_property name="ObjectShortName">depth</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/axi_stream_simulation_inst/bit_num" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">bit_num</obj_property>
+         <obj_property name="ObjectShortName">bit_num</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group320" type="group">
+      <obj_property name="label">gram_addr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/g_col_addr_out" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">g_col_addr_out[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_col_addr_out[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/g_row_addr_out" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">g_row_addr_out[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_row_addr_out[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/rden_internal" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">rden_internal</obj_property>
+         <obj_property name="ObjectShortName">rden_internal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/un_load" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">un_load</obj_property>
+         <obj_property name="ObjectShortName">un_load</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/ready_internal" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">ready_internal</obj_property>
+         <obj_property name="ObjectShortName">ready_internal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/load_pg" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">load_pg[1:0]</obj_property>
+         <obj_property name="ObjectShortName">load_pg[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/un_loading_done_internal" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">un_loading_done_internal</obj_property>
+         <obj_property name="ObjectShortName">un_loading_done_internal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/clk" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/rst" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/g_col_addr" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">g_col_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_col_addr[9:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/g_row_addr" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">g_row_addr[9:0]</obj_property>
+         <obj_property name="ObjectShortName">g_row_addr[9:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/rden_internal_i" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">rden_internal_i</obj_property>
+         <obj_property name="ObjectShortName">rden_internal_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/column_total" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">column_total</obj_property>
+         <obj_property name="ObjectShortName">column_total</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM_ADDRESS_GENERATOR_inst/addr_width" type="other" db_ref_id="2">
+         <obj_property name="ElementShortName">addr_width</obj_property>
+         <obj_property name="ObjectShortName">addr_width</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

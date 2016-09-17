@@ -134,7 +134,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_G_loading_predelay_count : integer := 0;
 
     constant cntrl_P_loading_predelay : integer := 4;
-    constant cntrl_G_loading_predelay : integer := 1;
+    constant cntrl_G_loading_predelay : integer := 0;
     constant cntrl_reset_length       : integer := 2;
 
     --slv_reg1_out bits: 32 used, 0 unused
@@ -164,7 +164,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := 8;
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL;
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine
@@ -292,13 +292,13 @@ begin
                         LOAD_PG <= LOAD_G_CMD;
 
                         if resetted_MMULT_IP = '1' then
-                            if cntrl_G_loading_predelay_count < cntrl_G_loading_predelay then --TODO: might need to decrase with 1. <= (->) <
+                            if cntrl_G_loading_predelay_count < cntrl_G_loading_predelay then
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
                                 if cntrl_G_loading_predelay_count = cntrl_G_loading_predelay - 1 then
                                 end if;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                if cntrl_G_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
+                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 1 then
                                     DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else

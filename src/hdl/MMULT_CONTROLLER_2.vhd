@@ -296,8 +296,8 @@ begin
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
-                                    DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then -- (<= 9), (< 8)
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
@@ -312,6 +312,7 @@ begin
                             state             <= cntrl_RESET_MMULT_IP;
                             state_after_reset <= cntrl_LOAD_G;
                         end if;
+                        
                     when cntrl_LOAD_P =>
                         --TODO: later, directly write into BRAM
                         DIN      <= (others => '0');
@@ -320,12 +321,10 @@ begin
                         if resetted_MMULT_IP = '1' then
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
-                                if cntrl_P_loading_predelay_count = cntrl_P_loading_predelay - 1 then
-                                end if;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                if cntrl_P_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
-                                    DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                DIN                 <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_P_array_index <= cntrl_P_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';

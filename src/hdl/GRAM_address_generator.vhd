@@ -53,7 +53,7 @@ begin
 
             elsif LOAD_PG = IDLE_CMD then
                 --G to AXI addressing
-                if RDEN_internal = '1' then
+                if RDEN_internal_i = '1' then
                     if unsigned(G_COL_ADDR) < COLUMN_TOTAL - 1 then
                         G_COL_ADDR <= STD_LOGIC_VECTOR(unsigned(G_COL_ADDR) + 1);
                     else

@@ -4,9 +4,10 @@
 
 #Variables:
 PROJ_PATH=/home/tsotne/workspaceVivado
-PROJ_NAME=MMULT_with_cortex_2
-APP_NAME=MMULT_AXI_2_DDR3
+PROJ_NAME=MMULT_AXI_STREAM
+APP_NAME=zapp_1
 SDK_BINARIES=/opt/Xilinx/SDK/2015.2/gnu/arm/lin/bin
+source Generics
 ############################
 
 GO_BACK=`pwd`

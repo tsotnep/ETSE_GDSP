@@ -1,0 +1,6 @@
+set PROJ_PATH       /home/tsotne/workspaceVivado
+set PROJ_NAME       MMULT_AXI_STREAM_2
+set BLOCK_DESIGN    design_1
+set APP_NAME        zapp_1
+set FSBL_NAME       fsbl
+set HW_PLATFORM_N   ${BLOCK_DESIGN}_wrapper_hw_platform_0

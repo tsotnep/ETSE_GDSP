@@ -7,7 +7,8 @@
 SCRIPTS_LOC=/home/tsotne/workspaceVivado/scripts
 VIVADO_SOURCE=/opt/Xilinx/SDK/2015.2/settings64.sh
 PROJ_PATH=/home/tsotne/workspaceVivado
-PROJ_NAME=MMULT_with_cortex_2
+PROJ_NAME=MMULT_AXI_STREAM
+source Generics
 ############################
 
 GO_BACK=`pwd`

@@ -5,10 +5,8 @@
 ############################
 
 #Variables:
-set PROJ_PATH       /home/tsotne/workspaceVivado
-set PROJ_NAME       MMULT_with_cortex_2
-set BLOCK_DESIGN    design_1
-set FSBL_NAME       fsbl_2
+set SCRIPTS_LOC /home/tsotne/workspaceVivado/scripts
+source ${SCRIPTS_LOC}/Genericstcl
 ############################
 
 

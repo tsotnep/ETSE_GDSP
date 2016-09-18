@@ -110,7 +110,7 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
         cmdin  <= command;
         cmdin2 <= command2;
         datain <= std_logic_vector(to_unsigned(val, DATA_WIDTH));
-        wait for period * 10;
+        wait for period * 30;
     end procedure simulate_AXI_write;
 
     --READ
@@ -151,13 +151,13 @@ begin
             C_M_START_COUNT      => C_M_START_COUNT
         )
         port map(
-            M_AXIS_ACLK    => clk,
-            M_AXIS_ARESETN => rst,
-            M_AXIS_TVALID  => M_AXIS_TVALID,
-            M_AXIS_TDATA   => M_AXIS_TDATA,
-            M_AXIS_TSTRB   => M_AXIS_TSTRB,
-            M_AXIS_TLAST   => M_AXIS_TLAST,
-            M_AXIS_TREADY  => s00_axis_tready --in
+            m00_AXIS_ACLK    => clk,
+            m00_AXIS_ARESETN => rst,
+            m00_AXIS_TVALID  => M_AXIS_TVALID,
+            m00_AXIS_TDATA   => M_AXIS_TDATA,
+            m00_AXIS_TSTRB   => M_AXIS_TSTRB,
+            m00_AXIS_TLAST   => M_AXIS_TLAST,
+            m00_AXIS_TREADY  => s00_axis_tready --in
         );
 
     MMULT_CONTROLLER_2_inst : entity work.MMULT_CONTROLLER_2
@@ -216,11 +216,13 @@ begin
         rst <= '1';
 
         simulate_AXI_write(7, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        wait for period * 30;
 
         simulate_AXI_write(0, cmd_LOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+        
+        simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
 
---        simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin, cmdin2, datain);
+        simulate_AXI_write(0, cmd_P_to_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+
 
 --        simulate_AXI_write(0, cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, WREN, cmdin, cmdin2, datain);
 
@@ -228,16 +230,16 @@ begin
 
         --
         --
-        --        simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
-        --        simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
+--                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
         --        wait for period * 30;
         --        --wait until RDY_FOR_CMD = '1';
 

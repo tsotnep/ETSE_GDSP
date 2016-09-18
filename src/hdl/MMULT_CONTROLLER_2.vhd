@@ -348,7 +348,7 @@ begin
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
                                 DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then -- (<= 9), (< 8)
+                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 0 then -- (<= 9), (< 8)
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';

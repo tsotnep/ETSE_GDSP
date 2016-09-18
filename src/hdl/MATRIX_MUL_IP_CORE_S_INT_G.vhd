@@ -206,7 +206,7 @@ begin
                 RDEN_internal     <= RDEN;
                 data_available_i  <= RDEN_internal;
                 data_available_ii <= data_available_i;
-                data_available    <= data_available_i;
+                data_available    <= data_available_ii;
             end if;
         end if;
     end process gram_data_available;

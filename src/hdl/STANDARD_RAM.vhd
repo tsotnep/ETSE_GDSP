@@ -38,19 +38,20 @@ process(CLK)-- (CLK,DIN,COL,ROW)
 begin
 if rising_edge(CLK) then
 --    for simulation
-    i_COL <= COL;
-    ii_COL <= i_COL;
-    i_ROW <= ROW;
-    ii_ROW <= i_ROW;
-    i_WE <= WE;
-    ii_WE <= i_WE;
-    if (ii_WE='1') then
-        datamem (to_integer(unsigned(ii_COL)))(to_integer(unsigned(ii_ROW)))<=DIN;
-    end if;
+--    i_COL <= COL;
+--    ii_COL <= i_COL;
+--    i_ROW <= ROW;
+--    ii_ROW <= i_ROW;
+--    i_WE <= WE;
+--    ii_WE <= i_WE;
+--    if (ii_WE='1') then
+--        datamem (to_integer(unsigned(ii_COL)))(to_integer(unsigned(ii_ROW)))<=DIN;
+--    end if;
     
---	if (WE='1') then
---		datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)))<=DIN;
---	end if;
+-- for synthesis
+	if (WE='1') then
+		datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)))<=DIN;
+	end if;
 	if (OE='1') then
 --			i_DOUT<=datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)));
 		i_DOUT<=datamem (to_integer(unsigned(ROW)))(to_integer(unsigned(COL)));

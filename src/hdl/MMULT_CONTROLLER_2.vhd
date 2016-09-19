@@ -138,11 +138,11 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_P_loading_predelay_count : integer := 0;
     signal cntrl_G_loading_predelay_count : integer := 0;
 
---P predelay:
---5 : 10,13,12, 14,15,17, 16,0,0
---4 : 10,14,13, 15,16,18, 17,0,0
---3 : 11,15,14, 16,17,19, 18,0,0
---2 : 12,16,15, 17,18,20, 19,0,0
+    --P predelay:
+    --5 : 10,13,12, 14,15,17, 16,0,0
+    --4 : 10,14,13, 15,16,18, 17,0,0
+    --3 : 11,15,14, 16,17,19, 18,0,0
+    --2 : 12,16,15, 17,18,20, 19,0,0
     constant cntrl_P_loading_predelay : integer := 3;
     constant cntrl_G_loading_predelay : integer := 2;
     constant cntrl_reset_length       : integer := 2;
@@ -174,7 +174,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2;
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2 * 4;
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine
@@ -305,11 +305,6 @@ begin
                         end if;
 
                     when cntrl_RESET_MMULT_IP =>
-                        --                        if only_wait = '1' then
-                        --                            rst <= '0';
-                        --                        else
-                        --                            rst <= '1';
-                        --                        end if;
                         rst <= '1';
 
                         if cntrl_reset_length_count < cntrl_reset_length then
@@ -342,8 +337,6 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
-                        --NOTE: was losing first and last values, they were 0s.
-                        --TODO: later, directly write into FSM one by one.
                         DIN     <= (others => '0');
                         LOAD_PG <= LOAD_G_CMD;
 
@@ -359,6 +352,7 @@ begin
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
                                     if LOADING_DONE = '1' then
                                         state                          <= cntrl_WAIT_FOR_CMD;
+                                        state_after_reset              <= cntrl_WAIT_FOR_CMD;
                                         cntrl_G_loading_predelay_count <= 0;
                                         cntrl_G_array_index            <= 0;
                                     end if;
@@ -386,6 +380,7 @@ begin
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
                                     if LOADING_DONE = '1' then
                                         state                          <= cntrl_WAIT_FOR_CMD;
+                                        state_after_reset              <= cntrl_WAIT_FOR_CMD;
                                         cntrl_P_loading_predelay_count <= 0;
                                         cntrl_P_array_index            <= 0;
                                     end if;
@@ -404,7 +399,8 @@ begin
                         G        <= cmd_details(0);
                         if resetted_MMULT_IP = '1' then
                             if OP_DONE = '1' then
-                                state <= cntrl_WAIT_FOR_CMD;
+                                state             <= cntrl_WAIT_FOR_CMD;
+                                state_after_reset <= cntrl_WAIT_FOR_CMD;
                             end if;
                         else
                             state             <= cntrl_RESET_MMULT_IP;
@@ -422,6 +418,7 @@ begin
                                     cntrl_R_array_index <= cntrl_R_array_index + 1;
                                 else
                                     state               <= cntrl_WAIT_FOR_CMD;
+                                    state_after_reset   <= cntrl_WAIT_FOR_CMD;
                                     cntrl_R_array_index <= 0;
                                 end if;
                             end if;
@@ -435,9 +432,9 @@ begin
 
                         if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
-                                MMULT_AXIS_OUTPUT_ENABLE                <= '1';
+                                MMULT_AXIS_OUTPUT_ENABLE                          <= '1';
                                 m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0) <= DOUT;
-                                cntrl_R_array_index                     <= cntrl_R_array_index + 1;
+                                cntrl_R_array_index                               <= cntrl_R_array_index + 1;
                             end if;
                         else
                             state               <= cntrl_WAIT_FOR_CMD;
@@ -484,11 +481,11 @@ begin
             UN_LOADING_DONE => UN_LOADING_DONE
         );
 
-------
-------
-------
-------
-------
+    ------
+    ------
+    ------
+    ------
+    ------
     --AXIS SLAVE
 
     -- I/O Connections assignments
@@ -565,17 +562,12 @@ begin
     -- FIFO write enable generation
     s00_axis_fifo_wren <= s00_axis_TVALID and s00_axis_axis_tready;
 
-
-
-
-
-
-------
-------
-------
-------
-------
--- AXIS MASTER
+    ------
+    ------
+    ------
+    ------
+    ------
+    -- AXIS MASTER
 
     -- I/O Connections assignments
 
@@ -686,7 +678,7 @@ begin
 
     m00_axis_tx_en <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
 
-    -- FIFO Implementation                                                          
+-- FIFO Implementation                                                          
 
 --    -- Streaming output data is read from FIFO                                      
 --    process(m00_AXIS_ACLK)

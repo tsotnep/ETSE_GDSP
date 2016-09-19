@@ -18,8 +18,31 @@ puts "TSOTNE: opened project"
 
 #upgrade all IPs
 puts "TSOTNE: updating IPs"
-update_ip_catalog -rebuild -scan_changes
+${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}
+
+set v001 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.tmp/${IP_NAME}_v1_0_project
+set v002 ${IP_LOC}/${IP_NAME}_1.0/component.xml
+
+
+#TODO: from here, till next todo, its messed up, it does not update IP when sources are changed
 report_ip_status
+upgrade_ip -vlnv tsotnep:userLibrary:MMULT_AXI_STREAM:1.0 [get_ips  design_1_MMULT_AXI_STREAM_0_0]
+
+ipx::edit_ip_in_project -upgrade true -name MMULT_AXI_STREAM_v1_0_project -directory $v001 $v002
+update_compile_order -fileset sources_1
+update_compile_order -fileset sim_1
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::save_core [ipx::current_core]
+ipx::check_integrity -quiet [ipx::current_core]
+ipx::archive_core ${IP_LOC}/${IP_NAME}_1.0/tsotnep_userLibrary_${IP_NAME}_1.0.zip [ipx::current_core]
+puts "TSOTNE: closing IP project, not the main project"
+close_project
+
+#TODO: here, it's hardcoded: tsotnep, userLibrary, 1.0,
+
+report_ip_status
+update_ip_catalog -rebuild -scan_changes
 upgrade_ip [get_ips -all]
 report_ip_status
 puts "TSOTNE: updated IPs"
@@ -67,7 +90,11 @@ puts "TSOTNE: exported to sdk"
 #launch SDK and exit vivado
 set v6 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk
 set v7 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.sdk/${BLOCK_DESIGN}_wrapper.hdf
-if { [file exists ${HW_PLATFORM_N} ] == 0 } { launch_sdk -workspace ${v6} -hwspec ${v7} } else { puts "TSOTNE: no need to launch SDK" }
+
+if { [file exists ${v5_1}] == 0 } {
+    puts "TSOTNE: launching sdk to automatically create specific folder called: ${HW_PLATFORM_N}"
+    launch_sdk -workspace ${v6} -hwspec ${v7} } else { puts "TSOTNE: no need to launch SDK"
+}
 puts "TSOTNE: exiting vivado"
 exit
 ############################

@@ -10,8 +10,9 @@ GO_BACK=`pwd`
 
 cd $PROJ_PATH/${PROJ_NAME}/${PROJ_NAME}.sdk/${APP_NAME}/Debug/
 export PATH=$PATH:${SDK_BINARIES}
-make clean all | egrep -i --color "\b(error|warning|elf)\b"
-make all | egrep -i --color "(error|warning)|$" 
+
+make clean 2>&1 | egrep -i --color "\b(error|warning)\b"
+make all 2>&1| egrep -i --color "\b(error|warning)\b"
 
 #"\b(error)\b|#" - for separate words
 

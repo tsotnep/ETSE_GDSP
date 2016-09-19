@@ -13,12 +13,12 @@ generic(
       DATA_WIDTH:integer:=18			--
    );
     Port ( CLK : in  STD_LOGIC;
-           ROW : in  STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
-           COL : in  STD_LOGIC_VECTOR  (ADDR_WIDTH-1 downto 0);--(COLUMN_TOTAL-1 downto 0);
-           DIN : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-           DOUT : out  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-           WE : in  STD_LOGIC;
-           OE : in  STD_LOGIC);
+           ROW_in : in  STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
+           COL_in : in  STD_LOGIC_VECTOR  (ADDR_WIDTH-1 downto 0);--(COLUMN_TOTAL-1 downto 0);
+           DIN_in : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
+           DOUT_out : out  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
+           WE_in : in  STD_LOGIC;
+           OE_in : in  STD_LOGIC);
 end STANDARD_RAM;
 
 
@@ -49,18 +49,18 @@ if rising_edge(CLK) then
 --    end if;
     
 -- for synthesis
-	if (WE='1') then
-		datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)))<=DIN;
+	if (WE_in='1') then
+		datamem (to_integer(unsigned(COL_in)))(to_integer(unsigned(ROW_in)))<=DIN_in;
 	end if;
-	if (OE='1') then
+	if (OE_in='1') then
 --			i_DOUT<=datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)));
-		i_DOUT<=datamem (to_integer(unsigned(ROW)))(to_integer(unsigned(COL)));
+		i_DOUT<=datamem (to_integer(unsigned(ROW_in)))(to_integer(unsigned(COL_in)));
 	else
 			i_DOUT<=(others=>'0');
 	end if;
-	DOUT<=i_DOUT;
+	DOUT_out<=i_DOUT;
 	ii_DOUT <= i_DOUT;
-	DOUT <= ii_DOUT;--3 clk_cycle pipeline.
+	DOUT_out <= ii_DOUT;--3 clk_cycle pipeline.
 end if;
 end process;
 

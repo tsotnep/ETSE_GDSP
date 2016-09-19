@@ -143,8 +143,8 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --4 : 10,14,13, 15,16,18, 17,0,0
     --3 : 11,15,14, 16,17,19, 18,0,0
     --2 : 12,16,15, 17,18,20, 19,0,0
-    constant cntrl_P_loading_predelay : integer := 3;
-    constant cntrl_G_loading_predelay : integer := 2;
+    constant cntrl_P_loading_predelay : integer := 4; --TODO: 3, 2
+    constant cntrl_G_loading_predelay : integer := 0;
     constant cntrl_reset_length       : integer := 2;
 
     --slv_reg1_out bits: 32 used, 0 unused
@@ -174,7 +174,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2 * 4;
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL ; --TODO: back * 2 * 4
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine
@@ -466,19 +466,19 @@ begin
         port map(
             CLK             => CLK,
             RST             => RST,
-            LOAD_PG         => LOAD_PG,
-            UN_LOAD         => UN_LOAD,
-            P               => P,
-            G               => G,
+            LOAD_PG_in         => LOAD_PG,
+            UN_LOAD_in         => UN_LOAD,
+            P_in               => P,
+            G_in               => G,
             Bank_sel_in     => Bank_sel,
-            DIN             => DIN,
-            RDEN            => RDEN_internal,
-            data_available  => data_available,
-            DOUT            => DOUT,
-            READY           => READY,
-            OP_DONE         => OP_DONE,
-            LOADING_DONE    => LOADING_DONE,
-            UN_LOADING_DONE => UN_LOADING_DONE
+            DIN_in             => DIN,
+            AXIS_READ_ENABLE_in            => RDEN_internal,
+            Gram_data_available_for_axis_out  => data_available,
+            DOUT_out            => DOUT,
+            READY_out           => READY,
+            OP_DONE_in         => OP_DONE,
+            LOADING_DONE_in    => LOADING_DONE,
+            UN_LOADING_DONE_out => UN_LOADING_DONE
         );
 
     ------

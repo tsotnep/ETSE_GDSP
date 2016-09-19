@@ -28,13 +28,29 @@ type column is array (0 to COLUMN_TOTAL-1) of std_logic_vector (DATA_WIDTH-1 dow
 type ram is array (0 to COLUMN_TOTAL-1) of column;
 signal datamem: ram;
 signal i_DOUT,ii_DOUT:std_logic_vector (DATA_WIDTH-1 downto 0);
+
+--for simulation
+signal i_DIN,ii_DIN:std_logic_vector (DATA_WIDTH-1 downto 0);
+signal i_ROW, ii_ROW, i_COL, ii_COL : STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
+signal i_WE, ii_WE : std_logic;
 begin
 process(CLK)-- (CLK,DIN,COL,ROW)
 begin
 if rising_edge(CLK) then
-	if (WE='1') then
-		datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)))<=DIN;
-	end if;
+--    for simulation
+    i_COL <= COL;
+    ii_COL <= i_COL;
+    i_ROW <= ROW;
+    ii_ROW <= i_ROW;
+    i_WE <= WE;
+    ii_WE <= i_WE;
+    if (ii_WE='1') then
+        datamem (to_integer(unsigned(ii_COL)))(to_integer(unsigned(ii_ROW)))<=DIN;
+    end if;
+    
+--	if (WE='1') then
+--		datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)))<=DIN;
+--	end if;
 	if (OE='1') then
 --			i_DOUT<=datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)));
 		i_DOUT<=datamem (to_integer(unsigned(ROW)))(to_integer(unsigned(COL)));

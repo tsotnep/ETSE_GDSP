@@ -138,6 +138,11 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_P_loading_predelay_count : integer := 0;
     signal cntrl_G_loading_predelay_count : integer := 0;
 
+--P predelay:
+--5 : 10,13,12, 14,15,17, 16,0,0
+--4 : 10,14,13, 15,16,18, 17,0,0
+--3 : 11,15,14, 16,17,19, 18,0,0
+--2 : 12,16,15, 17,18,20, 19,0,0
     constant cntrl_P_loading_predelay : integer := 3;
     constant cntrl_G_loading_predelay : integer := 2;
     constant cntrl_reset_length       : integer := 2;
@@ -348,7 +353,7 @@ begin
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
                                 DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 0 then -- (<= 9), (< 8)
+                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';

@@ -27,7 +27,7 @@ entity GRAM_ADDRESS_GENERATOR is
 end entity GRAM_ADDRESS_GENERATOR;
 architecture RTL of GRAM_ADDRESS_GENERATOR is
     signal G_COL_ADDR, G_ROW_ADDR : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal RDEN_internal_i        : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
+    signal READY_internal_i, READY_internal_ii        : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
 begin
     G_COL_ADDR_out <= G_COL_ADDR;
     G_ROW_ADDR_out <= G_ROW_ADDR;
@@ -37,7 +37,9 @@ begin
             G_COL_ADDR <= (others => '0');
             G_ROW_ADDR <= (others => '0');
         elsif rising_edge(clk) then
-            RDEN_internal_i <= RDEN_internal;
+            --P to G
+            READY_internal_i <= READY_internal;
+            READY_internal_ii <= READY_internal_i;
             if UN_LOAD = '1' and READY_internal = '1' and LOAD_PG = OPERATE_CMD and UN_LOADING_DONE_internal = '0' then
                 --P to G addressing
                 if unsigned(G_ROW_ADDR) < COLUMN_TOTAL - 1 then

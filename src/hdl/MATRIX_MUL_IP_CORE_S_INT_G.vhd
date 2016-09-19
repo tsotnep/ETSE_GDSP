@@ -45,7 +45,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal i_MEM2ALU : i_DATA_t;        ---- mem-to-alu signal
     type i_DATA_wide is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDE_WIDTH - 1 downto 0);
     signal i_ALU2ALU : i_DATA_wide;     ---- alu-to-alu signal
-
+    signal ii_ALU2ALU, iii_ALU2ALU : std_logic_vector(DATA_WIDTH - 1 downto 0);
     constant DIN_DELAY   : integer := 2;
     constant DELAY_DEPTH : integer := 6 + DIN_DELAY; --7+DIN_DELAY;
 
@@ -87,6 +87,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal WE_gram, OE_gram, READY_internal, UN_LOADING_DONE_internal, RDEN_internal : std_logic;
     signal COL_gram, ROW_gram, G_ROW_ADDR, G_COL_ADDR                                : std_logic_vector(ADDR_WIDTH - 1 downto 0);
     signal data_available_i, data_available_ii                                       : std_logic;
+    signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii :  std_logic; 
 begin
 
     -----------------------------------------------------------
@@ -211,14 +212,31 @@ begin
         end if;
     end process gram_data_available;
 
-    GramControl : process(DIN, UN_LOAD, i_ALU2ALU, s_G_WE, READY_internal, LOAD_PG, s_G_COLUMN, s_G_O_EN, s_G_ROW, G_COL_ADDR, G_ROW_ADDR, UN_LOADING_DONE_internal, RDEN_internal) is
+shift_P_to_G : process (clk) is
+begin
+    if rising_edge(clk) then
+        if rst = '1' then
+            ii_ALU2ALU <= (others => '0');
+            iii_ALU2ALU <= (others => '0');
+        else
+            ii_ALU2ALU <= i_ALU2ALU(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
+            iii_ALU2ALU <= ii_ALU2ALU;
+            WE_p_to_g_i <= WE_p_to_g;
+            WE_p_to_g_ii <= WE_p_to_g_i;
+        end if;
+    end if;
+end process shift_P_to_G;
+
+
+    GramControl : process (DIN, G_COL_ADDR, G_ROW_ADDR, LOAD_PG, RDEN_internal, READY_internal, UN_LOAD, UN_LOADING_DONE_internal, WE_p_to_g, WE_p_to_g_i, iii_ALU2ALU, s_G_COLUMN, s_G_O_EN, s_G_ROW, s_G_WE, WE_p_to_g_i)
     begin
+        WE_p_to_g <= UN_LOAD and (not UN_LOADING_DONE_internal);
         if UN_LOAD = '1' and READY_internal = '1' and LOAD_PG = OPERATE_CMD then
             --P to G, when unloading from Bram data will come go GRAM
             ROW_gram <= G_ROW_ADDR;
             COL_gram <= G_COL_ADDR;
-            DIN_gram <= i_ALU2ALU(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0); --output from fsm, data of Bram
-            WE_gram  <= UN_LOAD and (not UN_LOADING_DONE_internal);
+            DIN_gram <= iii_ALU2ALU; --output from fsm, data of Bram
+            WE_gram  <= WE_p_to_g; --this should be given 1 with 2 clock cycles before data
             OE_gram  <= '0';
         elsif LOAD_PG = IDLE_CMD then
             --G to AXI

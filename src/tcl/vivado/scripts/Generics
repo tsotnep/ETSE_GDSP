@@ -8,3 +8,4 @@ FSBL_NAME=fsbl
 VIVADO_SOURCE=/opt/Xilinx/SDK/2015.2/settings64.sh
 SDK_BINARIES=/opt/Xilinx/SDK/2015.2/gnu/arm/lin/bin
 SCRIPTS_LOC=/home/tsotne/workspaceVivado/scripts
+GIT_LOC=/home/tsotne/git/ETSE_GDSP

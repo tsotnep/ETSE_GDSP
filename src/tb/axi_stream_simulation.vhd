@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 --simulates Master side.
-entity axi_stream_simulation is
+entity axi_stream_simulation_master is
     generic(
         -- Users to add parameters here
 
@@ -36,9 +36,9 @@ entity axi_stream_simulation is
         -- TREADY indicates that the slave can accept a transfer in the current cycle.
         m00_AXIS_TREADY  : in  std_logic
     );
-end axi_stream_simulation;
+end axi_stream_simulation_master;
 
-architecture implementation of axi_stream_simulation is
+architecture implementation of axi_stream_simulation_master is
     --Total number of output data.
     -- function called clogb2 that returns an integer which has the   
     -- value of the ceiling of the log base 2.                              
@@ -63,8 +63,9 @@ architecture implementation of axi_stream_simulation is
     
     
     -- Total number of output data                                              
-    constant m00_axis_NUMBER_OF_OUTPUT_WORDS : integer := 1024;
     
+    
+    constant m00_axis_NUMBER_OF_OUTPUT_WORDS : integer := 18;
 
     -- WAIT_COUNT_BITS is the width of the wait counter.                       
     constant m00_axis_WAIT_COUNT_BITS : integer := clogb2(C_M_START_COUNT - 1);
@@ -106,6 +107,10 @@ architecture implementation of axi_stream_simulation is
     signal m00_axis_tx_en             : std_logic;
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
+    
+    type s00_axis_BYTE_FIFO_TYPE is array (0 to (m00_axis_NUMBER_OF_OUTPUT_WORDS - 1)) of integer;
+    signal m00_axis_data_source : s00_axis_BYTE_FIFO_TYPE := (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+    
 
 begin
     
@@ -230,7 +235,7 @@ begin
                 m00_axis_stream_data_out <= std_logic_vector(to_unsigned(0, C_M_AXIS_TDATA_WIDTH));
             elsif (m00_axis_tx_en = '1') then    -- && M_AXIS_TSTRB(byte_index)                   
 --                stream_data_out <= std_logic_vector(to_unsigned(read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
-                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(m00_axis_read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
+                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(m00_axis_data_source(m00_axis_read_pointer), C_M_AXIS_TDATA_WIDTH));
             end if;
         end if;
     end process;

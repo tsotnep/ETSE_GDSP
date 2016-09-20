@@ -164,7 +164,7 @@ begin
             s00_axis_tvalid  => S_AXIS_tvalid
         );
         
-    axi_stream_simulation_inst : entity work.axi_stream_simulation
+    axi_stream_simulation_inst : entity work.axi_stream_simulation_master
         generic map(
             C_M_AXIS_TDATA_WIDTH => C_M_AXIS_TDATA_WIDTH,
             C_M_START_COUNT      => C_M_START_COUNT

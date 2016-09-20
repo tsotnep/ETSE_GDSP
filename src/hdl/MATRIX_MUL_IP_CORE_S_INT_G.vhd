@@ -42,15 +42,15 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     -------------------------------------------SIGNALS-----------------------
 
     type i_DATA_t is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
-    signal i_MEM2ALU_inout : i_DATA_t;        ---- mem-to-alu signal
+    signal i_MEM2ALU_inout : i_DATA_t;  ---- mem-to-alu signal
     type i_DATA_wide is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDE_WIDTH - 1 downto 0);
-    signal ALU2ALU_i_inout                                                   : i_DATA_wide; ---- alu-to-alu signal
+    signal ALU2ALU_i_inout                                             : i_DATA_wide; ---- alu-to-alu signal
     signal ALU2ALU_reg, ALU2ALU_reg_i, ALU2ALU_reg_ii, ALU2ALU_reg_iii : std_logic_vector(DATA_WIDTH - 1 downto 0);
     constant DIN_DELAY                                                 : integer := 2;
     constant DELAY_DEPTH                                               : integer := 6 + DIN_DELAY; --7+DIN_DELAY;
 
     type pipelined_OPCODE_t is array (0 to DIN_DELAY - 1) of std_logic_vector(OPCODE_WIDTH - 1 downto 0);
-    signal p_OPCODE : pipelined_OPCODE_t;
+    signal p_OPCODE     : pipelined_OPCODE_t;
     signal i_OPCODE_out : std_logic_vector(OPCODE_WIDTH - 1 downto 0);
 
     type pipelined_B_t is array (0 to DELAY_DEPTH - 1) of std_logic_vector(0 to COLUMN_TOTAL - 1);
@@ -61,20 +61,20 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     type pipelined_ADDR_t is array (0 to DELAY_DEPTH - 1) of std_logic_vector(ADDR_WIDTH - 2 downto 0);
     signal p_Write_ADDR, p_ADDRB           : pipelined_ADDR_t;
     signal i_P_Write_ADDR                  : std_logic_vector(ADDR_WIDTH - 2 downto 0);
-    signal s_fsm_CSEL_out                   : std_logic_vector(COLUMN_TOTAL - 1 downto 0);
+    signal s_fsm_CSEL_out                  : std_logic_vector(COLUMN_TOTAL - 1 downto 0);
     signal s_fsm_Read_ADDR_in              : std_logic_vector(ADDR_WIDTH - 2 downto 0);
-    signal s_fsm_Read_SHFT_out              : std_logic;
+    signal s_fsm_Read_SHFT_out             : std_logic;
     signal s_fsm_OPCODE_in                 : std_logic_vector(OPCODE_WIDTH - 1 downto 0);
     signal s_fsm_WE_in                     : std_logic;
-    signal s_modified_fsm_Read_ADDR_out        : std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    signal s_modified_fsm_Read_ADDR_out    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
     --signal Bank_Sel : std_logic;
-    signal s_modified_fsm_Write_ADDR_out       : std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    signal s_modified_fsm_Write_ADDR_out   : std_logic_vector(ADDR_WIDTH - 1 downto 0);
     signal s_MUL_P_SHFT                    : std_logic;
     signal s_fsm_Write_ADDR_in             : STD_LOGIC_VECTOR(ADDR_WIDTH - 2 downto 0);
     signal s_fsm_UN_LOAD                   : STD_LOGIC;
     signal s_fsm_CONTROL_A_INPUT_OF_DSP_in : std_logic_vector(1 downto 0);
-    signal s_MUl_Din_out                       : std_logic_vector(DATA_WIDTH - 1 downto 0);
-    signal s_fsm_Write_SHFT_out             : std_logic;
+    signal s_MUl_Din_out                   : std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal s_fsm_Write_SHFT_out            : std_logic;
 
     signal s_G_ROW_in     : std_logic_vector(ADDR_WIDTH - 1 downto 0);
     signal s_G_COLUMN_in  : std_logic_vector(ADDR_WIDTH - 1 downto 0);
@@ -83,15 +83,15 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal s_GRAM_DOUT_in : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
 
     ----------------------
-    signal DIN_gram_out                                                                                                : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
-    signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_i : std_logic;
-    signal COL_gram_out, ROW_gram_out, G_ROW_ADDR_in, G_COL_ADDR_in                                                    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal AXIS_READ_ENABLE,  AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii                                                 : std_logic;
-    signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii                                                                        : std_logic;
-    signal INTERNAL_FSM_READY_i, INTERNAL_FSM_READY_ii                                                                 : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
-    signal P_to_G_Write_Enable_out                                                                                     : std_logic;
-    signal P_out, G_out, UN_LOAD_out, UN_LOADING_DONE_in                                                                                   : std_logic;
-    signal LOAD_PG_out                                                                                                 : STD_LOGIC_VECTOR(1 downto 0);
+    signal DIN_gram_out                                                                                                                   : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
+    signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_i                                         : std_logic;
+    signal COL_gram_out, ROW_gram_out, G_ROW_ADDR_in, G_COL_ADDR_in                                                                       : std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    signal AXIS_READ_ENABLE, AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii, AXIS_READ_ENABLE_iiiii : std_logic;
+    signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii                                                                                           : std_logic;
+    signal INTERNAL_FSM_READY_i, INTERNAL_FSM_READY_ii                                                                                    : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
+    signal P_to_G_Write_Enable_out                                                                                                        : std_logic;
+    signal P_out, G_out, UN_LOAD_out, UN_LOADING_DONE_in                                                                                  : std_logic;
+    signal LOAD_PG_out                                                                                                                    : STD_LOGIC_VECTOR(1 downto 0);
 begin
 
     -----------------------------------------------------------
@@ -109,7 +109,7 @@ begin
                 p_ADDRB(i)      <= p_ADDRB(i - 1);
             end loop;
             i_P_Write_ADDR <= p_Write_ADDR(DELAY_DEPTH - 1);
-            i_WEB_out          <= p_WEB(DELAY_DEPTH - 1);
+            i_WEB_out      <= p_WEB(DELAY_DEPTH - 1);
 
             p_OPCODE(0) <= s_fsm_OPCODE_in;
 
@@ -132,40 +132,41 @@ begin
     begin
         --by default, they're just bypassed.
         INTERNAL_FSM_READY <= INTERNAL_FSM_READY_in;
---        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
-        ALU2ALU_reg <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
-        WE_p_to_g <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
+        --        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
+        ALU2ALU_reg        <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
+        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
         if rising_edge(clk) then
             if rst = '1' then
-                AXIS_READ_ENABLE_i               <= '0';
-                AXIS_READ_ENABLE_ii              <= '0';
-                AXIS_READ_ENABLE_iii             <= '0';
-                INTERNAL_FSM_READY_i             <= '0';
-                INTERNAL_FSM_READY_ii            <= '0';
-                ALU2ALU_reg_ii                   <= (others => '0');
-                ALU2ALU_reg_iii                  <= (others => '0');
-                WE_p_to_g_i                      <= '0';
-                WE_p_to_g_ii                     <= '0';
+                AXIS_READ_ENABLE_i    <= '0';
+                AXIS_READ_ENABLE_ii   <= '0';
+                AXIS_READ_ENABLE_iii  <= '0';
+                INTERNAL_FSM_READY_i  <= '0';
+                INTERNAL_FSM_READY_ii <= '0';
+                ALU2ALU_reg_ii        <= (others => '0');
+                ALU2ALU_reg_iii       <= (others => '0');
+                WE_p_to_g_i           <= '0';
+                WE_p_to_g_ii          <= '0';
             else
                 --unused
---                INTERNAL_FSM_READY_i  <= INTERNAL_FSM_READY_in;
---                INTERNAL_FSM_READY_ii <= INTERNAL_FSM_READY_i;
---                INTERNAL_FSM_READY    <= INTERNAL_FSM_READY_ii;
+                --                INTERNAL_FSM_READY_i  <= INTERNAL_FSM_READY_in;
+                --                INTERNAL_FSM_READY_ii <= INTERNAL_FSM_READY_i;
+                --                INTERNAL_FSM_READY    <= INTERNAL_FSM_READY_ii;
 
-                AXIS_READ_ENABLE_i   <= AXIS_READ_ENABLE_in;
-                AXIS_READ_ENABLE_ii  <= AXIS_READ_ENABLE_i;
-                AXIS_READ_ENABLE_iii <= AXIS_READ_ENABLE_ii;
-                AXIS_READ_ENABLE_iiii     <= AXIS_READ_ENABLE_iii;
-                AXIS_READ_ENABLE <= AXIS_READ_ENABLE_iiii;
+                AXIS_READ_ENABLE_i     <= AXIS_READ_ENABLE_in;
+                AXIS_READ_ENABLE_ii    <= AXIS_READ_ENABLE_i;
+                AXIS_READ_ENABLE_iii   <= AXIS_READ_ENABLE_ii;
+                AXIS_READ_ENABLE_iiii  <= AXIS_READ_ENABLE_iii;
+                AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
+                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_iiiii;
 
---                ALU2ALU_reg_i   <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
---                ALU2ALU_reg_ii  <= ALU2ALU_reg_i;
---                ALU2ALU_reg_iii <= ALU2ALU_reg_ii;
---                ALU2ALU_reg     <= ALU2ALU_reg_iii;
+            --                ALU2ALU_reg_i   <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
+            --                ALU2ALU_reg_ii  <= ALU2ALU_reg_i;
+            --                ALU2ALU_reg_iii <= ALU2ALU_reg_ii;
+            --                ALU2ALU_reg     <= ALU2ALU_reg_iii;
 
---                WE_p_to_g_i  <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
---                WE_p_to_g_ii <= WE_p_to_g_i;
---                WE_p_to_g    <= WE_p_to_g_ii;
+            --                WE_p_to_g_i  <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
+            --                WE_p_to_g_ii <= WE_p_to_g_i;
+            --                WE_p_to_g    <= WE_p_to_g_ii;
             end if;
         end if;
     end process shift_registers;
@@ -178,11 +179,10 @@ begin
     UN_LOADING_DONE_out              <= UN_LOADING_DONE_in;
     Gram_data_available_for_axis_out <= AXIS_READ_ENABLE;
 
-    P_to_G_Write_Enable_out          <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
-    DOUT_out                         <= s_GRAM_DOUT_in;
-    
+    P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
+    DOUT_out                <= s_GRAM_DOUT_in;
 
-    GramControl : process (ALU2ALU_reg, AXIS_READ_ENABLE, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in)
+    GramControl : process(ALU2ALU_reg, AXIS_READ_ENABLE, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in)
     begin
         if LOAD_PG_in = OPERATE_CMD and P_to_G_Write_Enable_out = '1' then
             --P to G, when unloading from Bram data will come go GRAM
@@ -239,8 +239,8 @@ begin
     FIRST_DSP : component DSP_INPUT_C PORT MAP(
             clk => CLK,
             sel => i_OPCODE_out,
-            a   => s_MUl_Din_out,           --DIN(17 downto 0),--i_DIN,
-            b   => i_MEM2ALU_inout(0),        --(17 downto 0),
+            a   => s_MUl_Din_out,       --DIN(17 downto 0),--i_DIN,
+            b   => i_MEM2ALU_inout(0),  --(17 downto 0),
             c   => ALU2ALU_i_inout(COLUMN_TOTAL - 1),
             p   => ALU2ALU_i_inout(0)
         );
@@ -250,14 +250,14 @@ begin
         DSP : component DSP_INPUT_C PORT MAP(
                 clk => CLK,
                 sel => i_OPCODE_out,
-                a   => s_MUl_Din_out,       --DIN(17 downto 0),--i_DIN,
-                b   => i_MEM2ALU_inout(i),    --(17 downto 0),
+                a   => s_MUl_Din_out,   --DIN(17 downto 0),--i_DIN,
+                b   => i_MEM2ALU_inout(i), --(17 downto 0),
                 c   => ALU2ALU_i_inout(i - 1),
                 p   => ALU2ALU_i_inout(i)
             );
     end generate;
 
-   ----------------------------------------------------------------
+    ----------------------------------------------------------------
     FSM_UNIT : entity work.CONTROL_UNIT_S_INT_G
         generic map(
             ADDR_WIDTH   => ADDR_WIDTH,

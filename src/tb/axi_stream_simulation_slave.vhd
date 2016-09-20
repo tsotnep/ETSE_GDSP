@@ -57,7 +57,7 @@ architecture implementation of axi_stream_simulation_slave is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 4;
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL + 3;
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine
@@ -81,7 +81,7 @@ architecture implementation of axi_stream_simulation_slave is
     signal s00_axis_writes_done    : std_logic;
 
     type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS - 1)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
-    signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
+    signal s00_axis_data_sink : s00_axis_BYTE_FIFO_TYPE;
 
     signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE : std_logic;
 
@@ -118,7 +118,8 @@ begin
                     when WRITE_FIFO =>
                         -- When the sink has accepted all the streaming input data,
                         -- the interface swiches functionality to a streaming master
-                        s00_axis_stream_data_fifo(s00_axis_write_pointer) <= s00_axis_tdata;
+                        s00_axis_data_sink(s00_axis_write_pointer) <= s00_axis_tdata;
+                        
                         if (s00_axis_writes_done = '1') then
                             s00_axis_mst_exec_state <= IDLE;
                         else

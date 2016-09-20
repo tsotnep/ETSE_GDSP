@@ -143,9 +143,6 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --4 : 10,14,13, 15,16,18, 17,0,0
     --3 : 11,15,14, 16,17,19, 18,0,0
     --2 : 12,16,15, 17,18,20, 19,0,0
-    constant cntrl_P_loading_predelay : integer := 3; --TODO: 3, 2
-    constant cntrl_G_loading_predelay : integer := 0;
-    constant cntrl_reset_length       : integer := 2;
 
     --slv_reg1_out bits: 32 used, 0 unused
     alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
@@ -247,6 +244,10 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_tx_en             : std_logic;
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
+    
+    constant cntrl_P_loading_predelay : integer := 4; --TODO: 3, 2
+    constant cntrl_G_loading_predelay : integer := 2;
+    constant cntrl_reset_length       : integer := 2;
 begin
     RMATRIX_ADDR <= (others => '0');
 

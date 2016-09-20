@@ -44,7 +44,7 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
     signal s00_axis_tstrb   : std_logic_vector((C_S00_AXIS_TDATA_WIDTH / 8) - 1 downto 0);
     signal s00_axis_tlast   : std_logic;
     signal s00_axis_tvalid  : std_logic;
-
+    
     signal m00_axis_aclk    : std_logic;
     signal m00_axis_aresetn : std_logic;
     signal m00_axis_tvalid  : std_logic;
@@ -129,13 +129,18 @@ architecture RTL of TB_MMULT_CONROLLER_2 is
         --        end if;
         wait for period * 10;
     end procedure simulate_AXI_read;
-    signal M_AXIS_ACLK    : std_logic;
-    signal M_AXIS_ARESETN : std_logic;
     signal M_AXIS_TVALID  : std_logic;
     signal M_AXIS_TDATA   : std_logic_vector(C_M_AXIS_TDATA_WIDTH - 1 downto 0);
     signal M_AXIS_TSTRB   : std_logic_vector((C_M_AXIS_TDATA_WIDTH / 8) - 1 downto 0);
     signal M_AXIS_TLAST   : std_logic;
     signal M_AXIS_TREADY  : std_logic;
+        
+    
+    signal S_axis_tready  : std_logic;
+    signal S_axis_tdata   : std_logic_vector(C_S00_AXIS_TDATA_WIDTH - 1 downto 0);
+    signal S_axis_tstrb   : std_logic_vector((C_S00_AXIS_TDATA_WIDTH / 8) - 1 downto 0);
+    signal S_axis_tlast   : std_logic;
+    signal S_axis_tvalid  : std_logic;
 begin
     clock_driver : process
     begin
@@ -145,6 +150,20 @@ begin
         wait for period / 2;
     end process clock_driver;
 
+    axi_stream_simulation_slave_inst : entity work.axi_stream_simulation_slave
+        generic map(
+            C_S00_AXIS_TDATA_WIDTH => C_S00_AXIS_TDATA_WIDTH
+        )
+        port map(
+            s00_axis_aclk    => clk,
+            s00_axis_aresetn => rst,
+            s00_axis_tready  => S_AXIS_tready,
+            s00_axis_tdata   => S_AXIS_tdata,
+            s00_axis_tstrb   => S_AXIS_tstrb,
+            s00_axis_tlast   => S_AXIS_tlast,
+            s00_axis_tvalid  => S_AXIS_tvalid
+        );
+        
     axi_stream_simulation_inst : entity work.axi_stream_simulation
         generic map(
             C_M_AXIS_TDATA_WIDTH => C_M_AXIS_TDATA_WIDTH,
@@ -157,7 +176,7 @@ begin
             m00_AXIS_TDATA   => M_AXIS_TDATA,
             m00_AXIS_TSTRB   => M_AXIS_TSTRB,
             m00_AXIS_TLAST   => M_AXIS_TLAST,
-            m00_AXIS_TREADY  => s00_axis_tready --in
+            m00_AXIS_TREADY  => M_AXIS_TREADY --in
         );
 
     MMULT_CONTROLLER_2_inst : entity work.MMULT_CONTROLLER_2
@@ -174,20 +193,22 @@ begin
         port map(
             s00_axis_aresetn => rst,
             s00_axis_aclk    => clk,
-            s00_axis_tready  => s00_axis_tready, --out
+            s00_axis_tready  => M_AXIS_TREADY, --out
             s00_axis_tdata   => M_AXIS_TDATA,
             s00_axis_tstrb   => M_AXIS_TSTRB,
             s00_axis_tlast   => M_AXIS_TLAST,
             s00_axis_tvalid  => M_AXIS_TVALID,
-            m00_axis_aclk    => m00_axis_aclk,
-            m00_axis_aresetn => m00_axis_aresetn,
-            m00_axis_tvalid  => m00_axis_tvalid,
-            m00_axis_tdata   => m00_axis_tdata,
-            m00_axis_tstrb   => m00_axis_tstrb,
-            m00_axis_tlast   => m00_axis_tlast,
-            m00_axis_tready  => m00_axis_tready,
+            
+            m00_axis_aclk    => clk,
+            m00_axis_aresetn => rst,
+            m00_axis_tvalid  => S_AXIS_tvalid,
+            m00_axis_tdata   => S_AXIS_tdata,
+            m00_axis_tstrb   => S_AXIS_tstrb,
+            m00_axis_tlast   => S_AXIS_tlast,
+            m00_axis_tready  => S_AXIS_tready,
+            
+            
             CLK              => CLK,
-
             --in wr
             WREN             => WREN,   --slv_reg_wren
             WDATA            => WDATA,  --S_AXI_WDATA
@@ -230,7 +251,7 @@ begin
 
         --
         --
---                simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
+        simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin, cmdin2, datain);
 --                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
 --                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);
 --                simulate_AXI_read(DOUT_SLV_REG1_ADRR, RDEN, RDADDR);

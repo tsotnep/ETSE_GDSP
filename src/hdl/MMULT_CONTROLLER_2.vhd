@@ -143,7 +143,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --4 : 10,14,13, 15,16,18, 17,0,0
     --3 : 11,15,14, 16,17,19, 18,0,0
     --2 : 12,16,15, 17,18,20, 19,0,0
-    constant cntrl_P_loading_predelay : integer := 4; --TODO: 3, 2
+    constant cntrl_P_loading_predelay : integer := 3; --TODO: 3, 2
     constant cntrl_G_loading_predelay : integer := 0;
     constant cntrl_reset_length       : integer := 2;
 
@@ -174,7 +174,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL ; --TODO: back * 2 * 4
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2 * 4; --TODO: back * 2 * 4
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine
@@ -200,7 +200,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS - 1)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
     signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
-    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE : std_logic;
+    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
 
     --AXIS master
 
@@ -268,25 +268,28 @@ begin
                 cntlr_input_arr_G <= (others => 0);
                 cntlr_input_arr_P <= (others => 0);
 
-                Bank_sel      <= '0';
-                rst           <= '1';
-                LOAD_PG       <= (others => '1');
-                UN_LOAD       <= '0';
-                P             <= '0';
-                G             <= '0';
-                DIN           <= (others => '0');
-                state         <= cntrl_WAIT_FOR_CMD;
-                RDY_FOR_CMD   <= '0';
-                RDEN_internal <= '0';
+                Bank_sel                 <= '0';
+                rst                      <= '1';
+                LOAD_PG                  <= (others => '1');
+                UN_LOAD                  <= '0';
+                P                        <= '0';
+                G                        <= '0';
+                DIN                      <= (others => '0');
+                state                    <= cntrl_WAIT_FOR_CMD;
+                RDY_FOR_CMD              <= '0';
+                RDEN_internal            <= '0';
+                MMULT_AXIS_OUTPUT_ENABLE <= '0';
+                MMULT_AXIS_INPUT_ENABLE  <= '0';
 
             else
+--                RDY_FOR_CMD <= '0';
                 LOAD_PG                 <= IDLE_CMD;
                 MMULT_AXIS_INPUT_ENABLE <= '0';
                 case state is
                     when cntrl_WAIT_FOR_CMD =>
                         resetted_MMULT_IP <= '0';
                         first_read        <= '1';
-                        --                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
+--                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
                         LOAD_PG           <= IDLE_CMD;
                         if WREN = '1' then
                             case cmdin is
@@ -305,8 +308,11 @@ begin
                         end if;
 
                     when cntrl_RESET_MMULT_IP =>
-                        rst <= '1';
-
+                        if only_wait = '1' then
+                            rst <= '0';
+                        else
+                            rst <= '1';
+                        end if;
                         if cntrl_reset_length_count < cntrl_reset_length then
                             cntrl_reset_length_count <= cntrl_reset_length_count + 1;
 
@@ -315,6 +321,7 @@ begin
                             rst                      <= '0';
                             resetted_MMULT_IP        <= '1';
                             state                    <= state_after_reset;
+                            only_wait                <= '0';
                         end if;
 
                     when cntrl_SAVE_G_or_P =>
@@ -364,7 +371,6 @@ begin
                         end if;
 
                     when cntrl_LOAD_P =>
-                        --TODO: later, directly write into BRAM
                         DIN      <= (others => '0');
                         LOAD_PG  <= LOAD_P_CMD;
                         Bank_sel <= '0';
@@ -423,18 +429,23 @@ begin
                                 end if;
                             end if;
                         else
+                            only_wait         <= '1';
                             state             <= cntrl_RESET_MMULT_IP;
                             state_after_reset <= cntrl_P_to_G;
                         end if;
 
                     when cntrl_UNLOAD_G =>
+                        --if m00_axis_tready = '1' then
                         RDEN_internal <= '1';
+                        --end if;
 
-                        if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
+                        if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL + 5 then
                             if data_available = '1' then
-                                MMULT_AXIS_OUTPUT_ENABLE                          <= '1';
-                                m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0) <= DOUT;
-                                cntrl_R_array_index                               <= cntrl_R_array_index + 1;
+                                MMULT_AXIS_OUTPUT_ENABLE_i                                           <= '1';
+                                MMULT_AXIS_OUTPUT_ENABLE <= MMULT_AXIS_OUTPUT_ENABLE_i;
+                                m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                  <= DOUT;
+                                m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH -1 downto DATA_WIDTH) <= (others => '0');
+                                cntrl_R_array_index                                                <= cntrl_R_array_index + 1;
                             end if;
                         else
                             state               <= cntrl_WAIT_FOR_CMD;
@@ -464,21 +475,21 @@ begin
             DATA_WIDE_WIDTH => DATA_WIDE_WIDTH
         )
         port map(
-            CLK             => CLK,
-            RST             => RST,
-            LOAD_PG_in         => LOAD_PG,
-            UN_LOAD_in         => UN_LOAD,
-            P_in               => P,
-            G_in               => G,
-            Bank_sel_in     => Bank_sel,
-            DIN_in             => DIN,
-            AXIS_READ_ENABLE_in            => RDEN_internal,
-            Gram_data_available_for_axis_out  => data_available,
-            DOUT_out            => DOUT,
-            READY_out           => READY,
-            OP_DONE_in         => OP_DONE,
-            LOADING_DONE_in    => LOADING_DONE,
-            UN_LOADING_DONE_out => UN_LOADING_DONE
+            CLK                              => CLK,
+            RST                              => RST,
+            LOAD_PG_in                       => LOAD_PG,
+            UN_LOAD_in                       => UN_LOAD,
+            P_in                             => P,
+            G_in                             => G,
+            Bank_sel_in                      => Bank_sel,
+            DIN_in                           => DIN,
+            AXIS_READ_ENABLE_in              => RDEN_internal,
+            Gram_data_available_for_axis_out => data_available,
+            DOUT_out                         => DOUT,
+            READY_out                        => READY,
+            OP_DONE_in                       => OP_DONE,
+            LOADING_DONE_in                  => LOADING_DONE,
+            UN_LOADING_DONE_out              => UN_LOADING_DONE
         );
 
     ------

@@ -84,13 +84,13 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
 
     ----------------------
     signal DIN_gram_out                                                                                                : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
-    signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_in, AXIS_READ_ENABLE_i : std_logic;
+    signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_i : std_logic;
     signal COL_gram_out, ROW_gram_out, G_ROW_ADDR_in, G_COL_ADDR_in                                                    : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal AXIS_READ_ENABLE, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii                                                 : std_logic;
+    signal AXIS_READ_ENABLE,  AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii                                                 : std_logic;
     signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii                                                                        : std_logic;
     signal INTERNAL_FSM_READY_i, INTERNAL_FSM_READY_ii                                                                 : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
     signal P_to_G_Write_Enable_out                                                                                     : std_logic;
-    signal P_out, G_out, UN_LOAD_out                                                                                   : std_logic;
+    signal P_out, G_out, UN_LOAD_out, UN_LOADING_DONE_in                                                                                   : std_logic;
     signal LOAD_PG_out                                                                                                 : STD_LOGIC_VECTOR(1 downto 0);
 begin
 
@@ -127,12 +127,11 @@ begin
         -- a counter is used to trigger when the flags should be set, simply adjust the count value in the conditional statements accordingly, that should do the trick.
         end if;
     end process;
- 
+
     shift_registers : process(clk) is
     begin
         if rising_edge(clk) then
             if rst = '1' then
-                Gram_data_available_for_axis_out <= '0';
                 AXIS_READ_ENABLE_i               <= '0';
                 AXIS_READ_ENABLE_ii              <= '0';
                 AXIS_READ_ENABLE_iii             <= '0';
@@ -171,7 +170,7 @@ begin
     READY_out                        <= INTERNAL_FSM_READY;
     UN_LOADING_DONE_out              <= UN_LOADING_DONE_in;
     Gram_data_available_for_axis_out <= AXIS_READ_ENABLE;
-    
+
     P_to_G_Write_Enable_out          <= '1' when UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0' else '0';
     DOUT_out                         <= s_GRAM_DOUT_in;
 

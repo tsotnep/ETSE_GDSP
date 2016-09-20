@@ -20,7 +20,7 @@ echo "TSOTNE: starting vivado tcl mode"
 
 #\vivado -nolog -nojournal -mode tcl -source ${SCRIPTS_LOC}/tcl/upgrade_ip_export_sdk.tcl ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.xpr >> log/regen_all.log
 
-\vivado -nolog -nojournal -mode tcl -source ${SCRIPTS_LOC}/tcl/upgrade_ip_export_sdk.tcl ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.xpr | egrep --color "\b(^ERROR|^WARNING|^TSOTNE|invalid|couldn't)\b|$"
+\vivado -nolog -nojournal -mode tcl -source ${SCRIPTS_LOC}/tcl/upgrade_ip_export_sdk.tcl ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.xpr 2>&1 | egrep --color "\b(^ERROR|^WARNING|^TSOTNE|invalid|couldn't)\b|$"
 
 # \vivado -nolog -nojournal -mode tcl -source ${SCRIPTS_LOC}/tcl/upgrade_ip_export_sdk.tcl ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.xpr
 #| grep -iE "^ERROR|^WARNING|^TSOTNE|^couldn't"

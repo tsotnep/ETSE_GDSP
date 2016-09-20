@@ -1183,6 +1183,11 @@
          <obj_property name="ObjectShortName">col_in[9:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/row_in" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">row_in[9:0]</obj_property>
+         <obj_property name="ObjectShortName">row_in[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/column_total" type="other" db_ref_id="2">
          <obj_property name="ElementShortName">column_total</obj_property>
          <obj_property name="ObjectShortName">column_total</obj_property>
@@ -1192,6 +1197,15 @@
          <obj_property name="ElementShortName">data_width</obj_property>
          <obj_property name="ObjectShortName">data_width</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/din_in" type="array" db_ref_id="2">
+         <obj_property name="ElementShortName">din_in[17:0]</obj_property>
+         <obj_property name="ObjectShortName">din_in[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/we_in" type="logic" db_ref_id="2">
+         <obj_property name="ElementShortName">we_in</obj_property>
+         <obj_property name="ObjectShortName">we_in</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/datamem" type="array" db_ref_id="2">
          <obj_property name="ElementShortName">datamem[0:2]</obj_property>
@@ -1212,11 +1226,6 @@
             <obj_property name="ObjectShortName">datamem[2]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/din_in" type="array" db_ref_id="2">
-         <obj_property name="ElementShortName">din_in[17:0]</obj_property>
-         <obj_property name="ObjectShortName">din_in[17:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/dout_out" type="array" db_ref_id="2">
          <obj_property name="ElementShortName">dout_out[17:0]</obj_property>
@@ -1274,15 +1283,6 @@
       <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/oe_in" type="logic" db_ref_id="2">
          <obj_property name="ElementShortName">oe_in</obj_property>
          <obj_property name="ObjectShortName">oe_in</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/row_in" type="array" db_ref_id="2">
-         <obj_property name="ElementShortName">row_in[9:0]</obj_property>
-         <obj_property name="ObjectShortName">row_in[9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_mmult_conroller_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/GRAM/we_in" type="logic" db_ref_id="2">
-         <obj_property name="ElementShortName">we_in</obj_property>
-         <obj_property name="ObjectShortName">we_in</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group379" type="group">

@@ -21,22 +21,6 @@ puts "TSOTNE: updating IPs"
 set v001 ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.tmp/${IP_NAME}_v1_0_project
 set v002 ${IP_LOC}/${IP_NAME}_1.0/component.xml
 
-
-#TODO: from here, till next todo, its messed up, it does not update IP when sources are changed
-#TODO: here, it's hardcoded: tsotnep, userLibrary, 1.0,
-#report_ip_status
-#upgrade_ip -vlnv tsotnep:userLibrary:MMULT_AXI_STREAM:1.0 [get_ips  design_1_MMULT_AXI_STREAM_0_0]
-#ipx::edit_ip_in_project -upgrade true -name MMULT_AXI_STREAM_v1_0_project -directory $v001 $v002
-#update_compile_order -fileset sources_1
-#update_compile_order -fileset sim_1
-#ipx::create_xgui_files [ipx::current_core]
-#ipx::update_checksums [ipx::current_core]
-#ipx::save_core [ipx::current_core]
-#ipx::check_integrity -quiet [ipx::current_core]
-#ipx::archive_core ${IP_LOC}/${IP_NAME}_1.0/tsotnep_userLibrary_${IP_NAME}_1.0.zip [ipx::current_core]
-#puts "TSOTNE: closing IP project, not the main project"
-#close_project
-
 report_ip_status
 update_ip_catalog -rebuild -scan_changes
 upgrade_ip [get_ips -all]
@@ -63,10 +47,51 @@ if { $ref1 == 0 && $ref2 == 0 && $pr1 == "100%" && $pr2 == "100%" && $st1=="synt
     puts "TSOTNE: sources changed, bitstream needs to be regenerated"
 
 #generate .bit
-reset_run synth_1
-launch_runs impl_1 -to_step write_bitstream -jobs 1
-wait_on_run impl_1
+#synthesis
+
+#reset_run synth_1
+#open_run synth_1
+if { [file exists ${PROJ_PATH}/${PROJ_NAME}/checkpoint_synth_1.dcp] == 1 } {
+    open_run synth_1
+    read_checkpoint -incremental ${PROJ_PATH}/${PROJ_NAME}/checkpoint_synth_1.dcp
+} else {
+    reset_run synth_1
+    launch_runs synth_1
+    wait_on_run synth_1
+}
+open_run synth_1
+#TODO: if it is successful
+exec touch ${PROJ_PATH}/${PROJ_NAME}/checkpoint_synth_1.dcp
+write_checkpoint ${PROJ_PATH}/${PROJ_NAME}/checkpoint_synth_1.dcp -force
+close_design
+
+#implementation
+#reset_run impl_1
+#open_run impl_1
+if { [file exists ${PROJ_PATH}/${PROJ_NAME}/checkpoint_impl_1.dcp] == 1 } {
+    open_run impl_1
+    read_checkpoint -incremental ${PROJ_PATH}/${PROJ_NAME}/checkpoint_impl_1.dcp
+} else {
+    reset_run impl_1
+    launch_runs impl_1
+    wait_on_run impl_1
+}
+open_run impl_1
+#TODO: if it is successful
+exec touch ${PROJ_PATH}/${PROJ_NAME}/checkpoint_impl_1.dcp
+write_checkpoint ${PROJ_PATH}/${PROJ_NAME}/checkpoint_impl_1.dcp -force
+close_design
+
+#bitstream
+write_bitstream ${PROJ_PATH}/${PROJ_NAME}/${PROJ_NAME}.runs/impl_1/${BLOCK_DESIGN}_wrapper.bit -force
+
+#reset_run synth_1
+#launch_runs impl_1 -to_step write_bitstream -jobs 1
+#wait_on_run impl_1
+
 puts "TSOTNE: generated bitstream"
+write_checkpoint ${PROJ_PATH}/${PROJ_NAME}/incremental_compile.dcp -force
+puts "TSOTNE: checkpoint written"
 }
 
 #export to SDK

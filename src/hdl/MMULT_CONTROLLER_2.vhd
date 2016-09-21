@@ -245,8 +245,8 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
     
-    constant cntrl_P_loading_predelay : integer := 2; --TODO: 3, 2
-    constant cntrl_G_loading_predelay : integer := 2;
+    constant cntrl_P_loading_predelay : integer := 3; --should be 3, checked in simulation
+    constant cntrl_G_loading_predelay : integer := 0; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
 begin
     RMATRIX_ADDR <= (others => '0');
@@ -381,7 +381,7 @@ begin
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
                                 DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
+                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL +1 then
                                     cntrl_P_array_index <= cntrl_P_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
@@ -440,10 +440,9 @@ begin
                         RDEN_internal <= '1';
                         --end if;
 
-                        if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL + 5 then
+                        if cntrl_R_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
-                                MMULT_AXIS_OUTPUT_ENABLE_i                                           <= '1';
-                                MMULT_AXIS_OUTPUT_ENABLE <= MMULT_AXIS_OUTPUT_ENABLE_i;
+                                MMULT_AXIS_OUTPUT_ENABLE                                           <= '1';
                                 m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                  <= DOUT;
                                 m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH -1 downto DATA_WIDTH) <= (others => '0');
                                 cntrl_R_array_index                                                <= cntrl_R_array_index + 1;

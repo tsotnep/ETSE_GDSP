@@ -159,7 +159,7 @@ begin
                 AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
                 AXIS_READ_ENABLE_iiiiii <= AXIS_READ_ENABLE_iiiii;
                 AXIS_READ_ENABLE_iiiiiii <= AXIS_READ_ENABLE_iiiiii;
-                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_iiiiiii;
+                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_in;
 
             --                ALU2ALU_reg_i   <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
             --                ALU2ALU_reg_ii  <= ALU2ALU_reg_i;
@@ -179,12 +179,12 @@ begin
     UN_LOAD_out                      <= UN_LOAD_in;
     READY_out                        <= INTERNAL_FSM_READY;
     UN_LOADING_DONE_out              <= UN_LOADING_DONE_in;
-    Gram_data_available_for_axis_out <= AXIS_READ_ENABLE;
+    Gram_data_available_for_axis_out <= AXIS_READ_ENABLE_in;
 
     P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
     DOUT_out                <= s_GRAM_DOUT_in;
 
-    GramControl : process(ALU2ALU_reg, AXIS_READ_ENABLE, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in)
+    GramControl : process(ALU2ALU_reg, AXIS_READ_ENABLE_i, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in, AXIS_READ_ENABLE_in)
     begin
         if LOAD_PG_in = OPERATE_CMD and P_to_G_Write_Enable_out = '1' then
             --P to G, when unloading from Bram data will come go GRAM
@@ -193,13 +193,13 @@ begin
             DIN_gram_out <= ALU2ALU_reg; --output from fsm, data of Bram
             WE_gram_out  <= WE_p_to_g;
             OE_gram_out  <= '0';
-        elsif LOAD_PG_in = IDLE_CMD and AXIS_READ_ENABLE = '1' then
+        elsif LOAD_PG_in = IDLE_CMD and AXIS_READ_ENABLE_in = '1' then
             --G to AXI
             ROW_gram_out <= G_ROW_ADDR_in;
             COL_gram_out <= G_COL_ADDR_in;
             DIN_gram_out <= (others => '0'); --output from fsm, having data for G ram
             WE_gram_out  <= '0';
-            OE_gram_out  <= AXIS_READ_ENABLE;
+            OE_gram_out  <= AXIS_READ_ENABLE_i;
         else
             ----FSM <-> G, normal operating mode
             ROW_gram_out <= s_G_ROW_in;

@@ -199,6 +199,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
 
     signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
 
+
     --AXIS master
     -- Total number of output data                                              
     constant m00_axis_NUMBER_OF_OUTPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL;

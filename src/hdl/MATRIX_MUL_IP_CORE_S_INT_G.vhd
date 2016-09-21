@@ -86,7 +86,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal DIN_gram_out                                                                                                                   : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
     signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_i                                         : std_logic;
     signal COL_gram_out, ROW_gram_out, G_ROW_ADDR_in, G_COL_ADDR_in                                                                       : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal AXIS_READ_ENABLE, AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii, AXIS_READ_ENABLE_iiiii : std_logic;
+    signal AXIS_READ_ENABLE, AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii, AXIS_READ_ENABLE_iiiii, AXIS_READ_ENABLE_iiiiii, AXIS_READ_ENABLE_iiiiiii : std_logic;
     signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii                                                                                           : std_logic;
     signal INTERNAL_FSM_READY_i, INTERNAL_FSM_READY_ii                                                                                    : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
     signal P_to_G_Write_Enable_out                                                                                                        : std_logic;
@@ -157,7 +157,9 @@ begin
                 AXIS_READ_ENABLE_iii   <= AXIS_READ_ENABLE_ii;
                 AXIS_READ_ENABLE_iiii  <= AXIS_READ_ENABLE_iii;
                 AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
-                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_iiiii;
+                AXIS_READ_ENABLE_iiiiii <= AXIS_READ_ENABLE_iiiii;
+                AXIS_READ_ENABLE_iiiiiii <= AXIS_READ_ENABLE_iiiiii;
+                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_iiiiiii;
 
             --                ALU2ALU_reg_i   <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
             --                ALU2ALU_reg_ii  <= ALU2ALU_reg_i;

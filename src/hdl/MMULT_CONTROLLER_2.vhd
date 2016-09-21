@@ -245,7 +245,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
     
-    constant cntrl_P_loading_predelay : integer := 5; --TODO: 3, 2
+    constant cntrl_P_loading_predelay : integer := 2; --TODO: 3, 2
     constant cntrl_G_loading_predelay : integer := 2;
     constant cntrl_reset_length       : integer := 2;
 begin

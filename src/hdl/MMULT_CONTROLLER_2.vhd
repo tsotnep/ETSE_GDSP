@@ -37,7 +37,7 @@ entity MMULT_CONTROLLER_2 is
             -- Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.
             C_M_AXIS_TDATA_WIDTH   : integer := 32;
             -- Start count is the numeber of clock cycles the master will wait before initiating/issuing any transaction.
-            C_M_START_COUNT        : integer := 64
+            C_M_START_COUNT        : integer := 10
     );
     Port(
         CLK              : in  STD_LOGIC; --connected to axi clock
@@ -131,15 +131,13 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_G_array_index : integer := 0;
     signal cntrl_P_array_index : integer := 0;
     signal cntrl_R_array_index : integer := 0;
-    
-    
 
     signal resetted_MMULT_IP, only_wait, first_read, data_available, RDEN_internal : std_logic;
 
     signal cntrl_reset_length_count       : integer := 0;
     signal cntrl_P_loading_predelay_count : integer := 0;
     signal cntrl_G_loading_predelay_count : integer := 0;
-    signal cntrl_finish_transmit_count : integer := 0;
+    signal cntrl_finish_transmit_count    : integer := 0;
 
     --P predelay:
     --5 : 10,13,12, 14,15,17, 16,0,0
@@ -200,7 +198,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
     signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
-    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
+    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
 
     --AXIS master
     -- Total number of output data                                              
@@ -248,10 +246,10 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_tx_done           : std_logic;
 
     constant cntrl_P_loading_predelay : integer := 4; --should be 3, checked in simulation
-    constant cntrl_G_loading_predelay : integer := 0; --should be 0, checked in simulation
+    constant cntrl_G_loading_predelay : integer := 2; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
-    
-    constant cntrl_mem_delay       : integer := 2;
+
+    constant cntrl_mem_delay : integer := 3;
 begin
     RMATRIX_ADDR <= (others => '0');
 
@@ -279,7 +277,7 @@ begin
                 UN_LOAD                  <= '0';
                 P                        <= '0';
                 G                        <= '0';
-                DIN                      <= (others => '0');
+--                DIN                      <= (others => '0');
                 state                    <= cntrl_WAIT_FOR_CMD;
                 RDY_FOR_CMD              <= '0';
                 RDEN_internal            <= '0';
@@ -349,16 +347,17 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
-                        DIN     <= (others => '0');
-                        LOAD_PG <= LOAD_G_CMD;
+--                        DIN                       <= (others => '0');
+                        LOAD_PG                   <= LOAD_G_CMD;
+                        MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
 
                         if resetted_MMULT_IP = '1' then
                             if cntrl_G_loading_predelay_count < cntrl_G_loading_predelay then
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                if cntrl_G_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
+--                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                if cntrl_G_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
@@ -376,12 +375,12 @@ begin
                         end if;
 
                     when cntrl_LOAD_P =>
-                        DIN      <= (others => '0');
-                        LOAD_PG  <= LOAD_P_CMD;
-                        Bank_sel <= '0';
+--                        DIN                       <= (others => '0');
+                        LOAD_PG                   <= LOAD_P_CMD;
+                        Bank_sel                  <= '0';
+                        MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
                         if resetted_MMULT_IP = '1' then
-                            
-                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+--                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
                             else
@@ -442,21 +441,18 @@ begin
 
                     when cntrl_UNLOAD_G =>
                         --if m00_axis_tready = '1' then
-                        RDEN_internal <= '1';
-                        cntrl_R_array_index      <= cntrl_R_array_index + 1;
+                        RDEN_internal              <= '1';
+                        cntrl_R_array_index        <= cntrl_R_array_index + 1;
                         --end if;
                         MMULT_AXIS_OUTPUT_ENABLE_i <= MMULT_AXIS_OUTPUT_ENABLE;
 
-                        m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
-                        m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
-                        
                         if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
                                 MMULT_AXIS_OUTPUT_ENABLE <= '1';
                             end if;
                         else
-                            RDEN_internal       <= '0';
-                            
+                            RDEN_internal <= '0';
+
                             --wait until data transmit finishes
                             if cntrl_finish_transmit_count = cntrl_mem_delay then
                                 state               <= cntrl_WAIT_FOR_CMD;
@@ -472,6 +468,11 @@ begin
             end if;
         end if;
     end process cntrl_FSM;
+
+    m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
+    m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
+    
+                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
 
     --i made it combinational to remove 1 clock cycle delay.
     RDATA(DATA_WIDTH - 1 downto 0)                  <= single_data_buff;
@@ -593,7 +594,7 @@ begin
 
     -- I/O Connections assignments
 
-    m00_AXIS_TVALID <= m00_axis_axis_tvalid;
+    m00_AXIS_TVALID <= m00_axis_axis_tvalid_delay;
     m00_AXIS_TDATA  <= m00_axis_stream_data_out;
     m00_AXIS_TLAST  <= m00_axis_axis_tlast_delay;
     m00_AXIS_TSTRB  <= (others => '1');
@@ -650,6 +651,7 @@ begin
     --axis_tvalid is asserted when the control state machine's state is SEND_STREAM and
     --number of output streaming data is less than the NUMBER_OF_OUTPUT_WORDS.
     m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+
     -- AXI tlast generation                                                                        
     -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1          
     -- (0 to NUMBER_OF_OUTPUT_WORDS-1)                                                             
@@ -661,10 +663,10 @@ begin
     begin
         if (rising_edge(m00_AXIS_ACLK)) then
             if (m00_AXIS_ARESETN = '0') then
---                m00_axis_axis_tvalid_delay <= '0';
+                m00_axis_axis_tvalid_delay <= '0';
                 m00_axis_axis_tlast_delay  <= '0';
             else
---                m00_axis_axis_tvalid_delay <= m00_axis_axis_tvalid;
+                m00_axis_axis_tvalid_delay <= m00_axis_axis_tvalid;
                 m00_axis_axis_tlast_delay  <= m00_axis_axis_tlast;
             end if;
         end if;

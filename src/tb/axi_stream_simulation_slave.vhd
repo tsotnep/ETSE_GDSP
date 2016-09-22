@@ -118,7 +118,7 @@ begin
                     when WRITE_FIFO =>
                         -- When the sink has accepted all the streaming input data,
                         -- the interface swiches functionality to a streaming master
-                        s00_axis_data_sink(s00_axis_write_pointer) <= s00_axis_tdata;
+--                        s00_axis_data_sink(s00_axis_write_pointer) <= s00_axis_tdata;
                         
                         if (s00_axis_writes_done = '1') then
                             s00_axis_mst_exec_state <= IDLE;
@@ -136,11 +136,13 @@ begin
         end if;
     end process;
 
+s00_axis_data_sink(s00_axis_write_pointer) <= s00_axis_tdata; --NOTE
     -- AXI Streaming Sink
     --
     -- The example design sink is always ready to accept the s00_axis_TDATA  until
     -- the FIFO is not filled with NUMBER_OF_INPUT_WORDS number of input words.
-    s00_axis_axis_tready <= '1' when ((s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
+--    s00_axis_axis_tready <= '1' when ((s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
+    s00_axis_axis_tready <= '1' when ((s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
 
     process(s00_axis_ACLK)
     begin

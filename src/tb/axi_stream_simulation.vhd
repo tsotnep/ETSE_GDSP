@@ -108,8 +108,8 @@ architecture implementation of axi_stream_simulation_master is
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
     
-    type s00_axis_BYTE_FIFO_TYPE is array (0 to (m00_axis_NUMBER_OF_OUTPUT_WORDS - 1)) of integer;
-    signal m00_axis_data_source : s00_axis_BYTE_FIFO_TYPE := (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+    type s00_axis_BYTE_FIFO_TYPE is array (0 to (m00_axis_NUMBER_OF_OUTPUT_WORDS + 2)) of integer;
+    signal m00_axis_data_source : s00_axis_BYTE_FIFO_TYPE := (1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,10,11,12);
     
 
 begin

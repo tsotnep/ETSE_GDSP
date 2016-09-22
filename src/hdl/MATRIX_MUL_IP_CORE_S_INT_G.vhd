@@ -86,7 +86,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     signal DIN_gram_out                                                                                                                   : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0);
     signal WE_gram_out, OE_gram_out, INTERNAL_FSM_READY_in, INTERNAL_FSM_READY, UN_LOADING_DONE_i                                         : std_logic;
     signal COL_gram_out, ROW_gram_out, G_ROW_ADDR_in, G_COL_ADDR_in                                                                       : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    signal AXIS_READ_ENABLE, AXIS_READ_ENABLE_i, AXIS_READ_ENABLE_ii, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii, AXIS_READ_ENABLE_iiiii, AXIS_READ_ENABLE_iiiiii, AXIS_READ_ENABLE_iiiiiii : std_logic;
+    signal AXIS_READ_ENABLE, ii_AXIS_READ_ENABLE, i_AXIS_READ_ENABLE, AXIS_READ_ENABLE_iii, AXIS_READ_ENABLE_iiii, AXIS_READ_ENABLE_iiiii, AXIS_READ_ENABLE_iiiiii, AXIS_READ_ENABLE_iiiiiii : std_logic;
     signal WE_p_to_g, WE_p_to_g_i, WE_p_to_g_ii                                                                                           : std_logic;
     signal INTERNAL_FSM_READY_i, INTERNAL_FSM_READY_ii                                                                                    : std_logic; --introduce 1 clock cycle delay, to write on G(0,0);
     signal P_to_G_Write_Enable_out                                                                                                        : std_logic;
@@ -134,8 +134,8 @@ begin
 
         if rising_edge(clk) then
             if rst = '1' then
-                AXIS_READ_ENABLE_i    <= '0';
-                AXIS_READ_ENABLE_ii   <= '0';
+                ii_AXIS_READ_ENABLE    <= '0';
+                ii_AXIS_READ_ENABLE   <= '0';
                 AXIS_READ_ENABLE_iii  <= '0';
                 INTERNAL_FSM_READY_i  <= '0';
                 INTERNAL_FSM_READY_ii <= '0';
@@ -149,8 +149,8 @@ begin
                 --                INTERNAL_FSM_READY_ii <= INTERNAL_FSM_READY_i;
                 --                INTERNAL_FSM_READY    <= INTERNAL_FSM_READY_ii;
 
-                AXIS_READ_ENABLE_i     <= AXIS_READ_ENABLE_in;
---                AXIS_READ_ENABLE_ii    <= AXIS_READ_ENABLE_i;
+                i_AXIS_READ_ENABLE     <= AXIS_READ_ENABLE_in;
+                ii_AXIS_READ_ENABLE    <= i_AXIS_READ_ENABLE;
 --                AXIS_READ_ENABLE_iii   <= AXIS_READ_ENABLE_ii;
 --                AXIS_READ_ENABLE_iiii  <= AXIS_READ_ENABLE_iii;
 --                AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
@@ -173,7 +173,7 @@ begin
         INTERNAL_FSM_READY <= INTERNAL_FSM_READY_in;
         --        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
         ALU2ALU_reg        <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
-        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
+--        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
         
     LOAD_PG_out                      <= LOAD_PG_in;
     P_out                            <= P_in;
@@ -182,26 +182,25 @@ begin
     READY_out                        <= INTERNAL_FSM_READY;
     UN_LOADING_DONE_out              <= UN_LOADING_DONE_in;
     Gram_data_available_for_axis_out <= AXIS_READ_ENABLE_in;
-
     P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
     DOUT_out                <= s_GRAM_DOUT_in;
 
-    GramControl : process(ALU2ALU_reg, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in, AXIS_READ_ENABLE_in)
+    GramControl : process (ALU2ALU_reg, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, ii_AXIS_READ_ENABLE, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in)
     begin
         if LOAD_PG_in = OPERATE_CMD and P_to_G_Write_Enable_out = '1' then
             --P to G, when unloading from Bram data will come go GRAM
             ROW_gram_out <= G_ROW_ADDR_in;
             COL_gram_out <= G_COL_ADDR_in;
             DIN_gram_out <= ALU2ALU_reg; --output from fsm, data of Bram
-            WE_gram_out  <= WE_p_to_g;
+            WE_gram_out  <= P_to_G_Write_Enable_out;
             OE_gram_out  <= '0';
-        elsif LOAD_PG_in = IDLE_CMD and AXIS_READ_ENABLE_in = '1' then
+        elsif LOAD_PG_in = IDLE_CMD and ii_AXIS_READ_ENABLE = '1' then
             --G to AXI
             ROW_gram_out <= G_ROW_ADDR_in;
             COL_gram_out <= G_COL_ADDR_in;
             DIN_gram_out <= (others => '0'); --output from fsm, having data for G ram
             WE_gram_out  <= '0';
-            OE_gram_out  <= AXIS_READ_ENABLE_in;
+            OE_gram_out  <= ii_AXIS_READ_ENABLE;
         else
             ----FSM <-> G, normal operating mode
             ROW_gram_out <= s_G_ROW_in;
@@ -321,7 +320,7 @@ begin
             G_ROW_ADDR_out      => G_ROW_ADDR_in,
 
             --in AXI
-            AXIS_READ_ENABLE    => AXIS_READ_ENABLE_in,
+            AXIS_READ_ENABLE    => ii_AXIS_READ_ENABLE,
 
             --in P-to-G
             P_to_G_Write_Enable => P_to_G_Write_Enable_out,

@@ -1,4 +1,5 @@
-library IEEE;                           ---
+library IEEE;
+--
 use IEEE.STD_LOGIC_1164.ALL;
 use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
@@ -198,7 +199,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
     signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
-    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
+    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
 
     --AXIS master
     -- Total number of output data                                              
@@ -245,7 +246,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
 
-    constant cntrl_P_loading_predelay : integer := 4; --should be 3, checked in simulation
+    constant cntrl_P_loading_predelay : integer := 5; --should be 3, checked in simulation
     constant cntrl_G_loading_predelay : integer := 2; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
 
@@ -356,7 +357,6 @@ begin
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                --                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                                 if cntrl_G_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
@@ -444,7 +444,8 @@ begin
                         RDEN_internal              <= '1';
                         cntrl_R_array_index        <= cntrl_R_array_index + 1;
                         --end if;
-                        MMULT_AXIS_OUTPUT_ENABLE_i <= MMULT_AXIS_OUTPUT_ENABLE;
+                        i_MMULT_AXIS_OUTPUT_ENABLE <= MMULT_AXIS_OUTPUT_ENABLE;
+                        ii_MMULT_AXIS_OUTPUT_ENABLE <= i_MMULT_AXIS_OUTPUT_ENABLE;
 
                         if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
@@ -475,7 +476,7 @@ begin
     m00_AXIS_TSTRB                                                         <= (others => '1');
     m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
     m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
-    m00_axis_axis_tvalid                                                   <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+    m00_axis_axis_tvalid                                                   <= '1' when ((ii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
     m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
     m00_axis_tx_en                                                         <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
 

@@ -593,7 +593,7 @@ begin
 
     -- I/O Connections assignments
 
-    m00_AXIS_TVALID <= m00_axis_axis_tvalid_delay;
+    m00_AXIS_TVALID <= m00_axis_axis_tvalid;
     m00_AXIS_TDATA  <= m00_axis_stream_data_out;
     m00_AXIS_TLAST  <= m00_axis_axis_tlast_delay;
     m00_AXIS_TSTRB  <= (others => '1');
@@ -649,8 +649,7 @@ begin
     --tvalid generation
     --axis_tvalid is asserted when the control state machine's state is SEND_STREAM and
     --number of output streaming data is less than the NUMBER_OF_OUTPUT_WORDS.
-    m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE_i = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
-
+    m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
     -- AXI tlast generation                                                                        
     -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1          
     -- (0 to NUMBER_OF_OUTPUT_WORDS-1)                                                             
@@ -662,10 +661,10 @@ begin
     begin
         if (rising_edge(m00_AXIS_ACLK)) then
             if (m00_AXIS_ARESETN = '0') then
-                m00_axis_axis_tvalid_delay <= '0';
+--                m00_axis_axis_tvalid_delay <= '0';
                 m00_axis_axis_tlast_delay  <= '0';
             else
-                m00_axis_axis_tvalid_delay <= m00_axis_axis_tvalid;
+--                m00_axis_axis_tvalid_delay <= m00_axis_axis_tvalid;
                 m00_axis_axis_tlast_delay  <= m00_axis_axis_tlast;
             end if;
         end if;

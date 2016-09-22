@@ -246,7 +246,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_tx_done           : std_logic;
 
     constant cntrl_P_loading_predelay : integer := 4; --should be 3, checked in simulation
-    constant cntrl_G_loading_predelay : integer := 2; --should be 0, checked in simulation
+    constant cntrl_G_loading_predelay : integer := 1; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
 
     constant cntrl_mem_delay : integer := 3;
@@ -277,7 +277,7 @@ begin
                 UN_LOAD                  <= '0';
                 P                        <= '0';
                 G                        <= '0';
---                DIN                      <= (others => '0');
+                --                DIN                      <= (others => '0');
                 state                    <= cntrl_WAIT_FOR_CMD;
                 RDY_FOR_CMD              <= '0';
                 RDEN_internal            <= '0';
@@ -347,7 +347,7 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
---                        DIN                       <= (others => '0');
+                        --                        DIN                       <= (others => '0');
                         LOAD_PG                   <= LOAD_G_CMD;
                         MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
 
@@ -356,7 +356,7 @@ begin
                                 cntrl_G_loading_predelay_count <= cntrl_G_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
---                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                                --                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                                 if cntrl_G_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_G_array_index <= cntrl_G_array_index + 1;
                                 else
@@ -375,17 +375,17 @@ begin
                         end if;
 
                     when cntrl_LOAD_P =>
---                        DIN                       <= (others => '0');
+                        --                        DIN                       <= (others => '0');
                         LOAD_PG                   <= LOAD_P_CMD;
                         Bank_sel                  <= '0';
                         MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
                         if resetted_MMULT_IP = '1' then
---                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+                            --                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 1 then
+                                if cntrl_P_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                                     cntrl_P_array_index <= cntrl_P_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
@@ -469,14 +469,34 @@ begin
         end if;
     end process cntrl_FSM;
 
+    m00_AXIS_TVALID                                                        <= m00_axis_axis_tvalid_delay;
+    m00_AXIS_TDATA                                                         <= m00_axis_stream_data_out;
+    m00_AXIS_TLAST                                                         <= m00_axis_axis_tlast_delay;
+    m00_AXIS_TSTRB                                                         <= (others => '1');
     m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
     m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
-    
-                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+    m00_axis_axis_tvalid                                                   <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+    m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
+    m00_axis_tx_en                                                         <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
+
+    DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+    s00_axis_TREADY <= s00_axis_axis_tready;
+    s00_axis_axis_tready <= '1' when ((MMULT_AXIS_INPUT_ENABLE = '1') and (s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
+    s00_axis_fifo_wren <= s00_axis_TVALID and s00_axis_axis_tready;
+
+
+
+
+
+
+
+
+
 
     --i made it combinational to remove 1 clock cycle delay.
     RDATA(DATA_WIDTH - 1 downto 0)                  <= single_data_buff;
     RDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
+
 
     MATRIX_MUL_IP_CORE_S_INT_G_inst : entity work.MATRIX_MUL_IP_CORE_S_INT_G
         generic map(
@@ -513,7 +533,6 @@ begin
 
     -- I/O Connections assignments
 
-    s00_axis_TREADY <= s00_axis_axis_tready;
     -- Control state machine implementation
     process(s00_axis_ACLK)
     begin
@@ -556,8 +575,6 @@ begin
     --
     -- The example design sink is always ready to accept the s00_axis_TDATA  until
     -- the FIFO is not filled with NUMBER_OF_INPUT_WORDS number of input words.
-    s00_axis_axis_tready <= '1' when ((MMULT_AXIS_INPUT_ENABLE = '1') and (s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
-
     process(s00_axis_ACLK)
     begin
         if (rising_edge(s00_axis_ACLK)) then
@@ -583,7 +600,6 @@ begin
     end process;
 
     -- FIFO write enable generation
-    s00_axis_fifo_wren <= s00_axis_TVALID and s00_axis_axis_tready;
 
     ------
     ------
@@ -594,10 +610,6 @@ begin
 
     -- I/O Connections assignments
 
-    m00_AXIS_TVALID <= m00_axis_axis_tvalid_delay;
-    m00_AXIS_TDATA  <= m00_axis_stream_data_out;
-    m00_AXIS_TLAST  <= m00_axis_axis_tlast_delay;
-    m00_AXIS_TSTRB  <= (others => '1');
 
     -- Control state machine implementation                                               
     process(m00_AXIS_ACLK)
@@ -650,12 +662,9 @@ begin
     --tvalid generation
     --axis_tvalid is asserted when the control state machine's state is SEND_STREAM and
     --number of output streaming data is less than the NUMBER_OF_OUTPUT_WORDS.
-    m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
-
     -- AXI tlast generation                                                                        
     -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1          
     -- (0 to NUMBER_OF_OUTPUT_WORDS-1)                                                             
-    m00_axis_axis_tlast <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
 
     -- Delay the axis_tvalid and axis_tlast signal by one clock cycle                              
     -- to match the latency of M_AXIS_TDATA                                                        
@@ -697,9 +706,8 @@ begin
         end if;
     end process;
 
-    --FIFO read enable generation 
+--FIFO read enable generation 
 
-    m00_axis_tx_en <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
 
 -- FIFO Implementation                                                          
 

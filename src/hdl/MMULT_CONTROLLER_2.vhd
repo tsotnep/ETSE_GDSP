@@ -445,6 +445,7 @@ begin
                         RDEN_internal <= '1';
                         cntrl_R_array_index      <= cntrl_R_array_index + 1;
                         --end if;
+                        MMULT_AXIS_OUTPUT_ENABLE_i <= MMULT_AXIS_OUTPUT_ENABLE;
 
                         m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
                         m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
@@ -648,7 +649,7 @@ begin
     --tvalid generation
     --axis_tvalid is asserted when the control state machine's state is SEND_STREAM and
     --number of output streaming data is less than the NUMBER_OF_OUTPUT_WORDS.
-    m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+    m00_axis_axis_tvalid <= '1' when ((MMULT_AXIS_OUTPUT_ENABLE_i = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
 
     -- AXI tlast generation                                                                        
     -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1          

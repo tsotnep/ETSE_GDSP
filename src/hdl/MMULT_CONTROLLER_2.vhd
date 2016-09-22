@@ -131,12 +131,15 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_G_array_index : integer := 0;
     signal cntrl_P_array_index : integer := 0;
     signal cntrl_R_array_index : integer := 0;
+    
+    
 
     signal resetted_MMULT_IP, only_wait, first_read, data_available, RDEN_internal : std_logic;
 
     signal cntrl_reset_length_count       : integer := 0;
     signal cntrl_P_loading_predelay_count : integer := 0;
     signal cntrl_G_loading_predelay_count : integer := 0;
+    signal cntrl_finish_transmit_count : integer := 0;
 
     --P predelay:
     --5 : 10,13,12, 14,15,17, 16,0,0
@@ -190,11 +193,11 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     -- FIFO full flag
     signal s00_axis_fifo_full_flag : std_logic;
     -- FIFO write pointer
-    signal s00_axis_write_pointer  : integer range 0 to s00_axis_bit_num - 1;
+    signal s00_axis_write_pointer  : integer range 0 to s00_axis_bit_num;
     -- sink has accepted all the streaming data and stored in FIFO
     signal s00_axis_writes_done    : std_logic;
 
-    type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS - 1)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
+    type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
     signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
     signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE_i : std_logic;
@@ -243,10 +246,12 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_tx_en             : std_logic;
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
-    
-    constant cntrl_P_loading_predelay : integer := 3; --should be 3, checked in simulation
+
+    constant cntrl_P_loading_predelay : integer := 4; --should be 3, checked in simulation
     constant cntrl_G_loading_predelay : integer := 0; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
+    
+    constant cntrl_mem_delay       : integer := 2;
 begin
     RMATRIX_ADDR <= (others => '0');
 
@@ -282,14 +287,14 @@ begin
                 MMULT_AXIS_INPUT_ENABLE  <= '0';
 
             else
---                RDY_FOR_CMD <= '0';
+                --                RDY_FOR_CMD <= '0';
                 LOAD_PG                 <= IDLE_CMD;
                 MMULT_AXIS_INPUT_ENABLE <= '0';
                 case state is
                     when cntrl_WAIT_FOR_CMD =>
                         resetted_MMULT_IP <= '0';
                         first_read        <= '1';
---                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
+                        --                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
                         LOAD_PG           <= IDLE_CMD;
                         if WREN = '1' then
                             case cmdin is
@@ -375,12 +380,13 @@ begin
                         LOAD_PG  <= LOAD_P_CMD;
                         Bank_sel <= '0';
                         if resetted_MMULT_IP = '1' then
+                            
+                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
                             else
                                 MMULT_AXIS_INPUT_ENABLE <= '1';
-                                DIN                     <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL +1 then
+                                if cntrl_P_array_index <= COLUMN_TOTAL * COLUMN_TOTAL + 1 then
                                     cntrl_P_array_index <= cntrl_P_array_index + 1;
                                 else
                                     MMULT_AXIS_INPUT_ENABLE <= '0';
@@ -437,21 +443,26 @@ begin
                     when cntrl_UNLOAD_G =>
                         --if m00_axis_tready = '1' then
                         RDEN_internal <= '1';
+                        cntrl_R_array_index      <= cntrl_R_array_index + 1;
                         --end if;
 
-                        if cntrl_R_array_index <= COLUMN_TOTAL * COLUMN_TOTAL then
+                        m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
+                        m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
+                        
+                        if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
-                                MMULT_AXIS_OUTPUT_ENABLE                                           <= '1';
-                                m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                  <= DOUT;
-                                m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH -1 downto DATA_WIDTH) <= (others => '0');
-                                cntrl_R_array_index                                                <= cntrl_R_array_index + 1;
+                                MMULT_AXIS_OUTPUT_ENABLE <= '1';
                             end if;
                         else
-                            state               <= cntrl_WAIT_FOR_CMD;
-                            first_read          <= '0';
-                            single_data_buff    <= (others => '0');
-                            cntrl_R_array_index <= 0;
                             RDEN_internal       <= '0';
+                            
+                            --wait until data transmit finishes
+                            if cntrl_finish_transmit_count = cntrl_mem_delay then
+                                state               <= cntrl_WAIT_FOR_CMD;
+                                cntrl_R_array_index <= 0;
+                            else
+                                cntrl_finish_transmit_count <= cntrl_finish_transmit_count + 1;
+                            end if;
                         end if;
                 --                        end if;
 
@@ -552,7 +563,7 @@ begin
                 s00_axis_write_pointer <= 0;
                 s00_axis_writes_done   <= '0';
             else
-                if (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1) then
+                if (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS) then
                     if (s00_axis_fifo_wren = '1') then
                         -- write pointer is incremented after every write to the FIFO
                         -- when FIFO write signal is enabled.

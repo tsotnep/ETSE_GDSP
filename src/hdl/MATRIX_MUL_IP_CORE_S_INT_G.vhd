@@ -128,13 +128,10 @@ begin
         end if;
     end process;
 
-    shift_registers : process(clk, ALU2ALU_i_inout, AXIS_READ_ENABLE_in, INTERNAL_FSM_READY_in, WE_p_to_g_ii) is
+    shift_registers : process(clk, ALU2ALU_i_inout, AXIS_READ_ENABLE_in, INTERNAL_FSM_READY_in, WE_p_to_g_ii, UN_LOADING_DONE_in, UN_LOAD_in) is
     begin
         --by default, they're just bypassed.
-        INTERNAL_FSM_READY <= INTERNAL_FSM_READY_in;
-        --        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
-        ALU2ALU_reg        <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
-        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
+
         if rising_edge(clk) then
             if rst = '1' then
                 AXIS_READ_ENABLE_i    <= '0';
@@ -153,13 +150,13 @@ begin
                 --                INTERNAL_FSM_READY    <= INTERNAL_FSM_READY_ii;
 
                 AXIS_READ_ENABLE_i     <= AXIS_READ_ENABLE_in;
-                AXIS_READ_ENABLE_ii    <= AXIS_READ_ENABLE_i;
-                AXIS_READ_ENABLE_iii   <= AXIS_READ_ENABLE_ii;
-                AXIS_READ_ENABLE_iiii  <= AXIS_READ_ENABLE_iii;
-                AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
-                AXIS_READ_ENABLE_iiiiii <= AXIS_READ_ENABLE_iiiii;
-                AXIS_READ_ENABLE_iiiiiii <= AXIS_READ_ENABLE_iiiiii;
-                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_in;
+--                AXIS_READ_ENABLE_ii    <= AXIS_READ_ENABLE_i;
+--                AXIS_READ_ENABLE_iii   <= AXIS_READ_ENABLE_ii;
+--                AXIS_READ_ENABLE_iiii  <= AXIS_READ_ENABLE_iii;
+--                AXIS_READ_ENABLE_iiiii <= AXIS_READ_ENABLE_iiii;
+--                AXIS_READ_ENABLE_iiiiii <= AXIS_READ_ENABLE_iiiii;
+--                AXIS_READ_ENABLE_iiiiiii <= AXIS_READ_ENABLE_iiiiii;
+--                AXIS_READ_ENABLE       <= AXIS_READ_ENABLE_in;
 
             --                ALU2ALU_reg_i   <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
             --                ALU2ALU_reg_ii  <= ALU2ALU_reg_i;
@@ -173,6 +170,11 @@ begin
         end if;
     end process shift_registers;
 
+        INTERNAL_FSM_READY <= INTERNAL_FSM_READY_in;
+        --        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
+        ALU2ALU_reg        <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
+        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
+        
     LOAD_PG_out                      <= LOAD_PG_in;
     P_out                            <= P_in;
     G_out                            <= G_in;
@@ -184,7 +186,7 @@ begin
     P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
     DOUT_out                <= s_GRAM_DOUT_in;
 
-    GramControl : process(ALU2ALU_reg, AXIS_READ_ENABLE_i, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in, AXIS_READ_ENABLE_in)
+    GramControl : process(ALU2ALU_reg, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, WE_p_to_g, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in, AXIS_READ_ENABLE_in)
     begin
         if LOAD_PG_in = OPERATE_CMD and P_to_G_Write_Enable_out = '1' then
             --P to G, when unloading from Bram data will come go GRAM
@@ -199,7 +201,7 @@ begin
             COL_gram_out <= G_COL_ADDR_in;
             DIN_gram_out <= (others => '0'); --output from fsm, having data for G ram
             WE_gram_out  <= '0';
-            OE_gram_out  <= AXIS_READ_ENABLE_i;
+            OE_gram_out  <= AXIS_READ_ENABLE_in;
         else
             ----FSM <-> G, normal operating mode
             ROW_gram_out <= s_G_ROW_in;
@@ -319,7 +321,7 @@ begin
             G_ROW_ADDR_out      => G_ROW_ADDR_in,
 
             --in AXI
-            AXIS_READ_ENABLE    => AXIS_READ_ENABLE,
+            AXIS_READ_ENABLE    => AXIS_READ_ENABLE_in,
 
             --in P-to-G
             P_to_G_Write_Enable => P_to_G_Write_Enable_out,

@@ -27,6 +27,12 @@ architecture Behavioral of STANDARD_RAM is
 type column is array (0 to COLUMN_TOTAL-1) of std_logic_vector (DATA_WIDTH-1 downto 0);
 type ram is array (0 to COLUMN_TOTAL-1) of column;
 signal datamem: ram;
+
+
+type column2 is array (0 to COLUMN_TOTAL-1) of integer;
+type ram2 is array (0 to COLUMN_TOTAL) of column2;
+signal datamem2 : ram2 := ((31,32,33), (34,35,36),(37,38,39),(40,41,42));
+
 signal i_DOUT,ii_DOUT:std_logic_vector (DATA_WIDTH-1 downto 0);
 
 --for simulation
@@ -55,12 +61,13 @@ if rising_edge(CLK) then
 	if (OE_in='1') then
 --			i_DOUT<=datamem (to_integer(unsigned(COL)))(to_integer(unsigned(ROW)));
 		i_DOUT<=datamem (to_integer(unsigned(ROW_in)))(to_integer(unsigned(COL_in)));
+--		i_DOUT<=std_logic_vector(to_unsigned(datamem2(to_integer(unsigned(ROW_in)))(to_integer(unsigned(COL_in))),DATA_WIDTH));
 	else
 			i_DOUT<=(others=>'0');
 	end if;
-	DOUT_out<=i_DOUT;
-	ii_DOUT <= i_DOUT;
-	DOUT_out <= ii_DOUT;--3 clk_cycle pipeline.
+--	DOUT_out<=i_DOUT;
+--	ii_DOUT <= i_DOUT;
+	DOUT_out <= i_DOUT;--2 clk_cycle pipeline.
 end if;
 end process;
 

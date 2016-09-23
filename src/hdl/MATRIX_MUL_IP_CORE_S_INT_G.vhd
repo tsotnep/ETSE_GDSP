@@ -182,7 +182,7 @@ begin
     READY_out                        <= INTERNAL_FSM_READY;
     UN_LOADING_DONE_out              <= UN_LOADING_DONE_in;
     Gram_data_available_for_axis_out <= AXIS_READ_ENABLE_in;
-    P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0') else '0';
+    P_to_G_Write_Enable_out <= '1' when (UN_LOAD_in = '1' and INTERNAL_FSM_READY = '1' and UN_LOADING_DONE_in = '0' and LOAD_PG_in = OPERATE_CMD) else '0';
     DOUT_out                <= s_GRAM_DOUT_in;
 
     GramControl : process (ALU2ALU_reg, DIN_in, G_COL_ADDR_in, G_ROW_ADDR_in, LOAD_PG_in, P_to_G_Write_Enable_out, ii_AXIS_READ_ENABLE, s_G_COLUMN_in, s_G_O_EN_in, s_G_ROW_in, s_G_WE_in)
@@ -320,11 +320,11 @@ begin
             G_ROW_ADDR_out      => G_ROW_ADDR_in,
 
             --in AXI
-            AXIS_READ_ENABLE    => ii_AXIS_READ_ENABLE,
+            AXIS_READ_ENABLE    => ii_AXIS_READ_ENABLE, 
 
             --in P-to-G
             P_to_G_Write_Enable => P_to_G_Write_Enable_out,
-            LOAD_PG             => LOAD_PG_out,
+--            LOAD_PG             => LOAD_PG_out,
             clk                 => clk,
             rst                 => rst
         );

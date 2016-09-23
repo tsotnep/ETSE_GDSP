@@ -247,7 +247,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_tx_done           : std_logic;
 
     constant cntrl_P_loading_predelay : integer := 5; --should be 3, checked in simulation
-    constant cntrl_G_loading_predelay : integer := 2; --should be 0, checked in simulation
+    constant cntrl_G_loading_predelay : integer := 4; --should be 0, checked in simulation
     constant cntrl_reset_length       : integer := 2;
 
     constant cntrl_mem_delay : integer := 3;

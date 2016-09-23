@@ -199,7 +199,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
     signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
-    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
+    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE, iii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
 
     --AXIS master
     -- Total number of output data                                              
@@ -446,6 +446,7 @@ begin
                         --end if;
                         i_MMULT_AXIS_OUTPUT_ENABLE <= MMULT_AXIS_OUTPUT_ENABLE;
                         ii_MMULT_AXIS_OUTPUT_ENABLE <= i_MMULT_AXIS_OUTPUT_ENABLE;
+                        iii_MMULT_AXIS_OUTPUT_ENABLE <= ii_MMULT_AXIS_OUTPUT_ENABLE;
 
                         if cntrl_R_array_index < COLUMN_TOTAL * COLUMN_TOTAL then
                             if data_available = '1' then
@@ -476,7 +477,7 @@ begin
     m00_AXIS_TSTRB                                                         <= (others => '1');
     m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
     m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
-    m00_axis_axis_tvalid                                                   <= '1' when ((ii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+    m00_axis_axis_tvalid                                                   <= '1' when ((iii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
     m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
     m00_axis_tx_en                                                         <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
 

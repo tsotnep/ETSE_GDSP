@@ -44,7 +44,7 @@ architecture Behavioral of MATRIX_MUL_IP_CORE_S_INT_G is
     type i_DATA_t is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
     signal i_MEM2ALU_inout : i_DATA_t;  ---- mem-to-alu signal
     type i_DATA_wide is array (0 to COLUMN_TOTAL - 1) of std_logic_vector(DATA_WIDE_WIDTH - 1 downto 0);
-    signal ALU2ALU_i_inout                                             : i_DATA_wide; ---- alu-to-alu signal
+    signal ALU2ALU_i_in                                             : i_DATA_wide; ---- alu-to-alu signal
     signal ALU2ALU_reg, ALU2ALU_reg_i, ALU2ALU_reg_ii, ALU2ALU_reg_iii : std_logic_vector(DATA_WIDTH - 1 downto 0);
     constant DIN_DELAY                                                 : integer := 2;
     constant DELAY_DEPTH                                               : integer := 6 + DIN_DELAY; --7+DIN_DELAY;
@@ -128,7 +128,7 @@ begin
         end if;
     end process;
 
-    shift_registers : process(clk, ALU2ALU_i_inout, AXIS_READ_ENABLE_in, INTERNAL_FSM_READY_in, WE_p_to_g_ii, UN_LOADING_DONE_in, UN_LOAD_in) is
+    shift_registers : process(clk, ALU2ALU_i_in, AXIS_READ_ENABLE_in, INTERNAL_FSM_READY_in, WE_p_to_g_ii, UN_LOADING_DONE_in, UN_LOAD_in) is
     begin
         --by default, they're just bypassed.
 
@@ -172,7 +172,7 @@ begin
 
         INTERNAL_FSM_READY <= INTERNAL_FSM_READY_in;
         --        AXIS_READ_ENABLE <= AXIS_READ_ENABLE_in;
-        ALU2ALU_reg        <= ALU2ALU_i_inout(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
+        ALU2ALU_reg        <= ALU2ALU_i_in(COLUMN_TOTAL - 1)(DATA_WIDTH - 1 downto 0);
 --        WE_p_to_g          <= (UN_LOAD_in and (not UN_LOADING_DONE_in));
         
     LOAD_PG_out                      <= LOAD_PG_in;
@@ -229,7 +229,7 @@ begin
             PORT MAP(
                 CLK        => CLK,
                 Write_ADDR => s_modified_fsm_Write_ADDR_out, -- i_ADDR, -- Pipelined --
-                DINA       => ALU2ALU_i_inout(i)(DATA_WIDTH - 1 downto 0), --i_SPDOUT(i),
+                DINA       => ALU2ALU_i_in(i)(DATA_WIDTH - 1 downto 0), --i_SPDOUT(i),
                 Read_ADDR  => s_modified_fsm_Read_ADDR_out, -- ADDRB,-- multiplexed between FSM input and User input.
                 DOUTB      => i_MEM2ALU_inout(i),
                 Read_SHFT  => s_fsm_Read_SHFT_out, --s_MUL_P_SHFT,--,s_i_ASHFT,
@@ -244,8 +244,8 @@ begin
             sel => i_OPCODE_out,
             a   => s_MUl_Din_out,       --DIN(17 downto 0),--i_DIN,
             b   => i_MEM2ALU_inout(0),  --(17 downto 0),
-            c   => ALU2ALU_i_inout(COLUMN_TOTAL - 1),
-            p   => ALU2ALU_i_inout(0)
+            c   => ALU2ALU_i_in(COLUMN_TOTAL - 1),
+            p   => ALU2ALU_i_in(0)
         );
 
     ---------------------------------------------------
@@ -255,8 +255,8 @@ begin
                 sel => i_OPCODE_out,
                 a   => s_MUl_Din_out,   --DIN(17 downto 0),--i_DIN,
                 b   => i_MEM2ALU_inout(i), --(17 downto 0),
-                c   => ALU2ALU_i_inout(i - 1),
-                p   => ALU2ALU_i_inout(i)
+                c   => ALU2ALU_i_in(i - 1),
+                p   => ALU2ALU_i_in(i)
             );
     end generate;
 

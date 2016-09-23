@@ -59,6 +59,9 @@ begin
                         G_ROW_ADDR <= (others => '0');
                     end if;
                 end if;
+            else
+                G_ROW_ADDR <= (others => '0');
+                G_COL_ADDR <= (others => '0');
             end if;
         end if;
     end process GaddressGenerator;

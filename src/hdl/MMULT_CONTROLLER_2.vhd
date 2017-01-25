@@ -202,31 +202,31 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE, iii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
 
     --AXIS master
-    -- Total number of output data                                              
+    -- Total number of output data
     constant m00_axis_NUMBER_OF_OUTPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL;
 
-    -- WAIT_COUNT_BITS is the width of the wait counter.                       
+    -- WAIT_COUNT_BITS is the width of the wait counter.
     constant m00_axis_WAIT_COUNT_BITS : integer := clogb2(C_M_START_COUNT - 1);
 
-    -- In this example, Depth of FIFO is determined by the greater of                 
-    -- the number of input words and output words.                                    
+    -- In this example, Depth of FIFO is determined by the greater of
+    -- the number of input words and output words.
     constant m00_axis_depth : integer := m00_axis_NUMBER_OF_OUTPUT_WORDS;
 
     -- bit_num gives the minimum number of bits needed to address 'depth' size of FIFO
     constant m00_axis_bit_num : integer := clogb2(m00_axis_depth);
 
-    -- Define the states of state machine                                             
+    -- Define the states of state machine
     -- The control state machine oversees the writing of input streaming data to the FIFO,
-    -- and outputs the streaming data from the FIFO                                   
-    type m00_axis_state is (IDLE,       -- This is the initial/idle state                    
-                            INIT_COUNTER, -- This state initializes the counter, ones        
-                            -- the counter reaches C_M_START_COUNT count,     
-                            -- the state machine changes state to INIT_WRITE  
-                            SEND_STREAM); -- In this state the                               
-    -- stream data is output through M_AXIS_TDATA        
-    -- State variable                                                                 
+    -- and outputs the streaming data from the FIFO
+    type m00_axis_state is (IDLE,       -- This is the initial/idle state
+                            INIT_COUNTER, -- This state initializes the counter, ones
+                            -- the counter reaches C_M_START_COUNT count,
+                            -- the state machine changes state to INIT_WRITE
+                            SEND_STREAM); -- In this state the
+    -- stream data is output through M_AXIS_TDATA
+    -- State variable
     signal m00_axis_mst_exec_state : m00_axis_state;
-    -- Example design FIFO read pointer                                               
+    -- Example design FIFO read pointer
     signal m00_axis_read_pointer   : integer range 0 to m00_axis_bit_num - 1;
 
     -- AXI Stream internal signals
@@ -236,7 +236,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal m00_axis_axis_tvalid       : std_logic;
     --streaming data valid delayed by one clock cycle
     signal m00_axis_axis_tvalid_delay : std_logic;
-    --Last of the streaming data 
+    --Last of the streaming data
     signal m00_axis_axis_tlast        : std_logic;
     --Last of the streaming data delayed by one clock cycle
     signal m00_axis_axis_tlast_delay  : std_logic;
@@ -278,7 +278,6 @@ begin
                 UN_LOAD                  <= '0';
                 P                        <= '0';
                 G                        <= '0';
-                --                DIN                      <= (others => '0');
                 state                    <= cntrl_WAIT_FOR_CMD;
                 RDY_FOR_CMD              <= '0';
                 RDEN_internal            <= '0';
@@ -348,7 +347,6 @@ begin
                         end if;
 
                     when cntrl_LOAD_G =>
-                        --                        DIN                       <= (others => '0');
                         LOAD_PG                   <= LOAD_G_CMD;
                         MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
 
@@ -375,12 +373,10 @@ begin
                         end if;
 
                     when cntrl_LOAD_P =>
-                        --                        DIN                       <= (others => '0');
                         LOAD_PG                   <= LOAD_P_CMD;
                         Bank_sel                  <= '0';
                         MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
                         if resetted_MMULT_IP = '1' then
-                            --                            DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
                             else
@@ -613,29 +609,29 @@ begin
     -- I/O Connections assignments
 
 
-    -- Control state machine implementation                                               
+    -- Control state machine implementation
     process(m00_AXIS_ACLK)
     begin
         if (rising_edge(m00_AXIS_ACLK)) then
             if (m00_AXIS_ARESETN = '0') then
-                -- Synchronous reset (active low)                                                     
+                -- Synchronous reset (active low)
                 m00_axis_mst_exec_state <= IDLE;
                 m00_axis_count          <= (others => '0');
             else
                 case (m00_axis_mst_exec_state) is
                     when IDLE =>
-                        -- The slave starts accepting tdata when                                          
-                        -- there tvalid is asserted to mark the                                           
-                        -- presence of valid streaming data                                               
-                        --if (count = "0")then                                                            
+                        -- The slave starts accepting tdata when
+                        -- there tvalid is asserted to mark the
+                        -- presence of valid streaming data
+                        --if (count = "0")then
                         m00_axis_mst_exec_state <= INIT_COUNTER;
-                    --else                                                                              
-                    --  mst_exec_state <= IDLE;                                                         
-                    --end if;                                                                           
+                    --else
+                    --  mst_exec_state <= IDLE;
+                    --end if;
 
                     when INIT_COUNTER =>
-                        -- This state is responsible to wait for user defined C_M_START_COUNT           
-                        -- number of clock cycles.                                                      
+                        -- This state is responsible to wait for user defined C_M_START_COUNT
+                        -- number of clock cycles.
                         if (m00_axis_count = std_logic_vector(to_unsigned((C_M_START_COUNT - 1), m00_axis_WAIT_COUNT_BITS))) then
                             m00_axis_mst_exec_state <= SEND_STREAM;
                         else
@@ -644,9 +640,9 @@ begin
                         end if;
 
                     when SEND_STREAM =>
-                        -- The example design streaming master functionality starts                       
-                        -- when the master drives output tdata from the FIFO and the slave                
-                        -- has finished storing the S_AXIS_TDATA                                          
+                        -- The example design streaming master functionality starts
+                        -- when the master drives output tdata from the FIFO and the slave
+                        -- has finished storing the S_AXIS_TDATA
                         if (m00_axis_tx_done = '1') then
                             m00_axis_mst_exec_state <= IDLE;
                         else
@@ -664,12 +660,12 @@ begin
     --tvalid generation
     --axis_tvalid is asserted when the control state machine's state is SEND_STREAM and
     --number of output streaming data is less than the NUMBER_OF_OUTPUT_WORDS.
-    -- AXI tlast generation                                                                        
-    -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1          
-    -- (0 to NUMBER_OF_OUTPUT_WORDS-1)                                                             
+    -- AXI tlast generation
+    -- axis_tlast is asserted number of output streaming data is NUMBER_OF_OUTPUT_WORDS-1
+    -- (0 to NUMBER_OF_OUTPUT_WORDS-1)
 
-    -- Delay the axis_tvalid and axis_tlast signal by one clock cycle                              
-    -- to match the latency of M_AXIS_TDATA                                                        
+    -- Delay the axis_tvalid and axis_tlast signal by one clock cycle
+    -- to match the latency of M_AXIS_TDATA
     process(m00_AXIS_ACLK)
     begin
         if (rising_edge(m00_AXIS_ACLK)) then
@@ -694,33 +690,33 @@ begin
             else
                 if (m00_axis_read_pointer <= m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) then
                     if (m00_axis_tx_en = '1') then
-                        -- read pointer is incremented after every read from the FIFO          
-                        -- when FIFO read signal is enabled.                                   
+                        -- read pointer is incremented after every read from the FIFO
+                        -- when FIFO read signal is enabled.
                         m00_axis_read_pointer <= m00_axis_read_pointer + 1;
                         m00_axis_tx_done      <= '0';
                     end if;
                 elsif (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS) then
                     -- tx_done is asserted when NUMBER_OF_OUTPUT_WORDS numbers of streaming data
-                    -- has been out.                                                         
+                    -- has been out.
                     m00_axis_tx_done <= '1';
                 end if;
             end if;
         end if;
     end process;
 
---FIFO read enable generation 
+--FIFO read enable generation
 
 
--- FIFO Implementation                                                          
+-- FIFO Implementation
 
---    -- Streaming output data is read from FIFO                                      
+--    -- Streaming output data is read from FIFO
 --    process(m00_AXIS_ACLK)
 --        variable sig_one : integer := 1;
 --    begin
 --        if (rising_edge(m00_AXIS_ACLK)) then
 --            if (m00_AXIS_ARESETN = '0') then
 --                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(0, C_M_AXIS_TDATA_WIDTH));
---            elsif (m00_axis_tx_en = '1') then    -- && M_AXIS_TSTRB(byte_index)                   
+--            elsif (m00_axis_tx_en = '1') then    -- && M_AXIS_TSTRB(byte_index)
 ----                stream_data_out <= std_logic_vector(to_unsigned(read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
 --                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(m00_axis_read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
 --            end if;

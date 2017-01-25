@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<section name="Workbench">
-	<item value="system.bit" key="Virtex6_MUL_IP_CORE2_hw_platform-bitFile"/>
-	<item value="system_bd.bmm" key="Virtex6_MUL_IP_CORE2_hw_platform-bmmFile"/>
-	<item value="bootloop" key="Virtex6_MUL_IP_CORE2_hw_platform-microblaze_0-initElf"/>
-</section>

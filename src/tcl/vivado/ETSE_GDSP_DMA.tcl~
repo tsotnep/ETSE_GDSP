@@ -15,7 +15,7 @@ create_bd_design "design_1"
 #update_ip_catalog
 #WARNING: [IP_Flow 19-2248] Failed to load user IP repository '/home/tsotnep/.local/share/Trash/files/tmp/$origin/tmp/ip_repo'; Can't find the specified path. If this directory should no longer be in your list of user repositories, go to the IP Settings dialog and remove it.
 
-set_property  ip_repo_paths  {/home/tsotne/ownCloud/git/ETSE_GDSP/tmp/ip_repo} [current_project]
+set_property  ip_repo_paths  {/home/tsotnep/ownCloud/git/ETSE_GDSP/tmp/ip_repo} [current_project]
 update_ip_catalog
 
 startgroup

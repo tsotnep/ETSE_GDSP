@@ -1,4 +1,4 @@
-12:35:50 **** Auto Build of configuration Debug for project simple_transfer_2 ****
+13:21:00 **** Auto Build of configuration Debug for project simple_transfer_2 ****
 make pre-build main-build 
 a9-linaro-pre-build-step
  
@@ -6,7 +6,7 @@ Building file: ../src/helloworld.c
 Invoking: ARM v7 gcc compiler
 arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/helloworld.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -I../../simple_transfer_2_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/helloworld.d" -MT"src/helloworld.o" -o "src/helloworld.o" "../src/helloworld.c"
 ../src/helloworld.c: In function 'main':
-../src/helloworld.c:144:6: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+../src/helloworld.c:145:6: warning: variable 'status' set but not used [-Wunused-but-set-variable]
   u32 status;
       ^
 In file included from ../src/helloworld.c:6:0:
@@ -26,7 +26,7 @@ In file included from ../src/helloworld.c:6:0:
 ../src/mylib.h:112:12: warning: 'enable_DMA_irq' defined but not used [-Wunused-function]
  static int enable_DMA_irq() {
             ^
-../src/helloworld.c:247:13: warning: 'test' defined but not used [-Wunused-function]
+../src/helloworld.c:248:13: warning: 'test' defined but not used [-Wunused-function]
  void static test() {
              ^
 Finished building: ../src/helloworld.c
@@ -43,5 +43,5 @@ arm-none-eabi-size simple_transfer_2.elf  |tee "simple_transfer_2.elf.size"
 Finished building: simple_transfer_2.elf.size
  
 
-12:35:51 Build Finished (took 164ms)
+13:21:00 Build Finished (took 163ms)
 

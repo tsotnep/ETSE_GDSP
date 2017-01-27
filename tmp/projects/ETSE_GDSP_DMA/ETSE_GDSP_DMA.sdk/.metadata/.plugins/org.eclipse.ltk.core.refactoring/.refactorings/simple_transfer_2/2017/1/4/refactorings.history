@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;simple_transfer_2/src/mylib.c&apos; to &apos;mylib.h&apos;" description="Rename resource &apos;mylib.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/mylib.c" name="mylib.h" stamp="1485513283518" updateReferences="true"/>
-</session>

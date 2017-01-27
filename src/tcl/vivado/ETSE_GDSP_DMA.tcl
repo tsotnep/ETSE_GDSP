@@ -27,7 +27,9 @@ endgroup
 startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dma:7.1 axi_dma_0
 endgroup
-set_property -dict [list CONFIG.c_sg_include_stscntrl_strm {0}] [get_bd_cells axi_dma_0]
+startgroup
+set_property -dict [list CONFIG.c_include_sg {0} CONFIG.c_sg_include_stscntrl_strm {0}] [get_bd_cells axi_dma_0]
+endgroup
 startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo:1.1 axis_data_fifo_0
 endgroup
@@ -62,7 +64,7 @@ set_property location {3 572 122} [get_bd_cells xlconstant_0]
 connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins ETSE_GDSP_0/s00_axis_tstrb]
 save_bd_design
 startgroup
-apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/axi_dma_0/M_AXI_SG" Clk "Auto" }  [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
+#apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/axi_dma_0/M_AXI_SG" Clk "Auto" }  [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/processing_system7_0/M_AXI_GP0" Clk "Auto" }  [get_bd_intf_pins axi_dma_0/S_AXI_LITE]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/processing_system7_0/M_AXI_GP0" Clk "Auto" }  [get_bd_intf_pins ETSE_GDSP_0/S00_AXI]
 endgroup
@@ -79,7 +81,7 @@ set_property -dict [list CONFIG.PCW_USE_S_AXI_HP0 {1} CONFIG.PCW_USE_FABRIC_INTE
 endgroup
 delete_bd_objs [get_bd_nets xlconcat_0_dout]
 connect_bd_net [get_bd_pins xlconcat_0/dout] [get_bd_pins processing_system7_0/IRQ_F2P]
-apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/axi_dma_0/M_AXI_SG" Clk "Auto" }  [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
+#apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/axi_dma_0/M_AXI_SG" Clk "Auto" }  [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
 save_bd_design
 connect_bd_net -net [get_bd_nets rst_processing_system7_0_50M_peripheral_aresetn] [get_bd_pins axis_data_fifo_0/s_axis_aresetn] [get_bd_pins rst_processing_system7_0_50M/peripheral_aresetn]
 connect_bd_net -net [get_bd_nets processing_system7_0_FCLK_CLK0] [get_bd_pins axis_data_fifo_0/s_axis_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0]
@@ -100,13 +102,13 @@ add_files -norecurse ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.srcs/sou
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
 
-
-launch_runs impl_1 -to_step write_bitstream
-
-wait_on_run impl_1
-
-
-file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk
-file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf
-
-launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf
+#
+#launch_runs impl_1 -to_step write_bitstream
+#
+#wait_on_run impl_1
+#
+#
+#file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk
+#file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf
+#
+#launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf

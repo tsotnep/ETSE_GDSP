@@ -10,3 +10,6 @@ SDK_BINARIES=/opt/Xilinx/SDK/2015.2/gnu/arm/lin/bin
 SCRIPTS_LOC=/home/tsotne/workspaceVivado/scripts
 SRC_LOC=/home/tsotne/git/ETSE_GDSP/src/hdl
 git_diff=/home/tsotne/git/ETSE_GDSP/src/git_diff
+
+
+/cad/x_16/SDK/2016.1/gnu/arm/lin/bin

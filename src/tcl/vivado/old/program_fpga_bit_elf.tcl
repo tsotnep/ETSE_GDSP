@@ -15,7 +15,7 @@ fpga -f /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP
 source /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper_hw_platform_0/ps7_init.tcl
 ps7_init
 ps7_post_config
-dow /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/simple_transfer_2/Debug/simple_transfer_2.elf
+dow /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/simple_transfer_3/Debug/simple_transfer_3.elf
 run
 
 #rst -processor

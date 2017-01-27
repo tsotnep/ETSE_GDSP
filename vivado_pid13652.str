@@ -1,0 +1,93 @@
+/*
+
+Vivado v2016.1 (64-bit)
+SW Build 1538259 on Fri Apr  8 15:45:23 MDT 2016
+Process ID: 13652
+
+Current time: 	1/27/17 12:32:06 PM EET
+Time zone: 	Eastern European Time (Europe/Tallinn)
+
+OS: SUSE Linux Enterprise Server 11 (x86_64)
+Version: 3.0.101-84-default
+Architecture: amd64
+Available processors (cores): 24
+
+DISPLAY: localhost:18.0
+Screen size: 5120x1440
+Screen resolution (DPI): 95
+Available screens: 2
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	1.8.0_66 64-bit
+Java home: 	/cad/x_16/Vivado/2016.1/tps/lnx64/jre
+
+User name: 	tsotne
+User home directory: /home/tsotne
+User working directory: /home/tsotne/ownCloud/git/ETSE_GDSP
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI Base root directory: /cad/x_16/Vivado
+RDI Data directory: /cad/x_16/Vivado/2016.1/data
+RDI Bin directory: /cad/x_16/Vivado/2016.1/bin
+
+Vivado preferences path: /home/tsotne/.Xilinx/Vivado/2016.1/vivado.ini
+Vivado layouts directory: /home/tsotne/.Xilinx/Vivado/2016.1/layouts
+
+GUI allocated memory:	201 MB
+GUI max memory:		3,052 MB
+Engine allocated memory: 4,933 MB
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// [GUI Memory]: 42 MB (+41611kb) [00:00:07]
+// [Engine Memory]: 4,933 MB (+5020649kb) [00:00:07]
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // V:JideMenu (CommandMenuBar:CommandBar, cv:JFrame)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // V:JideMenu (CommandMenuBar:CommandBar, cv:JFrame)
+selectList(PAResourceEtoH.GettingStartedView_RECENT_PROJECTS, "/home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.xpr", 0); // q:v (JViewport:JComponent, cv:JFrame)
+// Opening Vivado Project: /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.xpr. Version: Vivado v2016.1 
+// bL:g (cv:JFrame):  Open Project : addNotify
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,971 MB. GUI used memory: 30 MB. Current time: 1/27/17 12:32:08 PM EET
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_CURRENT
+// Tcl Message: open_project /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.xpr 
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 50 MB (+5967kb) [00:00:17]
+// [GUI Memory]: 61 MB (+9528kb) [00:00:17]
+// [GUI Memory]: 66 MB (+1046kb) [00:00:18]
+// [GUI Memory]: 72 MB (+3564kb) [00:00:20]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: open_project /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/tsotne/ownCloud/git/ETSE_GDSP/tmp/ip_repo'. INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/cad/x_16/Vivado/2016.1/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 76 MB (+161kb) [00:00:23]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Project name: ETSE_GDSP_DMA; location: /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA; part: xc7z020clg484-1
+// Tcl Message: open_project: Time (s): cpu = 00:00:25 ; elapsed = 00:00:14 . Memory (MB): peak = 5981.715 ; gain = 164.754 ; free physical = 347 ; free virtual = 864247 
+// Elapsed time: 15 seconds
+dismissDialog("Open Project"); // bL:g (cv:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// Tcl Message: update_compile_order -fileset sources_1 
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // V:JideMenu (CommandMenuBar:CommandBar, cv:JFrame)
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_FILE, "Open Recent File"); // ab:JMenu (JPopupMenu:JComponent, cv:JFrame)
+selectMenu(PAResourceItoN.MainMenuMgr_EXPORT, "Export"); // ab:JMenu (JPopupMenu:JComponent, cv:JFrame)
+selectMenuItem(PAResourceCommand.PACommandNames_LAUNCH_HARDWARE, "Launch SDK"); // af:JMenuItem (JPopupMenu:JComponent, cv:JFrame)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // V:JideMenu (CommandMenuBar:CommandBar, cv:JFrame)
+// Run Command: PAResourceCommand.PACommandNames_LAUNCH_HARDWARE
+// ai:x (cv:JFrame): Launch SDK: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, ai:x)
+dismissDialog("Launch SDK"); // ai:x (cv:JFrame)
+// Tcl Message: launch_sdk -workspace /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf 
+// Tcl Message: INFO: [Vivado 12-393] Launching SDK... INFO: [Vivado 12-417] Running xsdk -workspace /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf INFO: [Vivado 12-3157] SDK launch initiated. Please check console for any further messages. 

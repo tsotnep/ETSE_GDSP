@@ -91,3 +91,7 @@ selectButton(RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, 
 dismissDialog("Launch SDK"); // ai:x (cv:JFrame)
 // Tcl Message: launch_sdk -workspace /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf 
 // Tcl Message: INFO: [Vivado 12-393] Launching SDK... INFO: [Vivado 12-417] Running xsdk -workspace /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec /home/tsotne/ownCloud/git/ETSE_GDSP/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf INFO: [Vivado 12-3157] SDK launch initiated. Please check console for any further messages. 
+// [GUI Memory]: 80 MB (+488kb) [00:14:46]
+// [GUI Memory]: 85 MB (+348kb) [00:19:21]
+// [GUI Memory]: 89 MB (+512kb) [00:24:36]
+// HMemoryUtils.trashcanNow. Engine heap size: 5,123 MB. GUI used memory: 47 MB. Current time: 1/27/17 1:02:08 PM EET

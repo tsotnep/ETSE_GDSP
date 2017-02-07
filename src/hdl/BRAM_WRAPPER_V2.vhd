@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------------------
 -- Company: GPDS ETSE UV
 -- Engineer: Taras Iakymchuk
--- 
--- Create Date:    17:12:37 02/18/2015 
+--
+-- Create Date:    17:12:37 02/18/2015
 -- Design Name: 	 matrix multiplier V2
--- Module Name:    BRAM_WRAPPER - Behavioral 
+-- Module Name:    BRAM_WRAPPER - Behavioral
 -- Wrapper for Circulant access to a matrix column
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -37,7 +37,7 @@ entity BRAM_WRAPPER_V2 is
 end BRAM_WRAPPER_V2;
 
 architecture Behavioral of BRAM_WRAPPER_V2 is
-    
+
     component BRAM18x1k
         port(clka  : IN  STD_LOGIC;
              wea   : IN  STD_LOGIC_VECTOR(0 DOWNTO 0);
@@ -58,28 +58,28 @@ begin
 process (CLK)-- (CLK,P,G)
 variable addr_a_reg,addr_b_reg: integer range 0 to 2**ADDR_WIDTH;
 begin
-	if rising_edge(CLK) then 		
-			if Write_SHFT ='0'  then 											
-				addr_a_reg:=to_integer(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))); 
-			else 
+	if rising_edge(CLK) then
+			if Write_SHFT ='0'  then
+				addr_a_reg:=to_integer(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0)));
+			else
 				if (unsigned(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER)>NUM_COLUMNS-1) then
-					addr_a_reg:=to_integer(unsigned(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER-NUM_COLUMNS)); 
+					addr_a_reg:=to_integer(unsigned(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER-NUM_COLUMNS));
 				else
-					addr_a_reg:=to_integer(unsigned(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER)); 
+					addr_a_reg:=to_integer(unsigned(unsigned(Write_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER));
 				end if;
 			end if;
-		
-		
-		if Read_SHFT = '0' then		
+
+
+		if Read_SHFT = '0' then
 			addr_b_reg:=to_integer(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0)));   -- upper bit - bank sel
 		else
-			if (unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER)>NUM_COLUMNS-1) then				
-				addr_b_reg:=to_integer(unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER-NUM_COLUMNS)); 
+			if (unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER)>NUM_COLUMNS-1) then
+				addr_b_reg:=to_integer(unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER-NUM_COLUMNS));
 			else
-				addr_b_reg:=to_integer(unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER)); 
+				addr_b_reg:=to_integer(unsigned(unsigned(Read_ADDR(ADDR_WIDTH-2 downto 0))+COLUMN_NUMBER));
 			end if;
 		end if;
-		
+
 	  i_wea(0)<=WEA; --- for compatibility with columnwise write
 	  i_RST<= not OEB;
 	  i_OE<=OEB;
@@ -101,7 +101,7 @@ BRAM18x1k_inst : component BRAM18x1k
         doutb => DOUTB
     );
 ----
---BMG_PORT: entity work.BRAM18x1k PORT MAP ( --BRAM18x1k 
+--BMG_PORT: entity work.BRAM18x1k PORT MAP ( --BRAM18x1k
 --      --Port A
 --      WEA        => i_wea,
 --      ADDRA      => i_write_addr,
@@ -121,4 +121,3 @@ BRAM18x1k_inst : component BRAM18x1k
 ------      doutb : OUT STD_LOGIC_VECTOR(17 DOWNTO 0)
 --    );
 end Behavioral;
-

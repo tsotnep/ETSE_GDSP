@@ -1,1 +1,0 @@
- -p virtex6 -lang vhdl$(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT) -msg __xps/ise/xmsgprops.lst -s isim -X C:/FPGA/Internship_Jobs/Codes/ETSE_GDSP/Matrix_for_RBM/EDK/Virtex6_MUL_IP_CORE2/

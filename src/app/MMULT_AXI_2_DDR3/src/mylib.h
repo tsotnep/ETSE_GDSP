@@ -11,7 +11,6 @@
 #include "xil_types.h"
 #include <stdbool.h>
 #include "xaxidma.h"
-#include "MMULT_AXI_2.h"
 
 //BA is Base ADdress.
 
@@ -32,7 +31,7 @@ static bool rd(u32 BA, u32 reg_offset, u8 bit_ind) {
 
 //read and print one particular bit from a register.
 static void prrd(u32 BA, u32 reg_offset, u8 bit_ind) {
-	xil_printf("reg_%08x+%x[%d] = %x\n\r", BA, reg_offset, bit_ind, (Xil_In32(BA + reg_offset) & (1 << bit_ind)) > 0);
+	xil_printf("reg_%08x+%x[%d] = %x\r\n", BA, reg_offset, bit_ind, (Xil_In32(BA + reg_offset) & (1 << bit_ind)) > 0);
 }
 
 //write a value in a register
@@ -47,7 +46,7 @@ static u32 read(u32 BA, u32 reg_offset) {
 
 //read and print a value from a register
 static void prread(u32 BA, u32 reg_offset) {
-	xil_printf("reg_%08x+%x = %08x\n\r", BA, reg_offset, Xil_In32(BA + reg_offset));
+	xil_printf("reg_%08x+%x = %08x\r\n", BA, reg_offset, Xil_In32(BA + reg_offset));
 }
 
 //convert decimal number into binary string/char array.
@@ -66,10 +65,10 @@ char* getBinary(u32 n) {
 //returns XST_SUCCESS if DMA is configured in Normal Mode. returns XST_FAILURE if its SG mode
 static int check_DMA_normal_mode() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 3) || rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 3)) {
-		xil_printf("SG DMA mode is enabled\n\r");
+		xil_printf("SG DMA mode is enabled\r\n");
 		return XST_FAILURE;
 	} else {
-		xil_printf("Normal DMA mode is enabled\n\r");
+		xil_printf("Normal DMA mode is enabled\r\n");
 		return XST_SUCCESS;
 	}
 }
@@ -77,10 +76,10 @@ static int check_DMA_normal_mode() {
 //returns XST_SUCCESS if DMA interrupts are disabled
 static int check_DMA_irq_disabled() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x00, 12) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x30, 12)) {
-		xil_printf("DMA interrupts are enabled\n\r");
+		xil_printf("DMA interrupts are enabled\r\n");
 		return XST_SUCCESS;
 	} else {
-		xil_printf("DMA interrupts are disabled\n\r");
+		xil_printf("DMA interrupts are disabled\r\n");
 		return XST_FAILURE;
 	}
 }
@@ -89,10 +88,10 @@ static int check_DMA_irq_disabled() {
 //returns XST_SUCCESS if DMA it is idle
 static int check_DMA_idle() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1)) {
-		xil_printf("DMA is idle\n\r");
+		xil_printf("DMA is idle\r\n");
 		return XST_SUCCESS;
 	} else {
-		xil_printf("DMA is busy\n\r");
+		xil_printf("DMA is busy\r\n");
 		return XST_FAILURE;
 	}
 }
@@ -101,10 +100,10 @@ static int check_DMA_idle() {
 //returns XST_SUCCESS if interrupt flag has been asserted.. polling
 static int check_DMA_irq_event() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 12) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 12)) {
-		xil_printf("DMA irq flag has been asserted\n\r");
+		xil_printf("DMA irq flag has been asserted\r\n");
 		return XST_SUCCESS;
 	} else {
-		xil_printf("DMA irq flag has not been asserted\n\r");
+		xil_printf("DMA irq flag has not been asserted\r\n");
 		return XST_FAILURE;
 	}
 
@@ -120,9 +119,12 @@ static int enable_DMA_irq() {
 
 //resets DMA by writing 1 into reset soft register
 static int enable_DMA_soft_reset(void) {
-	print("Resetting DMA\n\r");
-	set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
+	print("Resetting DMA\r\n");
+    xil_printf("pass\r\n");
+    set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
+    xil_printf("pass\r\n");
 	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start S2MM channel
+    xil_printf("pass\r\n");
 	return XST_SUCCESS;
 }
 
@@ -130,12 +132,12 @@ static int enable_DMA_soft_reset(void) {
 
 void AXI_2_write(u32 cmd, u32 cmd2, u32 data){
 	u32 unified = (cmd2<<22 | cmd<<18 | data);
-	MMULT_AXI_2_mWriteReg(XPAR_MMULT_AXI_2_0_S00_AXI_BASEADDR, MMULT_AXI_2_S00_AXI_SLV_REG0_OFFSET, unified);
-	xil_printf("written on slv_reg0, bin value = %s \r\n", getBinary(unified));
+	write(XPAR_ETSE_GDSP_0_BASEADDR, 0, unified);
+//	xil_printf("written on slv_reg0, bin value = %s \r\n", getBinary(unified));
 }
 
 void AXI_2_read_print(u32 addr){
-	xil_printf("from slv_reg%d, value = %d\n\r",addr,MMULT_AXI_2_mReadReg(XPAR_MMULT_AXI_2_0_S00_AXI_BASEADDR, addr*4));
+	xil_printf("from slv_reg%d, value = %d\r\n",addr,read(XPAR_ETSE_GDSP_0_BASEADDR, addr*4));
 }
 
 #endif /* MYLIB_C_ */

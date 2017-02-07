@@ -1,6 +1,5 @@
+close_project -quiet
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
-file mkdir ${origin}/tmp
-file mkdir ${origin}/tmp/projects
 
 #crteate project
 create_project ETSE_GDSP ${origin}/tmp/projects/ETSE_GDSP -part xc7z020clg484-1 -force

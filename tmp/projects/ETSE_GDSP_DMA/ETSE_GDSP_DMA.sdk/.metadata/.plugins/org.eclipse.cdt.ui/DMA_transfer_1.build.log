@@ -1,0 +1,50 @@
+17:39:19 **** Auto Build of configuration Debug for project DMA_transfer_1 ****
+make pre-build main-build 
+a9-linaro-pre-build-step
+ 
+Building file: ../src/helloworld.c
+Invoking: ARM v7 gcc compiler
+arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/helloworld.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -I../../DMA_transfer_1_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/helloworld.d" -MT"src/helloworld.o" -o "src/helloworld.o" "../src/helloworld.c"
+../src/helloworld.c: In function ‘main’:
+../src/helloworld.c:92:6: warning: variable ‘status’ set but not used [-Wunused-but-set-variable]
+  u32 status;
+      ^
+In file included from ../src/helloworld.c:6:0:
+../src/helloworld.c: At top level:
+../src/mylib.h:23:13: warning: ‘clr’ defined but not used [-Wunused-function]
+ static void clr(u32 BA, u32 reg_offset, u8 bit_ind) {
+             ^
+../src/mylib.h:77:12: warning: ‘check_DMA_irq_disabled’ defined but not used [-Wunused-function]
+ static int check_DMA_irq_disabled() {
+            ^
+../src/mylib.h:89:12: warning: ‘check_DMA_idle’ defined but not used [-Wunused-function]
+ static int check_DMA_idle() {
+            ^
+../src/mylib.h:101:12: warning: ‘check_DMA_irq_event’ defined but not used [-Wunused-function]
+ static int check_DMA_irq_event() {
+            ^
+../src/mylib.h:113:12: warning: ‘enable_DMA_irq’ defined but not used [-Wunused-function]
+ static int enable_DMA_irq() {
+            ^
+../src/helloworld.c:305:13: warning: ‘test’ defined but not used [-Wunused-function]
+ void static test() {
+             ^
+../src/helloworld.c:249:13: warning: ‘print_arr’ defined but not used [-Wunused-function]
+ void static print_arr(void){
+             ^
+Finished building: ../src/helloworld.c
+ 
+Building target: DMA_transfer_1.elf
+Invoking: ARM v7 gcc linker
+arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -L../../DMA_transfer_1_bsp/ps7_cortexa9_0/lib -o "DMA_transfer_1.elf"  ./src/helloworld.o ./src/platform.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+Finished building target: DMA_transfer_1.elf
+ 
+Invoking: ARM v7 Print Size
+arm-none-eabi-size DMA_transfer_1.elf  |tee "DMA_transfer_1.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  30036	   1160	  22612	  53808	   d230	DMA_transfer_1.elf
+Finished building: DMA_transfer_1.elf.size
+ 
+
+17:39:19 Build Finished (took 165ms)
+

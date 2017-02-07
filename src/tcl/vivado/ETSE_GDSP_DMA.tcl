@@ -4,24 +4,16 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 create_project ETSE_GDSP_DMA ${origin}/tmp/projects/ETSE_GDSP_DMA -part xc7z020clg484-1 -force
 set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
 set_property target_language VHDL [current_project]
-set_property  ip_repo_paths  {/home/tsotne/ownCloud/git/ETSE_GDSP/tmp/ip_repo} [current_project]
+set_property  ip_repo_paths  ${origin}/tmp/ip_repo [current_project]
 update_ip_catalog
 
 
-#TODO: BUG, variable does not work in setting ip repo paths, so i set it manually
-#INFO: code works if typed manually. removing this bs directory didn't help in script, maybe it needs time to understand
-#set_property  ip_repo_paths  {} [current_project]
-#update_ip_catalog
-#set_property  ip_repo_paths  {${origin}/tmp/ip_repo} [current_project]
-#update_ip_catalog
-#WARNING: [IP_Flow 19-2248] Failed to load user IP repository '/home/tsotnep/.local/share/Trash/files/tmp/$origin/tmp/ip_repo'; Can't find the specified path. If this directory should no longer be in your list of user repositories, go to the IP Settings dialog and remove it.
-
-
+#create block design and add files
 create_bd_design "design_1"
 startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dma:7.1 axi_dma_0
-set_property -dict [list CONFIG.c_include_sg {0} CONFIG.c_sg_include_stscntrl_strm {0}] [get_bd_cells axi_dma_0]
+set_property -dict [list CONFIG.c_include_sg {0}] [get_bd_cells axi_dma_0]
 create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo:1.1 axis_data_fifo_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo:1.1 axis_data_fifo_1
 create_bd_cell -type ip -vlnv user.org:user:ETSE_GDSP:1.0 ETSE_GDSP_0

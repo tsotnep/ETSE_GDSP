@@ -1314,7 +1314,7 @@
       <xilinx:displayName>ETSE_GDSP_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2017-01-27T09:29:08Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2017-01-27T14:36:25Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="user.org:user:ETSE_GDSP:1.0_ARCHIVE_LOCATION">/home/tsotne/ownCloud/git/ETSE_GDSP/tmp/ip_repo/ETSE_GDSP</xilinx:tag>
       </xilinx:tags>

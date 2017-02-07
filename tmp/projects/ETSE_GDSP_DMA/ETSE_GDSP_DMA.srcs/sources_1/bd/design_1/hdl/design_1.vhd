@@ -1,8 +1,8 @@
 --Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2016.1 (lin64) Build 1538259 Fri Apr  8 15:45:23 MDT 2016
---Date        : Fri Jan 27 15:03:19 2017
---Host        : strudel running 64-bit SUSE Linux Enterprise Server 11 (x86_64)
+--Date        : Fri Jan 27 16:38:22 2017
+--Host        : viineripirukas running 64-bit Linux Mint 18.1 Serena
 --Command     : generate_target design_1.bd
 --Design      : design_1
 --Purpose     : IP block netlist

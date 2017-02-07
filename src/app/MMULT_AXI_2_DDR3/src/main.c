@@ -25,7 +25,7 @@
 #define bl_S2MM 0x58 //buffer length
 
 //Data
-#define Number_Of_Bytes		40
+#define Number_Of_Bytes		36
 //#define Number_Of_Bytes			0x007FFFFF
 
 #define TX_BUFFER_BASE		(XPAR_PS7_DDR_0_S_AXI_BASEADDR)
@@ -34,11 +34,6 @@ u32 *TxBufferPtr = (u32 *) TX_BUFFER_BASE;
 #define RX_BUFFER_BASE		(XPAR_PS7_DDR_0_S_AXI_BASEADDR + 0x00800000)
 u32 *RxBufferPtr = (u32 *) RX_BUFFER_BASE;
 
-//functions
-static int init_dma(void);
-static int execute_dma_transfer(void);
-void static test();
-void static print_arr(void);
 
 //CMD
 #define cmd_NULL               0
@@ -71,36 +66,50 @@ void static print_arr(void);
 #define pbreak xil_printf("Command Completed Successfully \r\n"); break;
 #define McolSz 3
 
+
+//functions
+static int init_dma(void);
+static int execute_dma_transfer(void);
+static int execute_dma_transfer_routine_19(void);
+static int execute_dma_transfer_routine_1(void);
+static int execute_dma_transfer_routine_B(void);
+static int execute_dma_transfer_routine_2(void);
+static int execute_dma_transfer_routine_3(void);
+static int execute_dma_transfer_routine_11_33(void);
+static int execute_dma_transfer_routine_4(void);
+static int execute_dma_transfer_routine_A(void);
+void static bundle_1();
+void static test();
+void static print_arr(void);
+void static printRX();
+void static printTX(int);
 u32 inputNumber();
+u32 P=1,P_to_G_processed=0;
 void save_g_or_p();
 void printManual();
 void unload_g();
 
 int main() {
-	enable_DMA_soft_reset();
 
-	TxBufferPtr[0] = 11;
-	TxBufferPtr[1] = 12;
-	TxBufferPtr[2] = 13;
-	TxBufferPtr[3] = 21;
-	TxBufferPtr[4] = 22;
-	TxBufferPtr[5] = 23;
-	TxBufferPtr[6] = 31;
-	TxBufferPtr[7] = 32;
-	TxBufferPtr[8] = 33;
+    xil_printf("\n\n\n\n\n>>>>>>>>>> ENTERING MAIN <<<<<<<<<<<\r\n");
+
+    // enable_DMA_soft_reset();
+
+
+
 
 	u32 status;
-	status = check_DMA_normal_mode();
+	// status = check_DMA_normal_mode();
 	status = init_dma();
 	Xil_DCacheDisable();
-
-    status = execute_dma_transfer();
 
 
 
 	u32 userIn;
-	printManual();
+//	printManual();
+	xil_printf("\n\nPlease Enter New Command Number (enter '0' for info) : \r\n");
 	while (1) {
+        // P_to_G_processed = 0;
 		userIn = inputNumber();
 		xil_printf("Command Received : %d \r\n",userIn);
 		switch (userIn) {
@@ -120,16 +129,54 @@ int main() {
 			AXI_2_write(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0); //TODO: complete this
 			pbreak;
 		case 5:
-			AXI_2_write(cmd_P_to_G, cmd_P_HIGHER_to_G, 0); //TODO: complete this also
+			AXI_2_write(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
+            P_to_G_processed = 1;
+            pbreak;
+		case 51:
+			AXI_2_write(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+            P_to_G_processed = 1;
 			pbreak;
 		case 6:
 			unload_g();
+			pbreak;
+		case 7:
+			printRX();
 			pbreak;
 		case 11:
 			AXI_2_write(cmd_RESET_MMULT_IP, cmd_NULL, 0);
 			pbreak;
 		case 12:
 			AXI_2_write(cmd_RESET_MMULT_CNTRL, cmd_NULL, 0);
+			pbreak;
+		case 13:
+			AXI_2_write(cmd_NULL, cmd_NULL, 0);
+			pbreak;
+		case 29:
+			status=execute_dma_transfer_routine_19();
+			pbreak;
+		case 21:
+			status=execute_dma_transfer_routine_1();
+			pbreak;
+		case 22:
+			status=execute_dma_transfer_routine_2();
+			pbreak;
+		case 23:
+			status=execute_dma_transfer_routine_3();
+			pbreak;
+		case 24:
+			status=execute_dma_transfer_routine_B();
+			pbreak;
+		case 25:
+			status=execute_dma_transfer_routine_11_33();
+			pbreak;
+		case 26:
+			status=execute_dma_transfer_routine_4();
+			pbreak;
+		case 27:
+			status=execute_dma_transfer_routine_A();
+			pbreak;
+		case 33:
+			bundle_1();
 			pbreak;
 		default:
 			xil_printf("Unknown Command\r\n");
@@ -195,17 +242,87 @@ int main() {
 
 
 void printManual() {
-	xil_printf("\r\n\r\nPlease Enter New Command Number : \r\n");
+	xil_printf("\n\nPlease Enter New Command Number : \r\n");
 	xil_printf(":0) To print this Commands\r\n");
 	xil_printf(":1) SAVE_G_or_P\r\n");
 	xil_printf(":2) LOAD_G\r\n");
 	xil_printf(":3) LOAD_P\r\n");
-	xil_printf(":4) CALCULTE\r\n");
-	xil_printf(":5) P_to_G\r\n");
-	xil_printf(":6) UNLOAD_G\r\n");
+	xil_printf(":4) CALCULTE store in P higher\r\n");
+	xil_printf(":5) lower P to G\r\n");
+	xil_printf(":51) higher P to G\r\n");
+	xil_printf(":6) G to DDR3 with AXIS \r\n");
+	xil_printf(":7) print RxBuffer\r\n");
 	xil_printf(":11) RESET_MMULT_IP\r\n");
 	xil_printf(":12) RESET_MMULT_CNTRL\r\n");
+	xil_printf(":13) cmd_WAIT_FOR_CMD\r\n");
+	xil_printf(":21) execute DMA transfer routine 1 \r\n");
+	xil_printf(":22) execute DMA transfer routine 2 \r\n");
+	xil_printf(":23) execute DMA transfer routine 3 \r\n");
+	xil_printf(":24) execute DMA transfer routine G \r\n");
+	xil_printf(":25) execute DMA transfer routine 11-33 \r\n");
+	xil_printf(":26) execute DMA transfer routine 4 small numbers \r\n");
+	xil_printf(":27) execute DMA transfer routine P \r\n");
+    xil_printf(":29) execute DMA transfer routine 1-9\r\n");
+    xil_printf(":33) perform bundle 1 \r\n");
 }
+// static int execute_dma_transfer_routine_A(void);
+// static int execute_dma_transfer_routine_B(void);
+// static int execute_dma_transfer(void);
+// static int execute_dma_transfer_routine_19(void); [1-9]
+// static int execute_dma_transfer_routine_1(void);
+// static int execute_dma_transfer_routine_2(void);
+// static int execute_dma_transfer_routine_3(void);
+// static int execute_dma_transfer_routine_11_33(void);
+// static int execute_dma_transfer_routine_4(void);
+
+void static bundle_1(){
+	u32 status;
+
+// P matrix
+	P=1;status=execute_dma_transfer_routine_11_33(); AXI_2_write(cmd_LOAD_P, cmd_NULL, 0);
+
+// G matrix
+	P=0;status=execute_dma_transfer_routine_19(); AXI_2_write(cmd_LOAD_G, cmd_NULL, 0);
+	AXI_2_write(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
+	AXI_2_write(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);P_to_G_processed = 1;
+	unload_g();
+	printRX();
+}
+
+
+int static execute_dma_transfer_routine_A(void) {
+    u32 status;
+	TxBufferPtr[0] = 1;
+	TxBufferPtr[1] = 1;
+	TxBufferPtr[2] = 1;
+	TxBufferPtr[3] = 1;
+	TxBufferPtr[4] = 1;
+	TxBufferPtr[5] = 1;
+	TxBufferPtr[6] = 1;
+	TxBufferPtr[7] = 1;
+	TxBufferPtr[8] = 1;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+int static execute_dma_transfer_routine_B(void) {
+    u32 status;
+	TxBufferPtr[0] = 3;
+	TxBufferPtr[1] = 3;
+	TxBufferPtr[2] = 3;
+	TxBufferPtr[3] = 0;
+	TxBufferPtr[4] = 0;
+	TxBufferPtr[5] = 0;//X
+	TxBufferPtr[6] = 0;
+	TxBufferPtr[7] = 0;
+	TxBufferPtr[8] = 0;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+
+
+
 
 void save_g_or_p() {
 	AXI_2_write(cmd_SAVE_G_or_P, cmd_NULL, 0);
@@ -228,9 +345,11 @@ void save_g_or_p() {
 void unload_g() {
 	u32 i;
 	AXI_2_write(cmd_UNLOAD_G, cmd_NULL, 0);
-	for (i = 0; i < McolSz * McolSz; i++) {
-		AXI_2_read_print(DOUT_slv_reg1_addr);
-	}
+
+//	for (i = 0; i < McolSz * McolSz; i++) {
+//		AXI_2_read_print(DOUT_slv_reg1_addr);
+//        sleep(0.5);
+//	}
 }
 
 u32 inputNumber() {
@@ -245,61 +364,201 @@ u32 inputNumber() {
 }
 
 
+void static printRX(){
+	u32 i;
+//     if (P_to_G_processed == 1){
+//     xil_printf("\r\nRx output unshifted for P is : \r\n");
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[0],RxBufferPtr[1],RxBufferPtr[2]);
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[4],RxBufferPtr[5],RxBufferPtr[3]);
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[8],RxBufferPtr[6],RxBufferPtr[7]);
+// }
+// else {
+//     xil_printf("\r\nRx output normal for G is : \r\n");
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[0],RxBufferPtr[1],RxBufferPtr[2]);
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[3],RxBufferPtr[4],RxBufferPtr[5]);
+//     xil_printf("%d %d %d \r\n", RxBufferPtr[6],RxBufferPtr[7],RxBufferPtr[8]);
+// }
+    xil_printf("\r\nRx output normal order: \r\n");
+	for (i = 0; i < McolSz * McolSz; i++) {
+		xil_printf("%d ", RxBufferPtr[i]);
+       if ((i+1) % McolSz == 0) xil_printf("\r\n");
+	}
+}
+
+void static printTX(int P){
+	u32 i;
+	if (P == 1) xil_printf("\r\nP input matrix is : \r\n");
+	if (P == 0) xil_printf("\r\nG input matrix is : \r\n");
+	for (i = 0; i < McolSz * McolSz; i++) {
+		xil_printf("%d ", TxBufferPtr[i]);
+        if ((i+1) % McolSz == 0) xil_printf("\r\n");
+	}
+}
+
 
 void static print_arr(void){
-	xil_printf("TxBufferPtr = %08x \n\r", (TxBufferPtr));
-	xil_printf("TxBufferPtr[0] = %x \n\r", (TxBufferPtr[0]));
-	xil_printf("TxBufferPtr[1] = %x \n\r", (TxBufferPtr[1]));
-	xil_printf("TxBufferPtr[2] = %x \n\r", (TxBufferPtr[2]));
-	xil_printf("TxBufferPtr[3] = %x \n\r", (TxBufferPtr[3]));
-	xil_printf("RxBufferPtr = %08x \n\r", (RxBufferPtr));
-	xil_printf("RxBufferPtr[0] = %x \n\r", (RxBufferPtr[0]));
-	xil_printf("RxBufferPtr[1] = %x \n\r", (RxBufferPtr[1]));
-	xil_printf("RxBufferPtr[2] = %x \n\r", (RxBufferPtr[2]));
-	xil_printf("RxBufferPtr[3] = %x \n\r", (RxBufferPtr[3]));
+	 xil_printf("TxBufferPtr = %08x \r\n", (TxBufferPtr));
+	xil_printf("TxBufferPtr[0] = %x \r\n", (TxBufferPtr[0]));
+	xil_printf("TxBufferPtr[1] = %x \r\n", (TxBufferPtr[1]));
+	xil_printf("TxBufferPtr[2] = %x \r\n", (TxBufferPtr[2]));
+	xil_printf("TxBufferPtr[3] = %x \r\n", (TxBufferPtr[3]));
+	 xil_printf("RxBufferPtr = %08x \r\n", (RxBufferPtr));
+	xil_printf("RxBufferPtr[0] = %x \r\n", (RxBufferPtr[0]));
+	xil_printf("RxBufferPtr[1] = %x \r\n", (RxBufferPtr[1]));
+	xil_printf("RxBufferPtr[2] = %x \r\n", (RxBufferPtr[2]));
+	xil_printf("RxBufferPtr[3] = %x \r\n", (RxBufferPtr[3]));
 }
 
 
 int static init_dma(void) {
 
-//	write(XPAR_AXI_DMA_0_BASEADDR, c_MM2S, 0);
-//	write(XPAR_AXI_DMA_0_BASEADDR, c_S2MM, 0);
-//	prread(XPAR_AXI_DMA_0_BASEADDR, c_MM2S); //read if its written
-//	prread(XPAR_AXI_DMA_0_BASEADDR, c_S2MM); //read if its written
+    //	write(XPAR_AXI_DMA_0_BASEADDR, c_MM2S, 0);
+    //	write(XPAR_AXI_DMA_0_BASEADDR, c_S2MM, 0);
+    //	prread(XPAR_AXI_DMA_0_BASEADDR, c_MM2S); //read if its written
+    //	prread(XPAR_AXI_DMA_0_BASEADDR, c_S2MM); //read if its written
 
 	set(XPAR_AXI_DMA_0_BASEADDR, c_MM2S, 0); //start _MM2S channel
 	set(XPAR_AXI_DMA_0_BASEADDR, c_S2MM, 0); //start _S2MM channel
 	//	prread(XPAR_AXI_DMA_0_BASEADDR, c_MM2S); //read if its written
 	//	prread(XPAR_AXI_DMA_0_BASEADDR, c_S2MM); //read if its written
 
-	xil_printf(
-			"reading DMA channels enable bits in control reg(1=enabled): \n\r");
-	prrd(XPAR_AXI_DMA_0_BASEADDR, c_MM2S, 0); //read status if running
-	prrd(XPAR_AXI_DMA_0_BASEADDR, c_S2MM, 0); //read status if running
-
-	xil_printf(
-			"reading DMA channels enable bits in status reg(0=running): \n\r");
-	prrd(XPAR_AXI_DMA_0_BASEADDR, s_MM2S, 0); //read status if running
-	prrd(XPAR_AXI_DMA_0_BASEADDR, s_S2MM, 0); //read status if running
+//	xil_printf(
+//			"reading DMA channels enable bits in control reg(1=enabled): \r\n");
+//	prrd(XPAR_AXI_DMA_0_BASEADDR, c_MM2S, 0); //read status if running
+//	prrd(XPAR_AXI_DMA_0_BASEADDR, c_S2MM, 0); //read status if running
+//
+//	xil_printf(
+//			"reading DMA channels enable bits in status reg(0=running): \r\n");
+//	prrd(XPAR_AXI_DMA_0_BASEADDR, s_MM2S, 0); //read status if running
+//	prrd(XPAR_AXI_DMA_0_BASEADDR, s_S2MM, 0); //read status if running
 	return XST_SUCCESS;
 }
 
 int static execute_dma_transfer(void) {
-//	print("exeuting DMA transfer\n\r");
+    //	print("exeuting DMA transfer\r\n");
 	write(XPAR_AXI_DMA_0_BASEADDR, da_S2MM, (u32) RxBufferPtr); //specify destination address
 	write(XPAR_AXI_DMA_0_BASEADDR, sa_MM2S, (u32) TxBufferPtr); //specify source address
 
 	write(XPAR_AXI_DMA_0_BASEADDR, bl_S2MM, (u32) Number_Of_Bytes); //specify transfer length in bytes
 	write(XPAR_AXI_DMA_0_BASEADDR, tl_MM2S, (u32) Number_Of_Bytes); //specify transfer length in bytes
-
-	xil_printf("reading transfer addresses\n\r");
-	prread(XPAR_AXI_DMA_0_BASEADDR, sa_MM2S); //read source address
-	prread(XPAR_AXI_DMA_0_BASEADDR, da_S2MM); //read destination address
-
-	xil_printf("reading transfer lengths\n\r");
-	prread(XPAR_AXI_DMA_0_BASEADDR, tl_MM2S); //read destination address
-	prread(XPAR_AXI_DMA_0_BASEADDR, bl_S2MM); //read source address
+	printTX(P);
+//	xil_printf("reading transfer addresses\r\n");
+//	prread(XPAR_AXI_DMA_0_BASEADDR, sa_MM2S); //read source address
+//	prread(XPAR_AXI_DMA_0_BASEADDR, da_S2MM); //read destination address
+//
+//	xil_printf("reading transfer lengths\r\n");
+//	prread(XPAR_AXI_DMA_0_BASEADDR, tl_MM2S); //read destination address
+//	prread(XPAR_AXI_DMA_0_BASEADDR, bl_S2MM); //read source address
 	return XST_SUCCESS;
+}
+
+int static execute_dma_transfer_routine_19(void) {
+    u32 status;
+	TxBufferPtr[0] = 1;
+	TxBufferPtr[1] = 2;
+	TxBufferPtr[2] = 3;
+	TxBufferPtr[3] = 4;
+	TxBufferPtr[4] = 5;
+	TxBufferPtr[5] = 6;
+	TxBufferPtr[6] = 7;
+	TxBufferPtr[7] = 8;
+	TxBufferPtr[8] = 9;
+    status = execute_dma_transfer();
+
+
+//	TxBufferPtr[0] = 1;
+//	TxBufferPtr[1] = 1;
+//	TxBufferPtr[2] = 1;
+//	TxBufferPtr[3] = 2;
+//	TxBufferPtr[4] = 2;
+//	TxBufferPtr[5] = 2;
+//	TxBufferPtr[6] = 3;
+//	TxBufferPtr[7] = 3;
+//	TxBufferPtr[8] = 3;
+//    status = execute_dma_transfer();
+//
+    return XST_SUCCESS;
+
+}
+
+int static execute_dma_transfer_routine_1(void) {
+    u32 status;
+	TxBufferPtr[0] = 1;
+	TxBufferPtr[1] = 0;
+	TxBufferPtr[2] = 0;
+	TxBufferPtr[3] = 0;
+	TxBufferPtr[4] = 1;
+	TxBufferPtr[5] = 0;
+	TxBufferPtr[6] = 0;
+	TxBufferPtr[7] = 0;
+	TxBufferPtr[8] = 1;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+
+int static execute_dma_transfer_routine_11_33(void) {
+    u32 status;
+	TxBufferPtr[0] = 11;
+	TxBufferPtr[1] = 12;
+	TxBufferPtr[2] = 13;
+	TxBufferPtr[3] = 21;
+	TxBufferPtr[4] = 22;
+	TxBufferPtr[5] = 23;
+	TxBufferPtr[6] = 31;
+	TxBufferPtr[7] = 32;
+	TxBufferPtr[8] = 33;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+
+
+
+
+int static execute_dma_transfer_routine_2(void) {
+    u32 status;
+	TxBufferPtr[0] = 2;
+	TxBufferPtr[1] = 2;
+	TxBufferPtr[2] = 2;
+	TxBufferPtr[3] = 2;
+	TxBufferPtr[4] = 2;
+	TxBufferPtr[5] = 2;
+	TxBufferPtr[6] = 2;
+	TxBufferPtr[7] = 2;
+	TxBufferPtr[8] = 2;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+int static execute_dma_transfer_routine_3(void) {
+    u32 status;
+	TxBufferPtr[0] = 3;
+	TxBufferPtr[1] = 3;
+	TxBufferPtr[2] = 3;
+	TxBufferPtr[3] = 3;
+	TxBufferPtr[4] = 3;
+	TxBufferPtr[5] = 3;
+	TxBufferPtr[6] = 3;
+	TxBufferPtr[7] = 3;
+	TxBufferPtr[8] = 3;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
+}
+
+int static execute_dma_transfer_routine_4(void) {
+    u32 status;
+	TxBufferPtr[0] = 1;
+	TxBufferPtr[1] = 1;
+	TxBufferPtr[2] = 1;
+	TxBufferPtr[3] = 2;
+	TxBufferPtr[4] = 2;
+	TxBufferPtr[5] = 2;
+	TxBufferPtr[6] = 3;
+	TxBufferPtr[7] = 3;
+	TxBufferPtr[8] = 3;
+    status = execute_dma_transfer();
+    return XST_SUCCESS;
 }
 
 void static test() {
@@ -309,11 +568,11 @@ void static test() {
 	val = 0;
 	bit_ind = 0;
 	val = val | 1 << bit_ind;
-	xil_printf("ind-%d, %x \n\r", bit_ind, val);
+	xil_printf("ind-%d, %x \r\n", bit_ind, val);
 
 	val = 0;
 	bit_ind = 1;
 	val = val | 1 << bit_ind;
-	xil_printf("ind-%d, %x \n\r", bit_ind, val);
+	xil_printf("ind-%d, %x \r\n", bit_ind, val);
 
 }

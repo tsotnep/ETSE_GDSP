@@ -401,7 +401,7 @@ begin
                     when cntrl_CALCULTE =>
                         UN_LOAD  <= '0';
                         LOAD_PG  <= OPERATE_CMD;
-                        Bank_sel <= cmd_details(2);
+                        Bank_sel <= not cmd_details(2);
                         P        <= cmd_details(1);
                         G        <= cmd_details(0);
                         if resetted_MMULT_IP = '1' then

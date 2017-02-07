@@ -60,5 +60,5 @@ ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]
 ipx::save_core [ipx::current_core]
 close_project -delete
-set_property  ip_repo/ETSE_GDSP_paths  {${origin}/tmp/ip_repo/ETSE_GDSP} [current_project]
+set_property  ip_repo_paths  ${origin}/tmp/ip_repo/ETSE_GDSP [current_project]
 update_ip_catalog

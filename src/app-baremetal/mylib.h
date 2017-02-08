@@ -192,7 +192,7 @@ static int DMA_check_irq_enabled() {
 
 //returns XST_SUCCESS if DMA it is idle
 static int DMA_check_idle() {
-	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1)) { //&& rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1) -this commented one is for S2MM status register
+	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1)) { //&& rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1) -this commented one is for S2MM status register. TODO: becuase it remains 0, where it should be 1, probably in MMULT i have to reset handshaking signals
 		xil_printf("DMA is idle\r\n");
 		return XST_SUCCESS;
 	} else {

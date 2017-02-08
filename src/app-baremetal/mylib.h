@@ -29,7 +29,7 @@
 #define cmd_SAVE_P             14
 #define cmd_FINISH_SAVING_G_P  15
 
-//CMD2
+//CMD2. Lower means Lower bank of P block ram, and Upper means Upper bank of P block ram.
 #define cmd_P_LOWER_to_G            11
 #define cmd_P_HIGHER_to_G           15
 #define cmd_CALCULATE_PG_LOWER      0
@@ -84,7 +84,6 @@ void static printRX(int McolSz){
 }
 
 
-// FUNCTIONS
 
 // BIT OPERATIONS
 //set one particular bit to value '1', in a register.
@@ -104,7 +103,7 @@ static bool rd(u32 BA, u32 reg_offset, u8 bit_ind) {
 
 //read and print one particular bit from a register.
 static void rd_print(u32 BA, u32 reg_offset, u8 bit_ind) {
-	xil_printf("reg_%08x+%x[%d] = %x\r\n", BA, reg_offset, bit_ind, (Xil_In32(BA + reg_offset) & (1 << bit_ind)) > 0);
+	xil_printf("reg_%08x+%x[%d] = %x\r\n", BA, reg_offset, bit_ind, rd(BA,reg_offset,bit_ind));
 }
 
 
@@ -118,12 +117,12 @@ static void write(u32 BA, u32 reg_offset, u32 val) {
 
 //read a value from a register
 static u32 read(u32 BA, u32 reg_offset) {
-	return Xil_In32(BA + reg_offset);
+	return Xil_In32(BA + reg_offset); //TODO: that should be + 4*reg_offset
 }
 
 //read and print a value from a register
 static void read_print(u32 BA, u32 reg_offset) {
-	xil_printf("reg_%08x+%x = %08x\r\n", BA, reg_offset, Xil_In32(BA + reg_offset));
+	xil_printf("reg_%08x+%x = %08x\r\n", BA, reg_offset, read(BA,reg_offset));
 }
 
 
@@ -139,6 +138,22 @@ int static DMA_init(void) {
 	return XST_SUCCESS;
 }
 
+
+//enables interrupts in DMA
+static int DMA_enable_irq() {
+	set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 12); //start MM2S channel
+	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 12); //start S2MM channel
+	return XST_SUCCESS;
+}
+
+
+//resets DMA by writing 1 into reset soft register
+static int DMA_soft_reset(void) {
+	print("Resetting DMA\r\n");
+    set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
+	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start S2MM channel
+	return XST_SUCCESS;
+}
 
 
 //writes destination and source addresses of memory and then length of transfer
@@ -164,7 +179,7 @@ static int DMA_check_normal_mode() {
 }
 
 //returns XST_SUCCESS if DMA interrupts are disabled
-static int DMA_check_irq_disabled() {
+static int DMA_check_irq_enabled() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x00, 12) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x30, 12)) {
 		xil_printf("DMA interrupts are enabled\r\n");
 		return XST_SUCCESS;
@@ -177,11 +192,12 @@ static int DMA_check_irq_disabled() {
 
 //returns XST_SUCCESS if DMA it is idle
 static int DMA_check_idle() {
-	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1) && rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1)) {
+	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1)) { //&& rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1) -this commented one is for S2MM status register
 		xil_printf("DMA is idle\r\n");
 		return XST_SUCCESS;
 	} else {
 		xil_printf("DMA is busy\r\n");
+		//TODO: For that reason, it is not 1 and prints BUSY when it is not. so i have to account that, for example, not execute this function prior to first transfer. from DMA manual on status registers: "Note: This bit is 0 when channel is halted (DMASR.Halted=1). This bit is also 0 prior to initial transfer when AXI DMA is configured for Direct Register Mode."
 		return XST_FAILURE;
 	}
 }
@@ -199,39 +215,9 @@ static int DMA_check_irq_event() {
 
 }
 
-//enables interrupts in DMA
-static int DMA_enable_irq() {
-	set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 12); //start MM2S channel
-	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 12); //start S2MM channel
-	return XST_SUCCESS;
-}
-
-
-//resets DMA by writing 1 into reset soft register
-static int DMA_soft_reset(void) {
-	print("Resetting DMA\r\n");
-    set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
-	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start S2MM channel
-	return XST_SUCCESS;
-}
 
 
 // OTHER FUNCTIONS
-
-
-// WRITE COMMANDS
-void write_cmd(u32 cmd, u32 cmd2, u32 data){
-	u32 unified = (cmd2<<22 | cmd<<18 | data);
-	write(XPAR_ETSE_GDSP_0_BASEADDR, 0, unified);
-//	xil_printf("written on slv_reg0, bin value = %s \r\n", getBinary(unified));
-}
-
-void read_cmd_print(u32 addr){
-	xil_printf("from slv_reg%d, value = %d\r\n",addr,read(XPAR_ETSE_GDSP_0_BASEADDR, addr*4));
-}
-
-
-
 
 // READ number from UART
 u32 UART_inputNumber() {
@@ -257,6 +243,50 @@ char* getBinary(u32 n) {
 	ans[32] = '\0';
 	return ans;
 }
+
+
+
+// combine commands and data into one 32 bit data and write it into slv_reg0
+void write_cmd(u32 cmd, u32 cmd2, u32 data){
+	u32 unified = (cmd2<<22 | cmd<<18 | data);
+	write(XPAR_ETSE_GDSP_0_BASEADDR, 0, unified);
+//	xil_printf("written on slv_reg0, bin value = %s \r\n", getBinary(unified)); //for testing you can uncomment this to make sure command is constructed properly
+}
+
+/* CMD construction
+ ----------------------------------------------------->>>
+ --CMD:
+ ------cmd that affect state transition, they are read inside state: cntrl_WAIT_FOR_CMD
+ constant cmd_NULL              : std_logic_vector := std_logic_vector(to_unsigned(0, 4));
+ constant cmd_SAVE_G_or_P       : std_logic_vector := std_logic_vector(to_unsigned(1, 4));
+ constant cmd_LOAD_G            : std_logic_vector := std_logic_vector(to_unsigned(2, 4));
+ constant cmd_LOAD_P            : std_logic_vector := std_logic_vector(to_unsigned(3, 4));
+ constant cmd_CALCULTE          : std_logic_vector := std_logic_vector(to_unsigned(4, 4));
+ constant cmd_P_to_G            : std_logic_vector := std_logic_vector(to_unsigned(5, 4));
+ constant cmd_UNLOAD_G          : std_logic_vector := std_logic_vector(to_unsigned(6, 4));
+ constant cmd_RESET_MMULT_IP    : std_logic_vector := std_logic_vector(to_unsigned(11, 4));
+ constant cmd_RESET_MMULT_CNTRL : std_logic_vector := std_logic_vector(to_unsigned(12, 4));
+
+ --------those cmd are used as state-specific commands, they are read in state: cntrl_SAVE_G_or_P
+ constant cmd_SAVE_G            : std_logic_vector := std_logic_vector(to_unsigned(13, 4));
+ constant cmd_SAVE_P            : std_logic_vector := std_logic_vector(to_unsigned(14, 4));
+ constant cmd_FINISH_SAVING_G_P : std_logic_vector := std_logic_vector(to_unsigned(15, 4));
+
+ ----------------------------------------------------->>>
+ --CMD2:
+ ------calculation or unload details
+ constant cmd_P_LOWER_to_G  		   : std_logic_vector := "1011"; 11
+ constant cmd_P_HIGHER_to_G         : std_logic_vector := "1111"; 15
+ constant cmd_CALCULATE_PG_LOWER    : std_logic_vector := "0000"; 0
+ constant cmd_CALCULATE_PG_HIGHER   : std_logic_vector := "0100"; 4
+ constant cmd_CALCULATE_PGt_LOWER   : std_logic_vector := "0001"; 1
+ constant cmd_CALCULATE_PGt_HIGHER  : std_logic_vector := "0101"; 5
+ constant cmd_CALCULATE_PtG_LOWER   : std_logic_vector := "0010"; 2
+ constant cmd_CALCULATE_PtG_HIGHER  : std_logic_vector := "0110"; 6
+ constant cmd_CALCULATE_PtGt_LOWER  : std_logic_vector := "0011"; 3
+ constant cmd_CALCULATE_PtGt_HIGHER : std_logic_vector := "0111"; 7
+ *
+ */
 
 
 #endif /* MYLIB_C_ */

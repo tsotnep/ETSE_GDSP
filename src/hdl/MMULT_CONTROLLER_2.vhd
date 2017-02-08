@@ -35,8 +35,6 @@ entity MMULT_CONTROLLER_2 is
             C_M00_AXIS_TDATA_WIDTH : integer := 32;
             C_M00_AXIS_START_COUNT : integer := 32;
 
-            -- Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.
-            C_M_AXIS_TDATA_WIDTH   : integer := 32;
             -- Start count is the numeber of clock cycles the master will wait before initiating/issuing any transaction.
             C_M_START_COUNT        : integer := 10
     );
@@ -44,9 +42,6 @@ entity MMULT_CONTROLLER_2 is
         CLK              : in  STD_LOGIC; --connected to axi clock
         WREN             : in  STD_LOGIC; --AXI write enable, when '1' data is valid. connect this to: "slv_reg_wren"
         WDATA            : in  std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --AXI data, connect this to "S_AXI_WDATA"
-
-        RDADDR           : in  std_logic_vector(OPT_MEM_ADDR_BITS downto 0); --AXI addr, connect to "rd_loc_addr_to_cntrl", same as var: loc_addr
-        RDEN             : in  STD_LOGIC; --connect this to: "slv_reg_rden"
 
         RDY_FOR_CMD      : out STD_LOGIC;
         RDATA            : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --connected to slv_reg1
@@ -76,11 +71,9 @@ end MMULT_CONTROLLER_2;
 
 architecture Behavioral of MMULT_CONTROLLER_2 is
     constant N_of_EL            : integer          := COLUMN_TOTAL * COLUMN_TOTAL;
-    constant DOUT_SLV_REG1_ADRR : std_logic_vector := std_logic_vector(to_unsigned(1, OPT_MEM_ADDR_BITS + 1));
 
     --cmd-s that affect state transition, they are read inside state: cmd_WAIT_FOR_CMD
     constant cmd_WAIT_FOR_CMD      : std_logic_vector := std_logic_vector(to_unsigned(0, 4));
-    constant cmd_SAVE_G_or_P       : std_logic_vector := std_logic_vector(to_unsigned(1, 4));
     constant cmd_LOAD_G            : std_logic_vector := std_logic_vector(to_unsigned(2, 4));
     constant cmd_LOAD_P            : std_logic_vector := std_logic_vector(to_unsigned(3, 4));
     constant cmd_CALCULTE          : std_logic_vector := std_logic_vector(to_unsigned(4, 4));
@@ -91,15 +84,11 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     constant cmd_RESET_MMULT_CNTRL : std_logic_vector := std_logic_vector(to_unsigned(12, 4));
 
     --cmd details inside states, they are read in state: cmd_SAVE_G_or_P
-    constant cmd_SAVE_G            : std_logic_vector := std_logic_vector(to_unsigned(13, 4));
-    constant cmd_SAVE_P            : std_logic_vector := std_logic_vector(to_unsigned(14, 4));
-    constant cmd_FINISH_SAVING_G_P : std_logic_vector := std_logic_vector(to_unsigned(15, 4));
 
     type t_BRAM_DATA_integer is array (0 to N_of_EL - 1) of integer;
 
     type mmult_state is (
         cntrl_WAIT_FOR_CMD,
-        cntrl_SAVE_G_or_P,
         cntrl_LOAD_G,
         cntrl_LOAD_P,
         cntrl_CALCULTE,
@@ -111,7 +100,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal state, state_after_reset : mmult_state;
 
     --IP signals
-    signal DIN, DOUT, single_data_buff : std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal DIN, DOUT : std_logic_vector(DATA_WIDTH - 1 downto 0);
     signal Bank_sel                    : std_logic;
     signal LOADING_DONE                : std_logic;
     signal UN_LOADING_DONE             : std_logic;
@@ -126,8 +115,6 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
 
 
     --controller signals
-    signal cntlr_input_arr_G : t_BRAM_DATA_integer := (others => 0);
-    signal cntlr_input_arr_P : t_BRAM_DATA_integer := (others => 0);
 
     signal cntrl_G_array_index : integer := 0;
     signal cntrl_P_array_index : integer := 0;
@@ -140,14 +127,9 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_G_loading_predelay_count : integer := 0;
     signal cntrl_finish_transmit_count    : integer := 0;
 
-    --P predelay:
-    --5 : 10,13,12, 14,15,17, 16,0,0
-    --4 : 10,14,13, 15,16,18, 17,0,0
-    --3 : 11,15,14, 16,17,19, 18,0,0
-    --2 : 12,16,15, 17,18,20, 19,0,0
 
     --slv_reg1_out bits: 32 used, 0 unused
-    alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
+--    alias datain is WDATA(DATA_WIDTH - 1 downto 0); --18 bits
     alias cmdin is WDATA(DATA_WIDTH + CMD_SIZE - 1 downto DATA_WIDTH); --4 bits
     alias cmdin2 is WDATA(DATA_WIDTH + CMD_SIZE * 2 - 1 downto DATA_WIDTH + CMD_SIZE); --4 bits spared for future.
     --    alias cmdin3 is WDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH + CMD_SIZE * 2); --6 bits spared for future.
@@ -241,7 +223,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     --Last of the streaming data delayed by one clock cycle
     signal m00_axis_axis_tlast_delay  : std_logic;
     --FIFO implementation signals
-    signal m00_axis_stream_data_out   : std_logic_vector(C_M_AXIS_TDATA_WIDTH - 1 downto 0);
+    signal m00_axis_stream_data_out   : std_logic_vector(C_M00_AXIS_TDATA_WIDTH - 1 downto 0);
     signal m00_axis_tx_en             : std_logic;
     --The master has issued all the streaming data stored in FIFO
     signal m00_axis_tx_done           : std_logic;
@@ -254,9 +236,9 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
 begin
     RMATRIX_ADDR <= (others => '0');
 
-    cntrl_FSM : process(clk) is
+    cntrl_FSM : process(CLK) is
     begin
-        if rising_edge(clk) then
+        if rising_edge(CLK) then
             if WREN = '1' and cmdin = cmd_RESET_MMULT_CNTRL then
                 state             <= cntrl_WAIT_FOR_CMD;
                 state_after_reset <= cntrl_WAIT_FOR_CMD;
@@ -269,11 +251,8 @@ begin
                 cntrl_P_array_index <= 0;
                 cntrl_R_array_index <= 0;
 
-                cntlr_input_arr_G <= (others => 0);
-                cntlr_input_arr_P <= (others => 0);
-
                 Bank_sel                 <= '0';
-                rst                      <= '1';
+                RST                      <= '1';
                 LOAD_PG                  <= (others => '1');
                 UN_LOAD                  <= '0';
                 P                        <= '0';
@@ -298,7 +277,6 @@ begin
                             case cmdin is
                                 when cmd_WAIT_FOR_CMD   => state <= cntrl_WAIT_FOR_CMD;
                                 when cmd_RESET_MMULT_IP => state <= cntrl_RESET_MMULT_IP;
-                                when cmd_SAVE_G_or_P    => state <= cntrl_SAVE_G_or_P;
                                 when cmd_LOAD_G         => state <= cntrl_LOAD_G;
                                 when cmd_LOAD_P         => state <= cntrl_LOAD_P;
                                 when cmd_CALCULTE       => state <= cntrl_CALCULTE;
@@ -312,38 +290,19 @@ begin
 
                     when cntrl_RESET_MMULT_IP =>
                         if only_wait = '1' then
-                            rst <= '0';
+                            RST <= '0';
                         else
-                            rst <= '1';
+                            RST <= '1';
                         end if;
                         if cntrl_reset_length_count < cntrl_reset_length then
                             cntrl_reset_length_count <= cntrl_reset_length_count + 1;
 
                         else
                             cntrl_reset_length_count <= 0;
-                            rst                      <= '0';
+                            RST                      <= '0';
                             resetted_MMULT_IP        <= '1';
                             state                    <= state_after_reset;
                             only_wait                <= '0';
-                        end if;
-
-                    when cntrl_SAVE_G_or_P =>
-                        if WREN = '1' and cmdin = cmd_SAVE_P then
-                            cntlr_input_arr_P(N_of_EL - 1) <= to_integer(unsigned(datain));
-                            for i in N_of_EL - 1 downto 1 loop
-                                cntlr_input_arr_P(i - 1) <= cntlr_input_arr_P(i);
-                            end loop;
-                        end if;
-
-                        if WREN = '1' and cmdin = cmd_SAVE_G then
-                            cntlr_input_arr_G(N_of_EL - 1) <= to_integer(unsigned(datain));
-                            for i in N_of_EL - 1 downto 1 loop
-                                cntlr_input_arr_G(i - 1) <= cntlr_input_arr_G(i);
-                            end loop;
-                        end if;
-
-                        if WREN = '1' and (cmdin2 = cmd_FINISH_SAVING_G_P or cmdin = cmd_FINISH_SAVING_G_P) then
-                            state <= cntrl_WAIT_FOR_CMD;
                         end if;
 
                     when cntrl_LOAD_G =>
@@ -467,20 +426,20 @@ begin
         end if;
     end process cntrl_FSM;
 
-    m00_AXIS_TVALID                                                        <= m00_axis_axis_tvalid_delay;
-    m00_AXIS_TDATA                                                         <= m00_axis_stream_data_out;
-    m00_AXIS_TLAST                                                         <= m00_axis_axis_tlast_delay;
-    m00_AXIS_TSTRB                                                         <= (others => '1');
+    m00_axis_tvalid                                                        <= m00_axis_axis_tvalid_delay;
+    m00_axis_tdata                                                         <= m00_axis_stream_data_out;
+    m00_axis_tlast                                                         <= m00_axis_axis_tlast_delay;
+    m00_axis_tstrb                                                         <= (others => '1');
     m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
     m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
     m00_axis_axis_tvalid                                                   <= '1' when ((iii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
     m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
-    m00_axis_tx_en                                                         <= m00_AXIS_TREADY and m00_axis_axis_tvalid;
+    m00_axis_tx_en                                                         <= m00_axis_tready and m00_axis_axis_tvalid;
 
     DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-    s00_axis_TREADY <= s00_axis_axis_tready;
+    s00_axis_tready <= s00_axis_axis_tready;
     s00_axis_axis_tready <= '1' when ((MMULT_AXIS_INPUT_ENABLE = '1') and (s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
-    s00_axis_fifo_wren <= s00_axis_TVALID and s00_axis_axis_tready;
+    s00_axis_fifo_wren <= s00_axis_tvalid and s00_axis_axis_tready;
 
 
 
@@ -489,11 +448,6 @@ begin
 
 
 
-
-
-    --i made it combinational to remove 1 clock cycle delay.
-    RDATA(DATA_WIDTH - 1 downto 0)                  <= single_data_buff;
-    RDATA(C_S_AXI_DATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
 
 
     MATRIX_MUL_IP_CORE_S_INT_G_inst : entity work.MATRIX_MUL_IP_CORE_S_INT_G
@@ -522,15 +476,9 @@ begin
             UN_LOADING_DONE_out              => UN_LOADING_DONE
         );
 
-    ------
-    ------
-    ------
-    ------
-    ------
+
     --AXIS SLAVE
-
     -- I/O Connections assignments
-
     -- Control state machine implementation
     process(s00_axis_ACLK)
     begin
@@ -597,16 +545,6 @@ begin
         end if;
     end process;
 
-    -- FIFO write enable generation
-
-    ------
-    ------
-    ------
-    ------
-    ------
-    -- AXIS MASTER
-
-    -- I/O Connections assignments
 
 
     -- Control state machine implementation
@@ -680,7 +618,6 @@ begin
     end process;
 
     --read_pointer pointer
-
     process(m00_AXIS_ACLK)
     begin
         if (rising_edge(m00_AXIS_ACLK)) then
@@ -704,22 +641,5 @@ begin
         end if;
     end process;
 
---FIFO read enable generation
 
-
--- FIFO Implementation
-
---    -- Streaming output data is read from FIFO
---    process(m00_AXIS_ACLK)
---        variable sig_one : integer := 1;
---    begin
---        if (rising_edge(m00_AXIS_ACLK)) then
---            if (m00_AXIS_ARESETN = '0') then
---                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(0, C_M_AXIS_TDATA_WIDTH));
---            elsif (m00_axis_tx_en = '1') then    -- && M_AXIS_TSTRB(byte_index)
-----                stream_data_out <= std_logic_vector(to_unsigned(read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
---                m00_axis_stream_data_out <= std_logic_vector(to_unsigned(m00_axis_read_pointer, C_M_AXIS_TDATA_WIDTH) + to_unsigned(sig_one, C_M_AXIS_TDATA_WIDTH));
---            end if;
---        end if;
---    end process;
 end Behavioral;

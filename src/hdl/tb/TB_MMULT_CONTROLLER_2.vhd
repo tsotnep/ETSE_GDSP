@@ -188,9 +188,6 @@ begin
             WREN             => WREN,   --slv_reg_wren
             WDATA            => WDATA,  --S_AXI_WDATA
 
-            --in rd
-            RDADDR           => RDADDR, --rd_loc_addr_to_cntrl
-            RDEN             => RDEN,   --slv_reg_rden
 
             --out rd
             RDY_FOR_CMD      => RDY_FOR_CMD,

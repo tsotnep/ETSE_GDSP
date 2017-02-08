@@ -434,8 +434,6 @@ MMULT_CONTROLLER_2_inst : entity work.MMULT_CONTROLLER_2
         CLK    => S_AXI_ACLK,
         WREN   => slv_reg_wren,
         WDATA  => S_AXI_WDATA,
-        RDADDR => rd_loc_addr_to_cntrl,
-        RDEN   => slv_reg_rden,
         RDATA  => slv_reg1_from_MMULT,
         RMATRIX_ADDR => slv_reg2_from_MMULT,
 

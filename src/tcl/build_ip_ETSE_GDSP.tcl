@@ -1,6 +1,20 @@
-close_project -quiet
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 
+#How to run
+  #correct line 1
+  #launch VIVADO
+  #source this script
+  #finishes in 30 sec.
+
+#What it does and what you have to do:
+  #creates new project
+  #adds necessary sources_1
+  #packages the project and builds the IP, that will be used in script : src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
+  #exits
+  #after that you should execute the script : src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
+############################
+
+close_project -quiet
 #crteate project
 create_project ETSE_GDSP ${origin}/tmp/projects/ETSE_GDSP -part xc7z020clg484-1 -force
 set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
@@ -62,3 +76,6 @@ ipx::save_core [ipx::current_core]
 close_project -delete
 set_property  ip_repo_paths  ${origin}/tmp/ip_repo/ETSE_GDSP [current_project]
 update_ip_catalog
+
+close_project -quiet
+puts "Successfully Generated IP. Now, modify and : source $origin/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl"

@@ -1,7 +1,29 @@
-close_project -quiet
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 
-create_project ETSE_GDSP_DMA ${origin}/tmp/projects/ETSE_GDSP_DMA -part xc7z020clg484-1 -force
+#How to run
+  #correct line 1
+  #launch VIVADO
+  #source this script
+  #finishes in 10 min.
+
+#What it does and what you have to do:
+  #creates project
+  #adds necessary IPs, including one that was generated through src/tcl/build_ip_ETSE_GDSP.tcl
+  #generates bitstream
+  #launches Xilinx SDK, where you should :
+    #create new project from Helloworld template
+    # remove helloworld.c
+    #add sources:
+      # src/app-baremetal/mylib.h
+      # src/app-baremetal/ETSE_GDSP_DMA/ETSE_GDSP_DMA.c or src/app-baremetal/ETSE_GDSP_DMA_ETHERNET/*
+    #program FPGA with
+      # src/tcl/program_fpga_BITSTREAM_ARM-APPLICATION.tcl or manually from SDK gui
+############################
+
+
+close_project -quiet
+#crteate project
+create_project ETSE_GDSP_DMA_ETHERNET ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET -part xc7z020clg484-1 -force
 set_property board_part em.avnet.com:zed:part0:1.3 [current_project]
 set_property target_language VHDL [current_project]
 set_property  ip_repo_paths  ${origin}/tmp/ip_repo [current_project]
@@ -83,8 +105,8 @@ save_bd_design
 
 
 #create hdl wrapper
-make_wrapper -files [get_files ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.srcs/sources_1/bd/design_1/design_1.bd] -top
-add_files -norecurse ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.vhd
+make_wrapper -files [get_files ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.srcs/sources_1/bd/design_1/design_1.bd] -top
+add_files -norecurse ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.vhd
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
 
@@ -95,6 +117,6 @@ wait_on_run impl_1
 
 
 #export design to SDK and launch it
-file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk
-file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf
-launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA/ETSE_GDSP_DMA.sdk/design_1_wrapper.hdf
+file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk
+file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
+launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf

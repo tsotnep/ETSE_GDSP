@@ -63,7 +63,7 @@ int main() {
 	status = DMA_init();
 
 	xil_printf(
-			"\n\nPlease Enter New Command Number (enter '0' for info) : \r\n");
+			"\n\nPlease Enter New Command Number (enter '0' for info, 34 for executing routine that loads data, calculates and prints results) : \r\n");
 	while (1) {
 		userIn = UART_inputNumber();
 		xil_printf("Command Received : %d \r\n", userIn);

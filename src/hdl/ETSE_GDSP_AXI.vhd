@@ -421,20 +421,17 @@ MMULT_CONTROLLER_2_inst : entity work.MMULT_CONTROLLER_2
         COLUMN_TOTAL       => 3,
         OPCODE_WIDTH       => 3,
         CMD_SIZE           => 4,
-        OPT_MEM_ADDR_BITS  => OPT_MEM_ADDR_BITS,
         ADDR_WIDTH         => 10,
         DATA_WIDTH         => 18,
         DATA_WIDE_WIDTH    => 48,
         C_S00_AXIS_TDATA_WIDTH    => C_S00_AXIS_TDATA_WIDTH,
-        C_M00_AXIS_TDATA_WIDTH    => C_M00_AXIS_TDATA_WIDTH,
-        C_M00_AXIS_START_COUNT => C_M00_AXIS_START_COUNT
+        C_M00_AXIS_TDATA_WIDTH    => C_M00_AXIS_TDATA_WIDTH
         --TODO: later if IP works, export those generics into top module.
     )
     port map(
         CLK    => S_AXI_ACLK,
         WREN   => slv_reg_wren,
         WDATA  => S_AXI_WDATA,
-        RDATA  => slv_reg1_from_MMULT,
         RMATRIX_ADDR => slv_reg2_from_MMULT,
 
         --slave AXIS

@@ -160,7 +160,6 @@ begin
             COLUMN_TOTAL       => COLUMN_TOTAL,
             OPCODE_WIDTH       => OPCODE_WIDTH,
             CMD_SIZE           => CMD_SIZE,
-            OPT_MEM_ADDR_BITS  => OPT_MEM_ADDR_BITS,
             ADDR_WIDTH         => ADDR_WIDTH,
             DATA_WIDTH         => DATA_WIDTH,
             DATA_WIDE_WIDTH    => DATA_WIDE_WIDTH
@@ -191,7 +190,6 @@ begin
 
             --out rd
             RDY_FOR_CMD      => RDY_FOR_CMD,
-            RDATA            => RDATA,  --slv_reg1
             RMATRIX_ADDR     => RMATRIX_ADDR --slv_reg2
         );
 

@@ -5,25 +5,12 @@ use work.MATRIX_MUL_IP_CORE_LIBRARY.all;
 
 USE ieee.numeric_std.ALL;
 
---NOTES: cmd is the main command, while cmd2 is the details of this command when calculating or unloading,
---to select corresponding BANK or calculating method.
-
---CALCULATING:
---cmd == cmd_CALCULTE, cmd2 == cmd_CALCULATE_PG_LOWER or cmd_CALCULATE_PG_HIGHER or cmd_CALCULATE_PGt_LOWER
-
---UNLOADING:
---cmd == cmd_UNLOAD, cmd2 == cmd_UNLOAD_LOWER or cmd_UNLOAD_HIGHER
-
---LOADING:
---P is always loaded into LOWER bank
-
 
 entity MMULT_CONTROLLER_2 is
     generic(C_S_AXI_DATA_WIDTH     : integer := 32;
             COLUMN_TOTAL           : integer := 3;
             OPCODE_WIDTH           : integer := 3;
             CMD_SIZE               : integer := 4;
-            OPT_MEM_ADDR_BITS      : integer := 1;
             ADDR_WIDTH             : integer := 10;
             DATA_WIDTH             : integer := 18;
             DATA_WIDE_WIDTH        : integer := 48;
@@ -33,7 +20,6 @@ entity MMULT_CONTROLLER_2 is
 
             -- Parameters of Axi Master Bus Interface M00_AXIS
             C_M00_AXIS_TDATA_WIDTH : integer := 32;
-            C_M00_AXIS_START_COUNT : integer := 32;
 
             -- Start count is the numeber of clock cycles the master will wait before initiating/issuing any transaction.
             C_M_START_COUNT        : integer := 10
@@ -44,7 +30,6 @@ entity MMULT_CONTROLLER_2 is
         WDATA            : in  std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --AXI data, connect this to "S_AXI_WDATA"
 
         RDY_FOR_CMD      : out STD_LOGIC;
-        RDATA            : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --connected to slv_reg1
         RMATRIX_ADDR     : out std_logic_vector(C_S_AXI_DATA_WIDTH - 1 downto 0); --will be used later, COL and ROW addr, slv_reg2
 
 
@@ -65,7 +50,6 @@ entity MMULT_CONTROLLER_2 is
         m00_axis_tstrb   : out std_logic_vector((C_M00_AXIS_TDATA_WIDTH / 8) - 1 downto 0);
         m00_axis_tlast   : out std_logic;
         m00_axis_tready  : in  std_logic
-    --TODO: add forth register as input for COL ROW address
     );
 end MMULT_CONTROLLER_2;
 
@@ -85,7 +69,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
 
     --cmd details inside states, they are read in state: cmd_SAVE_G_or_P
 
-    type t_BRAM_DATA_integer is array (0 to N_of_EL - 1) of integer;
+
 
     type mmult_state is (
         cntrl_WAIT_FOR_CMD,
@@ -120,7 +104,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal cntrl_P_array_index : integer := 0;
     signal cntrl_R_array_index : integer := 0;
 
-    signal resetted_MMULT_IP, only_wait, first_read, data_available, RDEN_internal : std_logic;
+    signal resetted_MMULT_IP, only_wait, data_available, RDEN_internal : std_logic;
 
     signal cntrl_reset_length_count       : integer := 0;
     signal cntrl_P_loading_predelay_count : integer := 0;
@@ -167,21 +151,19 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     signal s00_axis_axis_tready    : std_logic;
     -- State variable
     signal s00_axis_mst_exec_state : s00_axis_state;
-    -- FIFO implementation signals
-    signal s00_axis_byte_index     : integer;
+
     -- FIFO write enable
     signal s00_axis_fifo_wren      : std_logic;
-    -- FIFO full flag
-    signal s00_axis_fifo_full_flag : std_logic;
+
     -- FIFO write pointer
     signal s00_axis_write_pointer  : integer range 0 to s00_axis_bit_num;
     -- sink has accepted all the streaming data and stored in FIFO
     signal s00_axis_writes_done    : std_logic;
 
-    type s00_axis_BYTE_FIFO_TYPE is array (0 to (s00_axis_NUMBER_OF_INPUT_WORDS)) of std_logic_vector(((C_S00_AXIS_TDATA_WIDTH) - 1) downto 0);
-    signal s00_axis_stream_data_fifo : s00_axis_BYTE_FIFO_TYPE;
 
-    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_INPUT_ENABLE_i, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE, iii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
+
+
+    signal MMULT_AXIS_INPUT_ENABLE, MMULT_AXIS_OUTPUT_ENABLE, i_MMULT_AXIS_OUTPUT_ENABLE, ii_MMULT_AXIS_OUTPUT_ENABLE, iii_MMULT_AXIS_OUTPUT_ENABLE : std_logic;
 
     --AXIS master
     -- Total number of output data
@@ -270,7 +252,6 @@ begin
                 case state is
                     when cntrl_WAIT_FOR_CMD =>
                         resetted_MMULT_IP <= '0';
-                        first_read        <= '1';
                         --                        RDY_FOR_CMD       <= '1'; --TODO: add this signal to be used as interrupt in cortex
                         LOAD_PG           <= IDLE_CMD;
                         if WREN = '1' then
@@ -307,7 +288,6 @@ begin
 
                     when cntrl_LOAD_G =>
                         LOAD_PG                   <= LOAD_G_CMD;
-                        MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
 
                         if resetted_MMULT_IP = '1' then
                             if cntrl_G_loading_predelay_count < cntrl_G_loading_predelay then
@@ -334,7 +314,6 @@ begin
                     when cntrl_LOAD_P =>
                         LOAD_PG                   <= LOAD_P_CMD;
                         Bank_sel                  <= '0';
-                        MMULT_AXIS_INPUT_ENABLE_i <= MMULT_AXIS_INPUT_ENABLE;
                         if resetted_MMULT_IP = '1' then
                             if cntrl_P_loading_predelay_count < cntrl_P_loading_predelay then
                                 cntrl_P_loading_predelay_count <= cntrl_P_loading_predelay_count + 1;
@@ -426,26 +405,6 @@ begin
         end if;
     end process cntrl_FSM;
 
-    m00_axis_tvalid                                                        <= m00_axis_axis_tvalid_delay;
-    m00_axis_tdata                                                         <= m00_axis_stream_data_out;
-    m00_axis_tlast                                                         <= m00_axis_axis_tlast_delay;
-    m00_axis_tstrb                                                         <= (others => '1');
-    m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
-    m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
-    m00_axis_axis_tvalid                                                   <= '1' when ((iii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
-    m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
-    m00_axis_tx_en                                                         <= m00_axis_tready and m00_axis_axis_tvalid;
-
-    DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
-    s00_axis_tready <= s00_axis_axis_tready;
-    s00_axis_axis_tready <= '1' when ((MMULT_AXIS_INPUT_ENABLE = '1') and (s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
-    s00_axis_fifo_wren <= s00_axis_tvalid and s00_axis_axis_tready;
-
-
-
-
-
-
 
 
 
@@ -477,13 +436,31 @@ begin
         );
 
 
+-- BELOW ARE THE AXI STREAMING INTEFACE PROCESSES
+
+    m00_axis_tvalid                                                        <= m00_axis_axis_tvalid_delay;
+    m00_axis_tdata                                                         <= m00_axis_stream_data_out;
+    m00_axis_tlast                                                         <= m00_axis_axis_tlast_delay;
+    m00_axis_tstrb                                                         <= (others => '1');
+    m00_axis_stream_data_out(DATA_WIDTH - 1 downto 0)                      <= DOUT;
+    m00_axis_stream_data_out(C_M00_AXIS_TDATA_WIDTH - 1 downto DATA_WIDTH) <= (others => '0');
+    m00_axis_axis_tvalid                                                   <= '1' when ((iii_MMULT_AXIS_OUTPUT_ENABLE = '1') and (m00_axis_mst_exec_state = SEND_STREAM) and (m00_axis_read_pointer < m00_axis_NUMBER_OF_OUTPUT_WORDS)) else '0';
+    m00_axis_axis_tlast                                                    <= '1' when (m00_axis_read_pointer = m00_axis_NUMBER_OF_OUTPUT_WORDS - 1) else '0';
+    m00_axis_tx_en                                                         <= m00_axis_tready and m00_axis_axis_tvalid;
+
+    DIN <= s00_axis_tdata(DATA_WIDTH - 1 downto 0);
+    s00_axis_tready <= s00_axis_axis_tready;
+    s00_axis_axis_tready <= '1' when ((MMULT_AXIS_INPUT_ENABLE = '1') and (s00_axis_mst_exec_state = WRITE_FIFO) and (s00_axis_write_pointer <= s00_axis_NUMBER_OF_INPUT_WORDS - 1)) else '0';
+    s00_axis_fifo_wren <= s00_axis_tvalid and s00_axis_axis_tready;
+
+
     --AXIS SLAVE
     -- I/O Connections assignments
     -- Control state machine implementation
-    process(s00_axis_ACLK)
+    process(s00_axis_aclk)
     begin
-        if (rising_edge(s00_axis_ACLK)) then
-            if (s00_axis_ARESETN = '0' or rst = '1') then --reset addd for fsm
+        if (rising_edge(s00_axis_aclk)) then
+            if (s00_axis_aresetn = '0' or RST = '1') then --reset addd for fsm
                 -- Synchronous reset (active low)
                 s00_axis_mst_exec_state <= IDLE;
             else
@@ -492,7 +469,7 @@ begin
                         -- The sink starts accepting tdata when
                         -- there tvalid is asserted to mark the
                         -- presence of valid streaming data
-                        if (s00_axis_TVALID = '1') then
+                        if (s00_axis_tvalid = '1') then
                             s00_axis_mst_exec_state <= WRITE_FIFO;
                         else
                             s00_axis_mst_exec_state <= IDLE;
@@ -509,9 +486,6 @@ begin
                             s00_axis_mst_exec_state <= WRITE_FIFO;
                         end if;
 
-                    when others =>
-                        s00_axis_mst_exec_state <= IDLE;
-
                 end case;
             end if;
         end if;
@@ -521,10 +495,10 @@ begin
     --
     -- The example design sink is always ready to accept the s00_axis_TDATA  until
     -- the FIFO is not filled with NUMBER_OF_INPUT_WORDS number of input words.
-    process(s00_axis_ACLK)
+    process(s00_axis_aclk)
     begin
-        if (rising_edge(s00_axis_ACLK)) then
-            if (s00_axis_ARESETN = '0' or rst = '1') then --reset addd for s00_axis_write_pointer
+        if (rising_edge(s00_axis_aclk)) then
+            if (s00_axis_aresetn = '0' or RST = '1') then --reset addd for s00_axis_write_pointer
                 s00_axis_write_pointer <= 0;
                 s00_axis_writes_done   <= '0';
             else
@@ -535,7 +509,7 @@ begin
                         s00_axis_write_pointer <= s00_axis_write_pointer + 1;
                         s00_axis_writes_done   <= '0';
                     end if;
-                    if ((s00_axis_write_pointer = s00_axis_NUMBER_OF_INPUT_WORDS - 1) or s00_axis_TLAST = '1') then
+                    if ((s00_axis_write_pointer = s00_axis_NUMBER_OF_INPUT_WORDS - 1) or s00_axis_tlast = '1') then
                         -- reads_done is asserted when NUMBER_OF_INPUT_WORDS numbers of streaming data
                         -- has been written to the FIFO which is also marked by s00_axis_TLAST(kept for optional usage).
                         s00_axis_writes_done <= '1';
@@ -548,10 +522,10 @@ begin
 
 
     -- Control state machine implementation
-    process(m00_AXIS_ACLK)
+    process(m00_axis_aclk)
     begin
-        if (rising_edge(m00_AXIS_ACLK)) then
-            if (m00_AXIS_ARESETN = '0') then
+        if (rising_edge(m00_axis_aclk)) then
+            if (m00_axis_aresetn = '0') then
                 -- Synchronous reset (active low)
                 m00_axis_mst_exec_state <= IDLE;
                 m00_axis_count          <= (others => '0');
@@ -586,10 +560,6 @@ begin
                         else
                             m00_axis_mst_exec_state <= SEND_STREAM;
                         end if;
-
-                    when others =>
-                        m00_axis_mst_exec_state <= IDLE;
-
                 end case;
             end if;
         end if;
@@ -604,10 +574,10 @@ begin
 
     -- Delay the axis_tvalid and axis_tlast signal by one clock cycle
     -- to match the latency of M_AXIS_TDATA
-    process(m00_AXIS_ACLK)
+    process(m00_axis_aclk)
     begin
-        if (rising_edge(m00_AXIS_ACLK)) then
-            if (m00_AXIS_ARESETN = '0') then
+        if (rising_edge(m00_axis_aclk)) then
+            if (m00_axis_aresetn = '0') then
                 m00_axis_axis_tvalid_delay <= '0';
                 m00_axis_axis_tlast_delay  <= '0';
             else
@@ -618,10 +588,10 @@ begin
     end process;
 
     --read_pointer pointer
-    process(m00_AXIS_ACLK)
+    process(m00_axis_aclk)
     begin
-        if (rising_edge(m00_AXIS_ACLK)) then
-            if (m00_AXIS_ARESETN = '0') then
+        if (rising_edge(m00_axis_aclk)) then
+            if (m00_axis_aresetn = '0') then
                 m00_axis_read_pointer <= 0;
                 m00_axis_tx_done      <= '0';
             else

@@ -2,15 +2,20 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 
 #How to run
   #correct line 1
-  #launch XMD
-  #source this script
+  #launch XMD (either in SDK (Xilinx Tools > XMD console), or in linux terminal by sourcing xilinx's settings64.sh and then typing : xmd )
+  #source this script by:
+    # set origin /home/tsotne/ownCloud/git/ETSE_GDSP
+    # source $origin/src/tcl/program_fpga_BITSTREAM_ARM-APPLICATION.tcl
 
-#What it Does:
+#What it does and what you have to do:
+  #before you run this script, on your PC - you should listen to uart that is connected to zedboard zynq 7000 (note that another uart is for programming it)
+    #in Linux : picocom -b 115200 /dev/ttyACM0
+    #or in SDK, in SDK Terminal : add new connection to serial port with port name "/dev/ttyACM0" (in windows port name will be different)
   #Reset connection with FPGA, then connect and Reset FPGA
   #Program FPGA with bitstream
   #Initialize ZYNQ processing system with default script
   #Program FPGA with custom Baremetal APP
-  #Run APP
+  #Run APM
 ############################
 
 xdisconnect -cable
@@ -20,5 +25,5 @@ fpga -f $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/d
 source $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper_hw_platform_0/ps7_init.tcl
 ps7_init
 ps7_post_config
-dow $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ether/Debug/ETSE_GDSP_DMA_ETHERNET.elf
+dow $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ETSE_GDSP_DMA_ETHERNET/Debug/ETSE_GDSP_DMA_ETHERNET.elf
 run

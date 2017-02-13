@@ -4,7 +4,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   #correct line 1
   #launch VIVADO
   #source this script
-  #finishes in 30 sec.
+  #finishes in 20 sec
 
 #What it does and what you have to do:
   #creates new project

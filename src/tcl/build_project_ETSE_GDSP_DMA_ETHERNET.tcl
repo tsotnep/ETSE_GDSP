@@ -4,15 +4,15 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   #correct line 1
   #launch VIVADO
   #source this script
-  #finishes in 10 min.
+  #finishes in 8 min
 
 #What it does and what you have to do:
   #creates project
   #adds necessary IPs, including one that was generated through src/tcl/build_ip_ETSE_GDSP.tcl
   #generates bitstream
   #launches Xilinx SDK, where you should :
-    #create new project from Helloworld template
-    # remove helloworld.c
+    #create file>new>application project in C, with name ETSE_GDSP_DMA_ETHERNET, from Helloworld template
+    #remove helloworld.c
     #add sources:
       # src/app-baremetal/mylib.h
       # src/app-baremetal/ETSE_GDSP_DMA/ETSE_GDSP_DMA.c or src/app-baremetal/ETSE_GDSP_DMA_ETHERNET/*
@@ -120,3 +120,6 @@ wait_on_run impl_1
 file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk
 file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
 launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
+
+close_project -quiet
+puts "Successfully Generated Bitstream. Now, create new application project in SDK (details are in this script) then modify and : source $origin/src/tcl/program_fpga_BITSTREAM_ARM-APPLICATION.tcl"

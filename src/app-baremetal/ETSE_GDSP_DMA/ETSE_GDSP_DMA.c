@@ -36,10 +36,8 @@ u32 userIn; //used for inputting data from UART.
 //those transfer routines write predefind(inside) data and execute DMA transfer
 static int DMA_execute_transfer_routine_19(void);
 static int DMA_execute_transfer_routine_1(void);
-static int DMA_execute_transfer_routine_2(void);
-static int DMA_execute_transfer_routine_3(void);
+static int DMA_execute_transfer_routine_1s(void);
 static int DMA_execute_transfer_routine_11_33(void);
-static int DMA_execute_transfer_routine_4(void);
 
 //those bundles combine separate commands and complete this set of operations: load data, calculate, unload, print
 void static bundle_1();
@@ -125,36 +123,33 @@ int main() {
 		case 13:
 			write_cmd(cmd_NULL, cmd_NULL, 0);
 			pbreak;
-		case 29:
-			status = DMA_execute_transfer_routine_19();
-			pbreak;
+
+
 		case 21:
 			status = DMA_execute_transfer_routine_1();
 			pbreak;
 		case 22:
-			status = DMA_execute_transfer_routine_2();
+			status = DMA_execute_transfer_routine_1s();
 			pbreak;
 		case 23:
-			status = DMA_execute_transfer_routine_3();
+			status = DMA_execute_transfer_routine_19();
 			pbreak;
-		case 25:
+		case 24:
 			status = DMA_execute_transfer_routine_11_33();
 			pbreak;
-		case 26:
-			status = DMA_execute_transfer_routine_4();
+
+		case 33:
+			bundle_1();
 			pbreak;
-//		case 33:
-//			bundle_1();
-//			pbreak;
 		case 34:
 			bundle_2();
 			pbreak;
-//		case 35:
-//			bundle_3();
-//			pbreak;
-//		case 36:
-//			bundle_4();
-//			pbreak;
+		case 35:
+			bundle_3();
+			pbreak;
+		case 36:
+			bundle_4();
+			pbreak;
 		default:
 			xil_printf("Unknown Command\r\n");
 		}
@@ -198,41 +193,44 @@ void printManual() {
 	xil_printf(":12) reset multiplier IP and it's controller\r\n");
 	xil_printf(":13) send multiplier IP's controller in idle state \r\n");
 	xil_printf("\r\n");
-	xil_printf(":21) execute DMA transfer routine 1 \r\n");
-	xil_printf(":22) execute DMA transfer routine 2 \r\n");
-	xil_printf(":23) execute DMA transfer routine 3 \r\n");
-	xil_printf(":25) execute DMA transfer routine 11-33 \r\n");
-	xil_printf(":26) execute DMA transfer routine 4 small numbers \r\n");
-	xil_printf(":29) execute DMA transfer routine 1-9\r\n");
+	xil_printf(":21) execute DMA transfer routine 1: identity matrix - 1s on diagonal \r\n");
+	xil_printf(":22) execute DMA transfer routine 1s: all values are 1 \r\n");
+	xil_printf(":23) execute DMA transfer routine 1-9: values from 1 to 9 \r\n");
+	xil_printf(":24) execute DMA transfer routine 11-33: 11,12,13; 21,22.. \r\n");
 	xil_printf("\r\n");
-//	xil_printf(":33) perform bundle 1: commands: 25, 3, 25, 2, 4,  5,  6, 8\r\n");
-	xil_printf(":34) perform bundle 2: commands: 25, 3, 25, 2, 41, 5,  6, 8\r\n");
-//	xil_printf(":35) perform bundle 1: commands: 25, 3, 25, 2, 4,  51, 6, 8\r\n");
-//	xil_printf(":36) perform bundle 2: commands: 25, 3, 25, 2, 41, 51, 6, 8\r\n");
+	xil_printf(":33) perform bundle 2: commands: 24, 3, 24, 2, 41, 5,  6, 8\r\n");
+	xil_printf(":34) perform bundle 2: commands: 23, 3, 23, 2, 41, 5,  6, 8\r\n");
+	xil_printf(":35) perform bundle 2: commands: 24, 3, 21, 2, 41, 5,  6, 8\r\n");
+	xil_printf(":36) perform bundle 2: commands: 23, 3, 21, 2, 41, 5,  6, 8\r\n");
 }
 
-//void static bundle_1() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
+void static bundle_1() {
+
+	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
+
+	// P matrix
+	status = DMA_execute_transfer_routine_11_33();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// G matrix
+	status = DMA_execute_transfer_routine_11_33();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
+
+
+	// print DDR3
+	printRX(McolSz);
+}
 
 void static bundle_2() {
 	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
@@ -261,51 +259,61 @@ void static bundle_2() {
 	printRX(McolSz);
 }
 
-//void static bundle_3() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
-//
-//void static bundle_4() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
+void static bundle_3() {
+
+	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
+
+	// P matrix
+	status = DMA_execute_transfer_routine_11_33();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// G matrix
+	status = DMA_execute_transfer_routine_1();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
+
+
+	// print DDR3
+	printRX(McolSz);
+}
+
+void static bundle_4() {
+
+	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
+
+	// P matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// G matrix
+	status = DMA_execute_transfer_routine_1s();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+	printTX(McolSz);
+
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
+
+
+	// print DDR3
+	printRX(McolSz);
+}
 
 int static DMA_execute_transfer_routine_19(void) {
 	TxBufferPtr[0] = 1;
@@ -350,44 +358,16 @@ int static DMA_execute_transfer_routine_11_33(void) {
 	return XST_SUCCESS;
 }
 
-int static DMA_execute_transfer_routine_2(void) {
-	TxBufferPtr[0] = 2;
-	TxBufferPtr[1] = 2;
-	TxBufferPtr[2] = 2;
-	TxBufferPtr[3] = 2;
-	TxBufferPtr[4] = 2;
-	TxBufferPtr[5] = 2;
-	TxBufferPtr[6] = 2;
-	TxBufferPtr[7] = 2;
-	TxBufferPtr[8] = 2;
-	status = DMA_execute_transfer((u32) RxBufferPtr, (u32) TxBufferPtr, Number_Of_Bytes);
-	return XST_SUCCESS;
-}
-
-int static DMA_execute_transfer_routine_3(void) {
-	TxBufferPtr[0] = 3;
-	TxBufferPtr[1] = 3;
-	TxBufferPtr[2] = 3;
-	TxBufferPtr[3] = 3;
-	TxBufferPtr[4] = 3;
-	TxBufferPtr[5] = 3;
-	TxBufferPtr[6] = 3;
-	TxBufferPtr[7] = 3;
-	TxBufferPtr[8] = 3;
-	status = DMA_execute_transfer((u32) RxBufferPtr, (u32) TxBufferPtr, Number_Of_Bytes);
-	return XST_SUCCESS;
-}
-
-int static DMA_execute_transfer_routine_4(void) {
+int static DMA_execute_transfer_routine_1s(void) {
 	TxBufferPtr[0] = 1;
 	TxBufferPtr[1] = 1;
 	TxBufferPtr[2] = 1;
-	TxBufferPtr[3] = 2;
-	TxBufferPtr[4] = 2;
-	TxBufferPtr[5] = 2;
-	TxBufferPtr[6] = 3;
-	TxBufferPtr[7] = 3;
-	TxBufferPtr[8] = 3;
+	TxBufferPtr[3] = 1;
+	TxBufferPtr[4] = 1;
+	TxBufferPtr[5] = 1;
+	TxBufferPtr[6] = 1;
+	TxBufferPtr[7] = 1;
+	TxBufferPtr[8] = 1;
 	status = DMA_execute_transfer((u32) RxBufferPtr, (u32) TxBufferPtr, Number_Of_Bytes);
 	return XST_SUCCESS;
 }

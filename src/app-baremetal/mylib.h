@@ -76,6 +76,7 @@ void static printTX(int McolSz){
 }
 
 void static printRX(int McolSz){
+	xil_printf("Data written from DMA to DDR3:\r\n");
 	u32 i;
 	for (i = 0; i < McolSz * McolSz; i++) {
 		xil_printf("%d ", RxBufferPtr[i]);

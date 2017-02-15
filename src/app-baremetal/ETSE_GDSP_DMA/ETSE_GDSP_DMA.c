@@ -61,7 +61,7 @@ int main() {
 	status = DMA_init();
 
 	xil_printf(
-			"\n\nPlease Enter New Command Number (enter '0' for info) : \r\n");
+			"\n\nPlease Enter New Command Number (enter '0' for info, '36' for simple test that should print: 18,18,18, 45,45,45, 72,72,72) : \r\n");
 	while (1) {
 		userIn = UART_inputNumber();
 		xil_printf("Command Received : %d \r\n", userIn);
@@ -75,6 +75,7 @@ int main() {
 		case 3:
 			write_cmd(cmd_LOAD_P, cmd_NULL, 0);
 			pbreak;
+
 		case 4:
 			write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
 			pbreak;
@@ -99,6 +100,7 @@ int main() {
 		case 47:
 			write_cmd(cmd_CALCULTE, cmd_CALCULATE_PtGt_HIGHER, 0);
 			pbreak;
+
 		case 5:
 			write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
 			pbreak;
@@ -173,22 +175,22 @@ void printManual() {
 	xil_printf(":0) Print this list of Commands\r\n");
 	xil_printf(":2) load G matrix from memory via stream interface\r\n");
 	xil_printf(":3) load P matrix from memory via stream interface\r\n");
-	xil_printf(":7) print Tx Buffer\r\n");
-	xil_printf(":8) print Rx buffer\r\n");
 	xil_printf("\r\n");
-  xil_printf(":4)  perform calculation of P-lower  and G and store in P-s other bank\r\n");
+	xil_printf(":4)  perform calculation of P-lower  and G and store in P-s other bank\r\n");
 	xil_printf(":41) perform calculation of P-higher and G and store in P-s other bank\r\n");
-  xil_printf(":42) perform calculation of P-lower  and Gt and store in P-s other bank\r\n");
+	xil_printf(":42) perform calculation of P-lower  and Gt and store in P-s other bank\r\n");
 	xil_printf(":43) perform calculation of P-higher and Gt and store in P-s other bank\r\n");
-  xil_printf(":44) perform calculation of Pt-lower  and G and store in P-s other bank\r\n");
+	xil_printf(":44) perform calculation of Pt-lower  and G and store in P-s other bank\r\n");
 	xil_printf(":45) perform calculation of Pt-higher and G and store in P-s other bank\r\n");
-  xil_printf(":46) perform calculation of Pt-lower  and Gt and store in P-s other bank\r\n");
+	xil_printf(":46) perform calculation of Pt-lower  and Gt and store in P-s other bank\r\n");
 	xil_printf(":47) perform calculation of Pt-higher and Gt and store in P-s other bank\r\n");
 	xil_printf("\r\n");
 	xil_printf(":5)  transfer data from P-lower to G \r\n");
 	xil_printf(":51) transfer data from P-higher to G\r\n");
 	xil_printf(":6)  transfer data from G to DDR3 via DMA \r\n");
 	xil_printf("\r\n");
+	xil_printf(":7) print Tx Buffer\r\n");
+	xil_printf(":8) print Rx buffer\r\n");
 	xil_printf(":11) reset multiplier IP only\r\n");
 	xil_printf(":12) reset multiplier IP and it's controller\r\n");
 	xil_printf(":13) send multiplier IP's controller in idle state \r\n");
@@ -198,10 +200,10 @@ void printManual() {
 	xil_printf(":23) execute DMA transfer routine 1-9: values from 1 to 9 \r\n");
 	xil_printf(":24) execute DMA transfer routine 11-33: 11,12,13; 21,22.. \r\n");
 	xil_printf("\r\n");
-	xil_printf(":33) perform bundle 2: commands: 24, 3, 24, 2, 41, 5,  6, 8\r\n");
-	xil_printf(":34) perform bundle 2: commands: 23, 3, 23, 2, 41, 5,  6, 8\r\n");
-	xil_printf(":35) perform bundle 2: commands: 24, 3, 21, 2, 41, 5,  6, 8\r\n");
-	xil_printf(":36) perform bundle 2: commands: 23, 3, 21, 2, 41, 5,  6, 8\r\n");
+	xil_printf(":33) perform bundle 1: commands: 24, 3, 24, 2, 4, 51,  6, 8\r\n");
+	xil_printf(":34) perform bundle 2: commands: 23, 3, 23, 2, 4, 51,  6, 8\r\n");
+	xil_printf(":35) perform bundle 3: commands: 24, 3, 21, 2, 4, 51,  6, 8\r\n");
+	xil_printf(":36) perform bundle 4: commands: 23, 3, 22, 2, 4, 41, 5, 6, 8\r\n");
 }
 
 void static bundle_1() {
@@ -288,7 +290,7 @@ void static bundle_3() {
 }
 
 void static bundle_4() {
-
+	xil_printf("This example, loads P and G matrixes, then executes calculation of P-lower * G, and stores it in P-higher, then executes calculation of P-higher to G, and stores it in P-lower, and then loads that into G ram and unloads \r\n");
 	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
 
 	// P matrix
@@ -303,9 +305,10 @@ void static bundle_4() {
 
 	// calc
 	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
 
 	// P to G
-	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
 
 	// G to DDR3
 	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);

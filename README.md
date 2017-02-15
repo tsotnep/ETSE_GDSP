@@ -124,7 +124,7 @@ Command Completed Successfully
 Command Received : 36 
 This example, loads P and G matrixes, then executes calculation of P-lower * G, 
  and stores it in P-higher, then executes calculation of P-higher to G, 
- and stores it in P-lower, and then loads that into G ram and unloads 
+ and stores it in P-lower, and then loads that into G ram and unloads it into DDR3 and prints on UART
 DMA is busy
 DMA transfer scheduled...
 1 2 3 

@@ -1,6 +1,5 @@
+setenv SWT_GTK3 0
 setenv LC_ALL en_US.UTF-8
-export /cad/x_16/SDK/2016.1/bin/
-source /cad/x_16/SDK/2016.1/settings64.csh
 xsdk -batch
 
 

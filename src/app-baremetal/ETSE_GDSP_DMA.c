@@ -143,18 +143,18 @@ int main() {
 		case 26:
 			status = DMA_execute_transfer_routine_4();
 			pbreak;
-//		case 33:
-//			bundle_1();
-//			pbreak;
+		case 33:
+			bundle_1();
+			pbreak;
 		case 34:
 			bundle_2();
 			pbreak;
-//		case 35:
-//			bundle_3();
-//			pbreak;
-//		case 36:
-//			bundle_4();
-//			pbreak;
+		case 35:
+			bundle_3();
+			pbreak;
+		case 36:
+			bundle_4();
+			pbreak;
 		default:
 			xil_printf("Unknown Command\r\n");
 		}
@@ -205,48 +205,50 @@ void printManual() {
 	xil_printf(":26) execute DMA transfer routine 4 small numbers \r\n");
 	xil_printf(":29) execute DMA transfer routine 1-9\r\n");
 	xil_printf("\r\n");
-//	xil_printf(":33) perform bundle 1: commands: 25, 3, 25, 2, 4,  5,  6, 8\r\n");
+	xil_printf(":33) perform bundle 1: commands: 25, 3, 25, 2, 4,  5,  6, 8\r\n");
 	xil_printf(":34) perform bundle 2: commands: 25, 3, 25, 2, 41, 5,  6, 8\r\n");
-//	xil_printf(":35) perform bundle 1: commands: 25, 3, 25, 2, 4,  51, 6, 8\r\n");
-//	xil_printf(":36) perform bundle 2: commands: 25, 3, 25, 2, 41, 51, 6, 8\r\n");
+	xil_printf(":35) perform bundle 1: commands: 25, 3, 25, 2, 4,  51, 6, 8\r\n");
+	xil_printf(":36) perform bundle 2: commands: 25, 3, 25, 2, 41, 51, 6, 8\r\n");
 }
 
-//void static bundle_1() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
-
-void static bundle_2() {
-	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
+void static bundle_1() {
 
 	// P matrix
 	status = DMA_execute_transfer_routine_19();
 	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-	printTX(McolSz);
 
 	// G matrix
 	status = DMA_execute_transfer_routine_19();
 	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-	printTX(McolSz);
 
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
+
+	// print DDR3
+	printRX(McolSz);
+}
+
+void static bundle_2() {
+
+	// P matrix
+
+	status = DMA_check_idle();
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+
+	status = DMA_check_idle();
+
+	// G matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+
+  status = DMA_check_idle();
 	// calc
 	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_LOWER, 0);
 
@@ -256,56 +258,55 @@ void static bundle_2() {
 	// G to DDR3
 	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
 
+	// print DDR3
+	printRX(McolSz);
+}
+
+void static bundle_3() {
+
+	// P matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+
+	// G matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
 
 	// print DDR3
 	printRX(McolSz);
 }
 
-//void static bundle_3() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_LOWER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
-//
-//void static bundle_4() {
-//
-//	// P matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
-//
-//	// G matrix
-//	status = DMA_execute_transfer_routine_19();
-//	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
-//
-//	// calc
-//	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
-//
-//	// P to G
-//	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
-//
-//	// G to DDR3
-//	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
-//
-//	// print DDR3
-//	printRX(McolSz);
-//}
+void static bundle_4() {
+
+	// P matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_P, cmd_NULL, 0);
+
+	// G matrix
+	status = DMA_execute_transfer_routine_19();
+	write_cmd(cmd_LOAD_G, cmd_NULL, 0);
+
+	// calc
+	write_cmd(cmd_CALCULTE, cmd_CALCULATE_PG_HIGHER, 0);
+
+	// P to G
+	write_cmd(cmd_P_to_G, cmd_P_HIGHER_to_G, 0);
+
+	// G to DDR3
+	write_cmd(cmd_UNLOAD_G, cmd_NULL, 0);
+
+	// print DDR3
+	printRX(McolSz);
+}
 
 int static DMA_execute_transfer_routine_19(void) {
 	TxBufferPtr[0] = 1;

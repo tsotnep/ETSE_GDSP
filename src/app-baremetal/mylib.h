@@ -149,31 +149,31 @@ static int DMA_enable_irq() {
 
 //resets DMA by writing 1 into reset soft register
 static int DMA_soft_reset(void) {
-	print("Resetting DMA\r\n");
     set(XPAR_AXI_DMA_0_BASEADDR, 0x00, 2); //start MM2S channel
 	set(XPAR_AXI_DMA_0_BASEADDR, 0x30, 2); //start S2MM channel
+	print("DMA MM2S and S2MM reset bits set\r\n");
 	return XST_SUCCESS;
 }
 
 
 //writes destination and source addresses of memory and then length of transfer
 int static DMA_execute_transfer(u32 RxBufferPtr, u32 TxBufferPtr, u32 Number_Of_Bytes) {
-  print("exeuting DMA transfer...\r\n");
 	write(XPAR_AXI_DMA_0_BASEADDR, da_S2MM, RxBufferPtr); //specify destination address
 	write(XPAR_AXI_DMA_0_BASEADDR, sa_MM2S, TxBufferPtr); //specify source address
 
 	write(XPAR_AXI_DMA_0_BASEADDR, bl_S2MM, Number_Of_Bytes); //specify transfer length in bytes
 	write(XPAR_AXI_DMA_0_BASEADDR, tl_MM2S, Number_Of_Bytes); //specify transfer length in bytes
+	print("DMA transfer scheduled...\r\n");
 	return XST_SUCCESS;
 }
 
 //returns XST_SUCCESS if DMA is configured in Normal Mode. returns XST_FAILURE if its SG mode
 static int DMA_check_normal_mode() {
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 3) || rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 3)) {
-		xil_printf("SG DMA mode is enabled\r\n");
+		xil_printf("DMA SG mode is enabled\r\n");
 		return XST_FAILURE;
 	} else {
-		xil_printf("Normal DMA mode is enabled\r\n");
+		xil_printf("DMA Normal mode is enabled\r\n");
 		return XST_SUCCESS;
 	}
 }
@@ -191,7 +191,9 @@ static int DMA_check_irq_enabled() {
 
 
 //returns XST_SUCCESS if DMA it is idle
-static int DMA_check_idle() {
+static int DMA_check_idle_MM2S() {
+//	rd_print(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1);
+//	rd_print(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1);
 	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1)) { //&& rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1) -this commented one is for S2MM status register. TODO: becuase it remains 0, where it should be 1, probably in MMULT i have to reset handshaking signals
 		xil_printf("DMA is idle\r\n");
 		return XST_SUCCESS;
@@ -201,7 +203,17 @@ static int DMA_check_idle() {
 		return XST_FAILURE;
 	}
 }
-
+static int DMA_check_idle_S2MM() {
+//	rd_print(XPAR_AXI_DMA_0_BASEADDR, 0x04, 1);
+//	rd_print(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1);
+	if (rd(XPAR_AXI_DMA_0_BASEADDR, 0x34, 1)) {
+		xil_printf("DMA is idle\r\n");
+		return XST_SUCCESS;
+	} else {
+		xil_printf("DMA is busy\r\n");
+		return XST_FAILURE;
+	}
+}
 
 //returns XST_SUCCESS if interrupt flag has been asserted.. polling
 static int DMA_check_irq_event() {

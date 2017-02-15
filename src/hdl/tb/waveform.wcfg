@@ -13,23 +13,27 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="763780000fs"></ZoomStartTime>
-      <ZoomEndTime time="1295280001fs"></ZoomEndTime>
-      <Cursor1Time time="965000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="9000000001fs"></ZoomEndTime>
+      <Cursor1Time time="5000000000fs"></Cursor1Time>
    </zoom_setting>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="13" />
    <wave_markers>
       <marker label="" time="103833000" />
-      <marker label="" time="332049000" />
       <marker label="" time="3105000000" />
       <marker label="" time="3875000000" />
       <marker label="" time="7335000000" />
       <marker label="" time="1462256000" />
+      <marker label="" time="332049000" />
    </wave_markers>
    <wvobject type="group" fp_name="group307">
       <obj_property name="label">tb_mmult</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/rst">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+      </wvobject>
       <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -236,11 +240,6 @@
             <obj_property name="ObjectShortName">cmd_details[3:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_FINISH_SAVING_G_P">
-            <obj_property name="ElementShortName">cmd_FINISH_SAVING_G_P[3:0]</obj_property>
-            <obj_property name="ObjectShortName">cmd_FINISH_SAVING_G_P[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
          <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_LOAD_G">
             <obj_property name="ElementShortName">cmd_LOAD_G[3:0]</obj_property>
             <obj_property name="ObjectShortName">cmd_LOAD_G[3:0]</obj_property>
@@ -266,21 +265,6 @@
             <obj_property name="ObjectShortName">cmd_RESET_MMULT_IP[3:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_SAVE_G">
-            <obj_property name="ElementShortName">cmd_SAVE_G[3:0]</obj_property>
-            <obj_property name="ObjectShortName">cmd_SAVE_G[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_SAVE_G_or_P">
-            <obj_property name="ElementShortName">cmd_SAVE_G_or_P[3:0]</obj_property>
-            <obj_property name="ObjectShortName">cmd_SAVE_G_or_P[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_SAVE_P">
-            <obj_property name="ElementShortName">cmd_SAVE_P[3:0]</obj_property>
-            <obj_property name="ObjectShortName">cmd_SAVE_P[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
          <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/CMD_SIZE">
             <obj_property name="ElementShortName">CMD_SIZE</obj_property>
             <obj_property name="ObjectShortName">CMD_SIZE</obj_property>
@@ -294,16 +278,6 @@
          <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cmd_WAIT_FOR_CMD">
             <obj_property name="ElementShortName">cmd_WAIT_FOR_CMD[3:0]</obj_property>
             <obj_property name="ObjectShortName">cmd_WAIT_FOR_CMD[3:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cntlr_input_arr_G">
-            <obj_property name="ElementShortName">cntlr_input_arr_G[0:8]</obj_property>
-            <obj_property name="ObjectShortName">cntlr_input_arr_G[0:8]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/cntlr_input_arr_P">
-            <obj_property name="ElementShortName">cntlr_input_arr_P[0:8]</obj_property>
-            <obj_property name="ObjectShortName">cntlr_input_arr_P[0:8]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
       </wvobject>
@@ -339,15 +313,6 @@
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="CustomSignalColor">#ffff00</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/DOUT_SLV_REG1_ADRR">
-         <obj_property name="ElementShortName">DOUT_SLV_REG1_ADRR[1:0]</obj_property>
-         <obj_property name="ObjectShortName">DOUT_SLV_REG1_ADRR[1:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/first_read">
-         <obj_property name="ElementShortName">first_read</obj_property>
-         <obj_property name="ObjectShortName">first_read</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/G">
          <obj_property name="ElementShortName">G</obj_property>
@@ -489,28 +454,9 @@
          <obj_property name="ObjectShortName">OPCODE_WIDTH</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/OPT_MEM_ADDR_BITS">
-         <obj_property name="ElementShortName">OPT_MEM_ADDR_BITS</obj_property>
-         <obj_property name="ObjectShortName">OPT_MEM_ADDR_BITS</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/P">
          <obj_property name="ElementShortName">P</obj_property>
          <obj_property name="ObjectShortName">P</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/RDADDR">
-         <obj_property name="ElementShortName">RDADDR[1:0]</obj_property>
-         <obj_property name="ObjectShortName">RDADDR[1:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/RDATA">
-         <obj_property name="ElementShortName">RDATA[31:0]</obj_property>
-         <obj_property name="ObjectShortName">RDATA[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/RDEN">
-         <obj_property name="ElementShortName">RDEN</obj_property>
-         <obj_property name="ObjectShortName">RDEN</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/RDEN_internal">
          <obj_property name="ElementShortName">RDEN_internal</obj_property>
@@ -558,15 +504,6 @@
             <obj_property name="ObjectShortName">s00_axis_bit_num</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
-         <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_byte_index">
-            <obj_property name="ElementShortName">s00_axis_byte_index</obj_property>
-            <obj_property name="ObjectShortName">s00_axis_byte_index</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_fifo_full_flag">
-            <obj_property name="ElementShortName">s00_axis_fifo_full_flag</obj_property>
-            <obj_property name="ObjectShortName">s00_axis_fifo_full_flag</obj_property>
-         </wvobject>
          <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_fifo_wren">
             <obj_property name="ElementShortName">s00_axis_fifo_wren</obj_property>
             <obj_property name="ObjectShortName">s00_axis_fifo_wren</obj_property>
@@ -579,11 +516,6 @@
          <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_NUMBER_OF_INPUT_WORDS">
             <obj_property name="ElementShortName">s00_axis_NUMBER_OF_INPUT_WORDS</obj_property>
             <obj_property name="ObjectShortName">s00_axis_NUMBER_OF_INPUT_WORDS</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_stream_data_fifo">
-            <obj_property name="ElementShortName">s00_axis_stream_data_fifo[0:72][31:0]</obj_property>
-            <obj_property name="ObjectShortName">s00_axis_stream_data_fifo[0:72][31:0]</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
          </wvobject>
          <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/s00_axis_tdata">
@@ -617,11 +549,6 @@
             <obj_property name="ElementShortName">s00_axis_writes_done</obj_property>
             <obj_property name="ObjectShortName">s00_axis_writes_done</obj_property>
          </wvobject>
-      </wvobject>
-      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/single_data_buff">
-         <obj_property name="ElementShortName">single_data_buff[17:0]</obj_property>
-         <obj_property name="ObjectShortName">single_data_buff[17:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/state">
          <obj_property name="ElementShortName">state</obj_property>
@@ -1284,6 +1211,12 @@
          <obj_property name="ObjectShortName">ii_WE</obj_property>
       </wvobject>
    </wvobject>
+   <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject type="group" fp_name="group379">
       <obj_property name="label">din_wen</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -1383,11 +1316,6 @@
          <obj_property name="ElementShortName">i_OE</obj_property>
          <obj_property name="ObjectShortName">i_OE</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(0)\/MEMA/i_wea">
-         <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
-         <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(0)\/MEMA/i_write_addr">
          <obj_property name="ElementShortName">i_write_addr[9:0]</obj_property>
          <obj_property name="ObjectShortName">i_write_addr[9:0]</obj_property>
@@ -1398,10 +1326,19 @@
          <obj_property name="ObjectShortName">i_Read_addr[9:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(0)\/MEMA/i_wea">
+         <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
+         <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
       <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(0)\/MEMA/i_dina">
          <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
          <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(0)\/MEMA/COLUMN_NUMBER">
          <obj_property name="ElementShortName">COLUMN_NUMBER</obj_property>
@@ -1490,11 +1427,15 @@
          <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
          <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(1)\/MEMA/i_dina">
          <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
          <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(1)\/MEMA/COLUMN_NUMBER">
          <obj_property name="ElementShortName">COLUMN_NUMBER</obj_property>
@@ -1583,11 +1524,15 @@
          <obj_property name="ElementShortName">i_wea[0:0]</obj_property>
          <obj_property name="ObjectShortName">i_wea[0:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(2)\/MEMA/i_dina">
          <obj_property name="ElementShortName">i_dina[17:0]</obj_property>
          <obj_property name="ObjectShortName">i_dina[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/MMULT_CONTROLLER_2_inst/MATRIX_MUL_IP_CORE_S_INT_G_inst/\BLOCK_A_MEM_GEN(2)\/MEMA/COLUMN_NUMBER">
          <obj_property name="ElementShortName">COLUMN_NUMBER</obj_property>
@@ -1657,6 +1602,7 @@
       <obj_property name="label">axis_s</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/axi_stream_simulation_inst/m00_AXIS_ARESETN">
          <obj_property name="ElementShortName">m00_AXIS_ARESETN</obj_property>
          <obj_property name="ObjectShortName">m00_AXIS_ARESETN</obj_property>
@@ -1670,6 +1616,7 @@
          <obj_property name="ObjectShortName">s00_axis_tvalid</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/TB_MMULT_CONROLLER_2/axi_stream_simulation_slave_inst/s00_axis_tstrb">
+         <obj_property name="DisplayName">FullPathName</obj_property>
          <obj_property name="ElementShortName">s00_axis_tstrb[3:0]</obj_property>
          <obj_property name="ObjectShortName">s00_axis_tstrb[3:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
@@ -1691,6 +1638,7 @@
          <obj_property name="ElementShortName">s00_axis_data_sink[0:11][31:0]</obj_property>
          <obj_property name="ObjectShortName">s00_axis_data_sink[0:11][31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject type="group" fp_name="group565">
          <obj_property name="label">internal</obj_property>
@@ -1704,6 +1652,8 @@
             <obj_property name="ElementShortName">s00_axis_write_pointer</obj_property>
             <obj_property name="ObjectShortName">s00_axis_write_pointer</obj_property>
             <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
          </wvobject>
          <wvobject type="other" fp_name="/TB_MMULT_CONROLLER_2/axi_stream_simulation_slave_inst/s00_axis_mst_exec_state">
             <obj_property name="ElementShortName">s00_axis_mst_exec_state</obj_property>
@@ -1713,6 +1663,8 @@
          <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/axi_stream_simulation_slave_inst/s00_axis_fifo_wren">
             <obj_property name="ElementShortName">s00_axis_fifo_wren</obj_property>
             <obj_property name="ObjectShortName">s00_axis_fifo_wren</obj_property>
+            <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+            <obj_property name="UseCustomSignalColor">true</obj_property>
          </wvobject>
          <wvobject type="logic" fp_name="/TB_MMULT_CONROLLER_2/axi_stream_simulation_slave_inst/s00_axis_fifo_full_flag">
             <obj_property name="ElementShortName">s00_axis_fifo_full_flag</obj_property>

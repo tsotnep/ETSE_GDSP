@@ -47,3 +47,97 @@ src :
 <br />
 <br />
 **how IP core works** : http://ieeexplore.ieee.org/document/7426414/
+
+<br />
+<br />
+<br />
+**Terminal Log after using IP in zynq on linux** 
+```bash
+picocom v1.7
+port is        : /dev/ttyACM0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+escape is      : C-x
+local echo is  : no
+noinit is      : no
+noreset is     : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv
+imap is        : 
+omap is        : 
+emap is        : crcrlf,delbs,
+
+Terminal ready
+
+
+
+
+
+>>>>>>>>>> ENTERING MAIN <<<<<<<<<<<
+DMA MM2S and S2MM reset bits set
+DMA Normal mode is enabled
+DMA interrupts are disabled
+
+
+Please Enter New Command Number (enter '0' for info, '36' for simple test 
+ that should print: 18,18,18, 45,45,45, 72,72,72) : 
+Command Received : 0 
+
+
+Please Enter New Command Number : 
+:0) Print this list of Commands
+:2) load G matrix from memory via stream interface
+:3) load P matrix from memory via stream interface
+
+:4)  perform calculation of P-lower  and G and store in P-s other bank
+:41) perform calculation of P-higher and G and store in P-s other bank
+:42) perform calculation of P-lower  and Gt and store in P-s other bank
+:43) perform calculation of P-higher and Gt and store in P-s other bank
+:44) perform calculation of Pt-lower  and G and store in P-s other bank
+:45) perform calculation of Pt-higher and G and store in P-s other bank
+:46) perform calculation of Pt-lower  and Gt and store in P-s other bank
+:47) perform calculation of Pt-higher and Gt and store in P-s other bank
+
+:5)  transfer data from P-lower to G 
+:51) transfer data from P-higher to G
+:6)  transfer data from G to DDR3 via DMA 
+
+:7) print Tx Buffer
+:8) print Rx buffer
+:11) reset multiplier IP only
+:12) reset multiplier IP and it's controller
+:13) send multiplier IP's controller in idle state 
+
+:21) execute DMA transfer routine 1: identity matrix - 1s on diagonal 
+:22) execute DMA transfer routine 1s: all values are 1 
+:23) execute DMA transfer routine 1-9: values from 1 to 9 
+:24) execute DMA transfer routine 11-33: 11,12,13; 21,22.. 
+
+:33) perform bundle 1: commands: 24, 3, 24, 2, 4, 51,  6, 8
+:34) perform bundle 2: commands: 23, 3, 23, 2, 4, 51,  6, 8
+:35) perform bundle 3: commands: 24, 3, 21, 2, 4, 51,  6, 8
+:36) perform bundle 4: commands: 23, 3, 22, 2, 4, 41, 5, 6, 8
+Command Completed Successfully 
+Command Received : 36 
+This example, loads P and G matrixes, then executes calculation of P-lower * G, 
+ and stores it in P-higher, then executes calculation of P-higher to G, 
+ and stores it in P-lower, and then loads that into G ram and unloads it into DDR3 and prints on UART
+DMA is busy
+DMA transfer scheduled...
+1 2 3 
+4 5 6 
+7 8 9 
+DMA transfer scheduled...
+1 1 1 
+1 1 1 
+1 1 1 
+Data written from DMA to DDR3:
+18 18 18 
+45 45 45 
+72 72 72 
+Command Completed Successfully 
+
+```

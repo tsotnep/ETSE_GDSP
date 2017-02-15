@@ -290,7 +290,7 @@ void static bundle_3() {
 }
 
 void static bundle_4() {
-	xil_printf("This example, loads P and G matrixes, then executes calculation of P-lower * G, and stores it in P-higher, then executes calculation of P-higher to G, and stores it in P-lower, and then loads that into G ram and unloads \r\n");
+	xil_printf("This example, loads P and G matrixes, then executes calculation of P-lower * G, and stores it in P-higher, then executes calculation of P-higher to G, and stores it in P-lower, and then loads that into G ram and unloads it into DDR3 and prints on UART\r\n");
 	status = DMA_check_idle_MM2S(); //according to manual, until first transaction it shows busy, even though its not.
 
 	// P matrix

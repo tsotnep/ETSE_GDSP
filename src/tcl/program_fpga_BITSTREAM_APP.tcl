@@ -27,5 +27,5 @@ fpga -f $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/d
 source $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper_hw_platform_0/ps7_init.tcl
 ps7_init
 ps7_post_config
-dow $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ETSE_GDSP_DMA_ETHERNET/Debug/ETSE_GDSP_DMA_ETHERNET.elf
+dow $origin/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ETSE_GDSP_DMA/Debug/ETSE_GDSP_DMA.elf
 run

@@ -195,14 +195,6 @@ begin
 
     stimul : process is
     begin
-        --reset
-        WREN   <= '0';
-        datain_sig <= (others => '0');
-        cmdin1_sig <= (others => '0');
-        cmdin2_sig <= (others => '0');
-        cmdin3_sig <= (others => '0');
-        RDADDR <= (others => '0');
-        RDEN   <= '0';
         rst <= '0';
         wait for period * 20;
         rst <= '1';

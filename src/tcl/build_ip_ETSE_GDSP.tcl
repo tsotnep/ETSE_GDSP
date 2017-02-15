@@ -1,4 +1,5 @@
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
+# source ${origin}/src/tcl/build_ip_ETSE_GDSP.tcl
 
 #How to run
   #correct line 1
@@ -10,6 +11,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   #creates new project
   #adds necessary sources_1
   #packages the project and builds the IP, that will be used in script : src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
+  #launches and closes simulation, we need that to generate *_vhdl.prj file, that is used in simulation
   #exits
   #after that you should execute the script : src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
 ############################
@@ -76,6 +78,10 @@ ipx::save_core [ipx::current_core]
 close_project -delete
 set_property  ip_repo_paths  ${origin}/tmp/ip_repo/ETSE_GDSP [current_project]
 update_ip_catalog
+
+#simulation to get *.prj file
+launch_simulation
+close_sim
 
 close_project -quiet
 puts "Successfully Generated IP. Now, modify and : source $origin/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl"

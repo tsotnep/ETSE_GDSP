@@ -1,4 +1,5 @@
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
+# source ${origin}/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
 
 #How to run
   #correct line 1

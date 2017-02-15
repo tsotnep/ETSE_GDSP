@@ -1,4 +1,5 @@
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
+# source ${origin}/src/tcl/program_fpga_BITSTREAM_ARM-APPLICATION.tcl
 
 #How to run
   #correct line 1

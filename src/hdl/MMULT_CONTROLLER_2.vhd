@@ -139,7 +139,7 @@ architecture Behavioral of MMULT_CONTROLLER_2 is
     end;
 
     -- Total number of input data.
-    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2 * 4; --TODO: back * 2 * 4
+    constant s00_axis_NUMBER_OF_INPUT_WORDS : integer := COLUMN_TOTAL * COLUMN_TOTAL * 2; --TODO: back * 2 * 4
     -- bit_num gives the minimum number of bits needed to address 'NUMBER_OF_INPUT_WORDS' size of FIFO.
     constant s00_axis_bit_num               : integer := clogb2(s00_axis_NUMBER_OF_INPUT_WORDS - 1);
     -- Define the states of state machine

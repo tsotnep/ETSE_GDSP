@@ -210,7 +210,7 @@ begin
         simulate_AXI_write(0, cmd_RESET_MMULT_CNTRL, cmd_NULL, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
         simulate_AXI_write(0, cmd_LOAD_G, cmd_NULL, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
         simulate_AXI_write(0, cmd_LOAD_P, cmd_NULL, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
-        simulate_AXI_write(0, cmd_CALCULTE, cmd2_CALCULATE_PG_HIGHER, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
+        simulate_AXI_write(0, cmd_CALCULTE, cmd2_CALCULATE_PG_LOWER, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
         simulate_AXI_write(0, cmd_P_to_G, cmd2_P_HIGHER_to_G, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
         simulate_AXI_write(0, cmd_UNLOAD_G, cmd_NULL, WREN, cmdin1_sig, cmdin2_sig, datain_sig);
 

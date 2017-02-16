@@ -1,5 +1,6 @@
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
-# source ${origin}/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
+# source /cad/x_16/Vivado/2016.1/settings64.sh
+# vivado -mode tcl -source /home/tsotne/ownCloud/git/ETSE_GDSP/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
 
 #How to run
   #correct line 1
@@ -120,7 +121,10 @@ wait_on_run impl_1
 #export design to SDK and launch it
 file mkdir ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk
 file copy -force ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.runs/impl_1/design_1_wrapper.sysdef ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
-launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
+
+#no need to launch, becase now i can build apps from scripts
+# launch_sdk -workspace ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk -hwspec ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/design_1_wrapper.hdf
 
 close_project -quiet
-puts "Successfully Generated Bitstream. Now, create new application project in SDK (details are in this script) then modify and : source $origin/src/tcl/program_fpga_BITSTREAM_ARM-APPLICATION.tcl"
+puts "SUCCESSFULLY Generated Bitstream. Now, modify and execute $origin/src/tcl/buld_app_ETSE_GDSP_DMA.tcl or $origin/src/tcl/buld_app_ETSE_GDSP_DMA_ETHERNET.tcl"
+exit

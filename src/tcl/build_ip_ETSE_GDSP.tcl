@@ -1,5 +1,6 @@
 set origin /home/tsotne/ownCloud/git/ETSE_GDSP
-# source ${origin}/src/tcl/build_ip_ETSE_GDSP.tcl
+# source /cad/x_16/Vivado/2016.1/settings64.sh
+# vivado -mode tcl -source /home/tsotne/ownCloud/git/ETSE_GDSP/src/tcl/build_ip_ETSE_GDSP.tcl
 
 #How to run
   #correct line 1
@@ -84,4 +85,5 @@ launch_simulation
 close_sim
 
 close_project -quiet
-puts "Successfully Generated IP. Now, modify and : source $origin/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl"
+puts "SUCCESSFULLY Generated IP. Now, modify and : source $origin/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl"
+exit

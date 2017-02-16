@@ -3,7 +3,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 # vivado -mode tcl -source /home/tsotne/ownCloud/git/ETSE_GDSP/src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
 
 #How to run
-  #correct line 1
+  #correct line 1:3
   #launch VIVADO
   #source this script
   #finishes in 8 min

@@ -3,7 +3,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 # xsct -eval source /home/tsotne/ownCloud/git/ETSE_GDSP/src/tcl/build_app_ETSE_GDSP_DMA.tcl
 
 #How to run
-  #correct line 1
+  #correct line 1:3
   #launch XSDK -batch
   #source this script
   #finishes in 10 sec

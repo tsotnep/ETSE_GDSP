@@ -11,6 +11,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
 #What it does and what you have to do:
   #compiles baremetal application out of sources located in src/app-baremetal/ETSE_GDSP_DMA
   #stores executable in ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ETSE_GDSP_DMA/Debug/ETSE_GDSP_DMA.elf
+  #Note that if you then modify C application in SDK you have to manually CLEAN and BUILD it, since it does not do rebuild automatically
 
 
 file delete -force hw_1

@@ -1,6 +1,37 @@
 setenv SWT_GTK3 0
+export SWT_GTK3=0
+
 setenv LC_ALL en_US.UTF-8
 xsdk -batch
+
+
+--diff strudel vineeri
+SHLVL=1
+XNLSPATH=/usr/share/X11/nls
+COLORTERM=1
+JAVA_BINDIR=/usr/lib64/jvm/java/bin
+JAVA_ROOT=/usr/lib64/jvm/java
+JRE_HOME=/usr/lib64/jvm/java/jre
+JDK_HOME=/usr/lib64/jvm/java
+SDK_HOME=/usr/lib64/jvm/java
+SWT_GTK3=0
+
+
+
+---after cad cad, this was missing in my pc
+LC_MONETARY=et_EE.UTF-8 --adding those two still didn't fix locale err
+LC_NUMERIC=et_EE.UTF-8 --adding those two still didn't fix locale err
+JDK16=
+
+setenv LC_MONETARY et_EE.UTF-8
+setenv LC_NUMERIC et_EE.UTF-8
+setenv JDK16
+
+
+source /cad/x_16/Vivado/2016.1/settings64.csh
+source /cad/x_16/Vivado/2016.1/settings64.sh
+
+
 
 
 ################ nice commands

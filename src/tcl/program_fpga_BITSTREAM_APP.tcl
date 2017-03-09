@@ -8,12 +8,12 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   # set NAME FSBL
 
   #if you are programming app: ETSE_GDSP_DMA
-  # set HW hw_1
-  # set NAME ETSE_GDSP_DMA
+  set HW hw_1
+  set NAME ETSE_GDSP_DMA
 
   #if you are programming app: ETSE_GDSP_DMA_ETHERNET
-  set HW hw_2
-  set NAME ETSE_GDSP_DMA_ETHERNET
+  #set HW hw_2
+  #set NAME ETSE_GDSP_DMA_ETHERNET
 
 #How to run
   #correct line 1:15

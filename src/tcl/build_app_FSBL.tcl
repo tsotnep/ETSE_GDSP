@@ -12,7 +12,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   #compiles FSBL
   #stores executable in ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/FSBL/Debug/FSBL.elf
 
-
+cd ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/
 file delete -force hw_0
 file delete -force .metadata
 file delete -force FSBL

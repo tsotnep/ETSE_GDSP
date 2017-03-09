@@ -13,7 +13,7 @@ set origin /home/tsotne/ownCloud/git/ETSE_GDSP
   #stores executable in ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/ETSE_GDSP_DMA_ETHERNET/Debug/ETSE_GDSP_DMA_ETHERNET.elf
   #Note that if you then modify C application in SDK you have to manually CLEAN and BUILD it, since it does not do rebuild automatically
 
-
+cd ${origin}/tmp/projects/ETSE_GDSP_DMA_ETHERNET/ETSE_GDSP_DMA_ETHERNET.sdk/
 file delete -force hw_2
 file delete -force .metadata
 file delete -force ETSE_GDSP_DMA_ETHERNET

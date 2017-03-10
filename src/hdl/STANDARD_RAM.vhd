@@ -31,7 +31,7 @@ signal datamem: ram;
 
 type column2 is array (0 to COLUMN_TOTAL-1) of integer;
 type ram2 is array (0 to COLUMN_TOTAL) of column2;
-signal datamem2 : ram2 := ((31,32,33), (34,35,36),(37,38,39),(40,41,42));
+--signal datamem2 : ram2 := ((31,32,33), (34,35,36),(37,38,39),(40,41,42));
 
 signal i_DOUT,ii_DOUT:std_logic_vector (DATA_WIDTH-1 downto 0);
 

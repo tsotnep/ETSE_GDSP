@@ -1,20 +1,12 @@
-% #!/usr/bin/octave -qf
-
-
-% argvlist=argv();
-% range_matrix_mult(argvlist{1,1}, argvlist{2,1});
-
-
 function [] =  range_matrix_mult(m,M)
-    % m=1;
-    % M=1000;
+    mkdir ./matlab
+    mkdir ./matlab/p
+    mkdir ./matlab/g
+    mkdir ./matlab/r
     for i = m : M
         matrix_multiplier(i);
     end
 end
-
-
-
 
 function [] = matrix_multiplier(M)
 
@@ -37,11 +29,11 @@ function [] = matrix_multiplier(M)
     tmp = CircularizeMatrix(G_M');
 
     % write P data
-    FileName = strcat('./p/',int2str(M), '.txt');
+    FileName = strcat('./matlab/p/',int2str(M), '.txt');
     WriteMatrixToFileNewlinePerElement(FileName,'wt',G_M');
 
     % write G dimensions and its data
-    FileName = strcat('./g/',int2str(M), '.txt');
+    FileName = strcat('./matlab/g/',int2str(M), '.txt');
     s_m = size(G_M,1);
     fid = fopen(FileName, 'wt');
     fprintf(fid,'%d\n',s_m);
@@ -50,7 +42,7 @@ function [] = matrix_multiplier(M)
     WriteMatrixToFileNewlinePerElement(FileName,'a',G_M');
 
     %file pointer of results
-    file_pointer =  strcat('./r/',int2str(M), '.txt');
+    file_pointer =  strcat('./matlab/r/',int2str(M), '.txt');
     fid = fopen(file_pointer, 'wt'); % Open file and write the original matrix to the file.
 
 
@@ -132,7 +124,6 @@ function [] = matrix_multiplier(M)
 end
 
 function value =  CircularizeMatrix(Matrix)
-
     for i= 1: size(Matrix,1)
         temp = Matrix(i,:);
         temp = temp';

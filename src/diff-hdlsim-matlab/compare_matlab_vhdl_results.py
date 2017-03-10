@@ -5,8 +5,7 @@ import numpy
 import os
 
 m=3
-M=50
-testbenchName='tb_matrix_mul_ip_core_s_int'
+M=20
 
 comment = [
 "INITIAL DATA",
@@ -24,11 +23,11 @@ for SZ in range(m,M+1):
     #R_* result
 
     #matlab results
-    F_matlab = open('../matlab/r/' + str(SZ) + '.txt', 'r')
+    F_matlab = open('./matlab/r/' + str(SZ) + '.txt', 'r')
     R_matlab = map(int,re.findall(r"-*\d+\.*\d*", F_matlab.read()))
 
     #simulation results
-    F_vhdl = open('../results/r/tb_matrix_mul_ip_core_s_int/' + str(SZ) + '.txt', 'r')
+    F_vhdl = open('./hdlsim/r/' + str(SZ) + '.txt', 'r')
     R_vhdl = map(int,re.findall(r"-*\d+\.*\d*", F_vhdl.read()))
 
     #calculate absolute values, mb not necesary
@@ -39,11 +38,12 @@ for SZ in range(m,M+1):
     R_sub = list(numpy.array(R_matlab) - numpy.array(R_vhdl))
 
     #open/create file for storing results
-    directory='../diff/r/'+testbenchName+'/'
+    directory='./diff/r/'
     if not os.path.exists(directory):
         os.makedirs(directory)
     F_diff = open(directory + str(SZ) + '.txt', 'w+')
-
+    print ("if numbers are 0, that is GOOD, that means HDLsimulation and Matlab results are identical as they should be", file = F_diff)
+    print ("", file=F_diff)
     for ind, val in enumerate(R_sub):
         #print single value and space
         print (str(val) + " ", end='', file = F_diff)

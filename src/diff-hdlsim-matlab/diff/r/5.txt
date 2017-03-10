@@ -1,0 +1,74 @@
+if numbers are 0, that is GOOD, that means HDLsimulation and Matlab results are identical as they should be
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+INITIAL DATA of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of P * G of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of P G * G of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of P * Gt of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of PG * Gt of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of Pt * G of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of [PG]t * G of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of Pt * Gt of Matrix with size 5 X 5
+
+
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+0 0 0 0 0 
+RESULT of [PG]t * Gt of Matrix with size 5 X 5
+
+

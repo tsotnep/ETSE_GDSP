@@ -37,14 +37,24 @@ add_files -norecurse -scan_for_includes ${origin}/src/hdl/ETSE_GDSP_AXI.vhd
 add_files -norecurse -scan_for_includes ${origin}/src/hdl/ETSE_GDSP.vhd
 
 
-#add vhd files for simulation
+#add vhd files for simulation of the IP with its AXI interfaces
 add_files -fileset sim_1 -norecurse -scan_for_includes ${origin}/src/hdl/tb/tb_axi_stream_simulation_master.vhd
 add_files -fileset sim_1 -norecurse -scan_for_includes ${origin}/src/hdl/tb/tb_axi_stream_simulation_slave.vhd
 add_files -fileset sim_1 -norecurse -scan_for_includes ${origin}/src/hdl/tb/TB_MMULT_CONTROLLER_2.vhd
-add_files -fileset sim_1 -norecurse -scan_for_includes ${origin}/src/hdl/tb/waveform.wcfg
 set_property top TB_MMULT_CONROLLER_2 [get_filesets sim_1]
 set_property top_lib xil_defaultlib [get_filesets sim_1]
 update_compile_order -fileset sim_1
+
+#add vhd files for simulation of the IP with only to write results in text files
+create_fileset -simset sim_2
+add_files -fileset sim_2 -norecurse -scan_for_includes ${origin}/src/hdl/tb/sim/sim_CONTROL_UNIT_S_INT_G.vhd
+add_files -fileset sim_2 -norecurse -scan_for_includes ${origin}/src/hdl/tb/sim/sim_MATRIX_MUL_IP_CORE_LIBRARY.vhd
+add_files -fileset sim_2 -norecurse -scan_for_includes ${origin}/src/hdl/tb/sim/sim_MATRIX_MUL_IP_CORE_S_INT_G.vhd
+add_files -fileset sim_2 -norecurse -scan_for_includes ${origin}/src/hdl/tb/sim/sim_STANDARD_RAM.vhd
+add_files -fileset sim_2 -norecurse -scan_for_includes ${origin}/src/hdl/tb/sim/sim_TB_MATRIX_MUL_IP_CORE_S_INT_G.vhd
+set_property top sim_TB_MATRIX_MUL_IP_CORE_S_INT_G [get_filesets sim_2]
+set_property top_lib xil_defaultlib [get_filesets sim_2]
+update_compile_order -fileset sim_2
 #disable those files, won't be synthesized. not even needs to be disabbled.
 #set_property is_enabled false [get_files  ${origin}/src/hdl/tb/waveform.wcfg]
 #set_property is_enabled false [get_files  ${origin}/src/hdl/tb/TB_MMULT_CONTROLLER_2.vhd]

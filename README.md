@@ -75,9 +75,7 @@ http://ieeexplore.ieee.org/document/7426414/
 <br />
 <br />
 
--Before doing anything, in each script in folder src/tcl/ manually change
-  1."origin" variable, LINE 1,
-  2.location of xilinx tools "settings64.sh" -file, LINE 2
+-Before doing anything, in each script in folder src/tcl/ manually change "origin" variable on LINE 1, and location of xilinx tools "settings64.sh" on LINE 2
 
 
 <br />

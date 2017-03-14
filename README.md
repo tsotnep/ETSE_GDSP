@@ -5,6 +5,7 @@ Repository for DSP matrix multiplier IP core.
 <br />
 <br />
 <br />
+
 **Directory structure**: 
 
 Documentation : interface of IP core
@@ -24,6 +25,7 @@ src :
 <br />
 <br />
 <br />
+
 **Where to start**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; generate IP and project from scripts in folder src/tcl
@@ -36,6 +38,7 @@ src :
 <br />
 <br />
 <br />
+
 **Hardware and toolchain setup**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hardware: Zedboard Zynq 7000, connected TWO uart cable, one for programming, one for Interfacing with ARM core
@@ -46,12 +49,124 @@ src :
 <br />
 <br />
 <br />
-**how IP core works** : http://ieeexplore.ieee.org/document/7426414/
+
+**how IP core works**
+
+http://ieeexplore.ieee.org/document/7426414/
+
+
+
 
 <br />
 <br />
 <br />
+
+-Always work in bash shell, no need to use cshell, u can give cshell scripts as an argument to the tools, from bash shell.
+
+
+<br />
+<br />
+<br />
+
+-Connect one micro-usb into UART, another one into PROG ports of zedboard zynq 7000.
+
+
+<br />
+<br />
+<br />
+
+-Before doing anything, in each script in folder src/tcl/ manually change
+  1."origin" variable, LINE 1,
+  2.location of xilinx tools "settings64.sh" -file, LINE 2
+
+
+<br />
+<br />
+<br />
+
+-Exact commands on how to execute each script is written in THE script, LINES 2 and 3.
+
+
+<br />
+<br />
+<br />
+
+-No need to worry from which directory you execute the script.
+
+
+<br />
+<br />
+<br />
+
+-order of scripts to execute to program and interface with FPGA:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.src/tcl/build_ip_ETSE_GDSP.tcl
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.src/tcl/build_app_ETSE_GDSP_DMA
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.connect to UART by (to exit: ctrl+x+q): \picocom -e x -b 115200 /dev/ttyACM0
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.src/tcl/program_fpga_BITSTREAM_APP.tcl
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.enter "33" in picocom terminal, that will send specific command to MMULT IP. or enter "0" for IP manual.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.for next calculation, start from step 5.
+
+
+
+
+
+
+<br />
+<br />
+<br />
+
+-IF xsct/sdk does not launch after 60 seconds and gives you error on that, type:
+
+  for bash shell:
+  
+    export SWT_GTK3=0 && export LC_ALL=en_US.UTF-8
+
+
+
+<br />
+<br />
+<br />
+
+-IF you get this error while: programming the fpga:
+
+  "Error :: ERROR:
+          Failed to claim JTAG Device 1 for debug. Check if it's
+          in use by other client for debug"
+          
+          
+  Then execute:
+  
+    killall hw_server
+
+
+<br />
+<br />
+<br />
+
+-IF you get this error while: simulating design:
+
+    "[Simtcl 6-50] Simulation engine failed to start: Cannot create simulation database file.
+    Please see the Tcl Console or the Messages for details."
+    
+ Then some directories or files are missing (when it tries to create files inside or read it).
+
+
+
+
+<br />
+<br />
+<br />
+
 **Terminal Log after using IP in zynq on linux** 
+
 ```bash
 picocom v1.7
 port is        : /dev/ttyACM0
@@ -141,97 +256,3 @@ Data written from DMA to DDR3:
 Command Completed Successfully 
 
 ```
-
-
-
-<br />
-<br />
-<br />
--Always work in bash shell, no need to use cshell, u can give cshell scripts as an argument to the tools, from bash shell.
-
-
-<br />
-<br />
-<br />
--Connect one micro-usb into UART, another one into PROG ports of zedboard zynq 7000.
-
-
-<br />
-<br />
-<br />
--Before doing anything, in each script in folder src/tcl/ manually change
-  1."origin" variable, LINE 1,
-  2.location of xilinx tools "settings64.sh" -file, LINE 2
-
-
-<br />
-<br />
-<br />
--Exact commands on how to execute each script is written in THE script, LINES 2 and 3.
-
-
-<br />
-<br />
-<br />
--No need to worry from which directory you execute the script.
-
-
-<br />
-<br />
-<br />
--order of scripts to execute to program and interface with FPGA:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.src/tcl/build_ip_ETSE_GDSP.tcl
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.src/tcl/build_project_ETSE_GDSP_DMA_ETHERNET.tcl
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.src/tcl/build_app_ETSE_GDSP_DMA
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.connect to UART by (to exit: ctrl+x+q): \picocom -e x -b 115200 /dev/ttyACM0
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.src/tcl/program_fpga_BITSTREAM_APP.tcl
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.enter "33" in picocom terminal, that will send specific command to MMULT IP. or enter "0" for IP manual.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.for next calculation, start from step 5.
-
-
-
-
-
-
-<br />
-<br />
-<br />
--IF xsct/sdk does not launch after 60 seconds and gives you error on that, type:
-
-  for bash shell:
-  
-    export SWT_GTK3=0 && export LC_ALL=en_US.UTF-8
-
-
-
-<br />
-<br />
-<br />
--IF you get this error while: programming the fpga:
-
-  "Error :: ERROR:
-          Failed to claim JTAG Device 1 for debug. Check if it's
-          in use by other client for debug"
-          
-          
-  Then execute:
-  
-    killall hw_server
-
-
-<br />
-<br />
-<br />
--IF you get this error while: simulating design:
-
-    "[Simtcl 6-50] Simulation engine failed to start: Cannot create simulation database file.
-    Please see the Tcl Console or the Messages for details."
-    
- Then some directories or files are missing (when it tries to create files inside or read it).
